@@ -41,7 +41,7 @@ if (!javascript.base) javascript.base = new Object();
  *			throw new javascript.base.Exception("My message"); 
  *	} catch (e) {
  * 		if (e instanceof javascript.base.IllegalArgumentException) {
- *   		window.alert(e); // shows IllegalArgumentException: My message
+ *			window.alert(e); // shows IllegalArgumentException: My message
  *		} else if (e instanceof javascript.base.NullPointerException) {
  *			window.alert(e.message); // shows My message
  *		} else {
