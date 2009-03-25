@@ -1,0 +1,132 @@
+<html>
+<head>
+<script type="text/javascript" src="..\src\be_belgium_eid.js"></script>
+<script type="text/javascript" src="..\src\base64.js"></script>
+<script type="text/javascript" language="javascript">
+
+var cardReader = new be.belgium.eid.CardReader();
+
+function nocardpresent() {
+	window.alert("No card present!");
+}
+cardReader.setNoCardPresentHandler(nocardpresent);
+
+function noreaderdetected() {
+	window.alert("No reader detected!");
+}
+cardReader.setNoReaderDetectedHandler(noreaderdetected);
+
+function clearInputFields() {
+	document.getElementById("surname").value = "";
+	document.getElementById("name").value = "";
+	document.getElementById("picture").value = "";	
+}
+
+function readCard() {
+	clearInputFields();
+	
+	var card = cardReader.read();		
+	if (card != null) {		
+		if (card instanceof be.belgium.eid.EIDCard) {
+			document.getElementById("surname").value = card.getSurname();
+			document.getElementById("name").value = card.getFirstName1();
+			if (typeof(base64) != "undefined") {
+				// use URL safe encoding
+				document.getElementById("picture").value = base64.encode(card.getPicture(), false, true);
+			} else {
+				window.alert("base64 object not defined");
+			}
+		} else {
+			document.getElementById("surname").value = card.getSurname();
+			document.getElementById("name").value = card.getName();
+			// There is no picture on SIS cards.
+		}
+	} else {
+		windows.alert("No card returned.");
+	}
+}
+
+</script>
+</head>
+<body>
+<script type="text/javascript" language="javascript">
+
+//----------------
+// give the following variables:
+// subdir: the subdirectory where the applet jar file resides
+// jnlpPath: the path to the jnlp file
+// ex: subdir="appletDir";
+//     jnlpPath=subdir;
+//----------------
+var subdir="";
+var jnlpPath=subdir;
+
+//----------------
+// - get the href of this page
+// - strip off the name of this page
+//----------------
+var myloc 	 = window.location.href;
+var locarray = myloc.split("/");
+delete locarray[(locarray.length-1)];
+var url = locarray.join("/");
+
+	document.writeln('<applet code="org.jdesktop.applet.util.JNLPAppletLauncher"');
+    document.writeln('codebase = "' + url + subdir + '"');
+    document.writeln('width  ="140"');
+    document.writeln('height ="200"');
+    document.writeln('name   = "BEIDAppletLauncher"');
+	document.writeln('id   = "BEIDAppletLauncher"'); // add id attribute !!!
+    document.writeln('archive="applet-launcher.jar,beid35libJava.jar,BEID_Applet.jar">');
+
+	document.writeln('<param name="codebase_lookup" value="false">');
+	document.writeln('<param name="subapplet.classname" value="be.belgium.beid.BEID_Applet">');
+	document.writeln('<param name="progressbar" value="true">');
+	document.writeln('<param name="jnlpNumExtensions" value="1">');
+	document.writeln('<param name="jnlpExtension1" value= "' + url + jnlpPath + '/beid.jnlp">');
+
+	document.writeln('<param name="debug" value="false"/>');
+	document.writeln('<param name="Reader" value=""/>');
+	document.writeln('<param name="OCSP" value="-1"/>');
+	document.writeln('<param name="CRL" value="-1"/>');
+	document.writeln('</applet>');
+
+</script>
+<form method=POST action="upload">
+<input type=text id=surname><br>
+<input type=text id=name><br><br>
+<input type=hidden id=picture value="">
+<input type="button" onclick="javascript:readCard()" value="Read Card" title="Read Card"/>
+<input type="submit" value="Upload"/>
+</form>
+<br>
+<br>
+When an eID card is read, the hidden input field will contain the base 64 url safe encoded picture.<br>
+<br>
+The code for base64.js can be downloaded at <a href="http://hellerim.net/base64_src.php">http://hellerim.net/base64_src.php</a><br>
+Small modifications needs to be done. But please, keep the copyright statement intact.<br>
+Put the following code in comments:<br>
+<pre>
+/*
+try { 
+  if (system.utility.base64 == null) {
+    throw new Error('');
+  };
+} catch(e) { // don't install twice
+  // dependencies
+  try {
+    eval('core');
+  } catch(e) {
+    throw new Error('base64: class \'core\' not installed');
+  }
+*/
+</pre>
+and at the bottom line:<br>
+<pre>
+/*
+core.installClass(base64);
+
+} // end catch
+*/
+</pre>
+</body>
+</html>
