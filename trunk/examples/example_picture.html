@@ -1,0 +1,121 @@
+<html>
+<head>
+<script type="text/javascript" src="..\src\be_belgium_eid.js"></script>
+<script type="text/javascript" src="..\src\base64.js"></script>
+<script type="text/javascript" language="javascript">
+
+var cardReader = new be.belgium.eid.CardReader();
+
+function nocardpresent() {
+	window.alert("No card present!");
+}
+cardReader.setNoCardPresentHandler(nocardpresent);
+
+function noreaderdetected() {
+	window.alert("No reader detected!");
+}
+cardReader.setNoReaderDetectedHandler(noreaderdetected);
+
+function readCard() {
+	document.getElementById("content").value = "Please wait ...";	
+	var card = cardReader.read();		
+	if (card != null) {		
+		var content = card.toString();
+		if (typeof(base64) != "undefined") {
+			var encodedPicture = base64.encode(card.getPicture(), false, false);
+			document.getElementById("picture").src = "data:image/jpeg;base64," + encodedPicture;	
+			content += "\r\n\r\n" + encodedPicture;
+		} else {
+			window.alert("base64 object not defined");
+			content += "\r\n\r\n" + "base64 object not defined";
+		}				
+		document.getElementById("content").value = content;		
+	} else {
+		document.getElementById("content").value = "No card returned.";
+	}
+}
+
+</script>
+</head>
+<body>
+<script type="text/javascript" language="javascript">
+
+//----------------
+// give the following variables:
+// subdir: the subdirectory where the applet jar file resides
+// jnlpPath: the path to the jnlp file
+// ex: subdir="appletDir";
+//     jnlpPath=subdir;
+//----------------
+var subdir="";
+var jnlpPath=subdir;
+
+//----------------
+// - get the href of this page
+// - strip off the name of this page
+//----------------
+var myloc 	 = window.location.href;
+var locarray = myloc.split("/");
+delete locarray[(locarray.length-1)];
+var url = locarray.join("/");
+
+	document.writeln('<applet code="org.jdesktop.applet.util.JNLPAppletLauncher"');
+    document.writeln('codebase = "' + url + subdir + '"');
+    document.writeln('width  ="140"');
+    document.writeln('height ="200"');
+    document.writeln('name   = "BEIDAppletLauncher"');
+	document.writeln('id   = "BEIDAppletLauncher"'); // add id attribute !!!
+    document.writeln('archive="applet-launcher.jar,beid35libJava.jar,BEID_Applet.jar">');
+
+	document.writeln('<param name="codebase_lookup" value="false">');
+	document.writeln('<param name="subapplet.classname" value="be.belgium.beid.BEID_Applet">');
+	document.writeln('<param name="progressbar" value="true">');
+	document.writeln('<param name="jnlpNumExtensions" value="1">');
+	document.writeln('<param name="jnlpExtension1" value= "' + url + jnlpPath + '/beid.jnlp">');
+
+	document.writeln('<param name="debug" value="false"/>');
+	document.writeln('<param name="Reader" value=""/>');
+	document.writeln('<param name="OCSP" value="-1"/>');
+	document.writeln('<param name="CRL" value="-1"/>');
+	document.writeln('</applet>');
+
+</script>
+<br>
+<br>
+<input type="button" onclick="javascript:readCard()" value="Read Card" title="Read Card"/>
+<br>
+<br>
+Card content:<br>
+<textarea id="content" cols=80 rows=20 wrap="virtual">&nbsp;</textarea>
+<img src="" id="picture" width=140 height=200><br>
+The image will only be displayed in Firefox and Opera.<br>
+The encoded picture will be shown in the textarea in every browser.<br>
+<br>
+The code for base64.js can be downloaded at <a href="http://hellerim.net/base64_src.php">http://hellerim.net/base64_src.php</a><br>
+Small modifications needs to be done. But please, keep the copyright statement intact.<br>
+Put the following code in comments:<br>
+<pre>
+/*
+try { 
+  if (system.utility.base64 == null) {
+    throw new Error('');
+  };
+} catch(e) { // don't install twice
+  // dependencies
+  try {
+    eval('core');
+  } catch(e) {
+    throw new Error('base64: class \'core\' not installed');
+  }
+*/
+</pre>
+and at the bottom line:<br>
+<pre>
+/*
+core.installClass(base64);
+
+} // end catch
+*/
+</pre>
+</body>
+</html>
