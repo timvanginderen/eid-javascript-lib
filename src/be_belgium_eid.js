@@ -1,4 +1,4 @@
-// eid-javascript-lib version 1.0
+// eid-javascript-lib version 1.1
 
 // Copyright (c) 2009 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
@@ -19,6 +19,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
+/*
+	1.1 28/03/2009
+	- Changed parsing of dates and social security number in SISCardBuilder35.
+	- Getters of EIDCard and SISCard do not return Number- and Boolean objects anymore.
+	  They will return primitive numbers and primitive booleans.
+	1.0 24/03/2009
+	- first release
+*/
 
 /*
  * Namespace be.belgium.eid
@@ -63,7 +72,7 @@ if (!be.belgium) be.belgium = new Object();
  * SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
  * More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  * 
- * @version 1.0 24/03/2009
+ * @version 1.1 28/03/2009
  * @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
  */
 
@@ -233,11 +242,11 @@ be.belgium.eid.EIDCard.prototype.setCardNumber = function(cardNumber) {
  * Return card number.
  * @public
  * @method getCardNumber
- * @return a Number object containing card number.
- * @type Number
+ * @return a primitive number containing card number.
+ * @type primitive number
  */
 be.belgium.eid.EIDCard.prototype.getCardNumber = function() {
-	return this.cardNumber; 
+	return this.cardNumber.valueOf(); 
 };
 
 be.belgium.eid.EIDCard.prototype.setChipNumber = function(chipNumber) {	
@@ -317,11 +326,11 @@ be.belgium.eid.EIDCard.prototype.setNationalNumber = function(nationalNumber) {
  * Return national number.
  * @public
  * @method getNationalNumber
- * @return a Number object containing national number.
- * @type Number 
+ * @return a primitive number containing national number.
+ * @type primitive number 
  */
 be.belgium.eid.EIDCard.prototype.getNationalNumber = function() {
-	return this.nationalNumber; 
+	return this.nationalNumber.valueOf(); 
 };
 
 be.belgium.eid.EIDCard.prototype.setSurname = function(surname) {	
@@ -470,10 +479,10 @@ be.belgium.eid.EIDCard.prototype.getSex = function() {
  * @public
  * @method getFemale
  * @return true if female, false if male.
- * @type Boolean 
+ * @type primitive boolean 
  */
 be.belgium.eid.EIDCard.prototype.getFemale = function() {
-	return new Boolean(this.sex === be.belgium.eid.sex.FEMALE); 
+	return (this.sex === be.belgium.eid.sex.FEMALE); 
 };
 
 /**
@@ -481,10 +490,10 @@ be.belgium.eid.EIDCard.prototype.getFemale = function() {
  * @public
  * @method getMale
  * @return true if male, false if female.
- * @type Boolean 
+ * @type primitive boolean 
  */
 be.belgium.eid.EIDCard.prototype.getMale = function() {
-	return new Boolean(this.sex === be.belgium.eid.sex.MALE);
+	return (this.sex === be.belgium.eid.sex.MALE);
 };
 
 be.belgium.eid.EIDCard.prototype.setNobleCondition = function(nobleCondition) {	
@@ -570,33 +579,33 @@ be.belgium.eid.EIDCard.prototype.getSpecialStatus = function() {
  * Return white cane status (blind people).
  * @public
  * @method getWhiteCane
- * @return a Boolean object containing white cane status.
- * @type Boolean 
+ * @return a primitive boolean containing white cane status.
+ * @type primitive boolean 
  */
 be.belgium.eid.EIDCard.prototype.getWhiteCane = function() {
-	return this.whiteCane; 
+	return this.whiteCane.valueOf();
 };
 
 /**
  * Return yellow cane status (partially sighted people).
  * @public
  * @method getYellowCane
- * @return a Boolean object containing yellow cane status.
- * @type Boolean 
+ * @return a primitive boolean containing yellow cane status.
+ * @type primitive boolean 
  */
 be.belgium.eid.EIDCard.prototype.getYellowCane = function() {
-	return this.yellowCane; 
+	return this.yellowCane.valueOf();
 };
 
 /**
  * Return extended minority status.
  * @public
  * @method getExtendedMinority
- * @return a Boolean object containing extended minority status.
- * @type Boolean 
+ * @return a primitive boolean containing extended minority status.
+ * @type primitive boolean 
  */
 be.belgium.eid.EIDCard.prototype.getExtendedMinority = function() {
-	return this.extendedMinority; 
+	return this.extendedMinority.valueOf();
 };
 
 be.belgium.eid.EIDCard.prototype.setStreet = function(street) {	
@@ -664,11 +673,11 @@ be.belgium.eid.EIDCard.prototype.setZipCode = function(zipCode) {
  * Return zip code.
  * @public
  * @method getZipCode
- * @return a Number object containing zip code.
- * @type Number 
+ * @return a primitive number containing zip code.
+ * @type primitive number
  */
 be.belgium.eid.EIDCard.prototype.getZipCode = function() {
-	return this.zipCode; 
+	return this.zipCode.valueOf(); 
 };
 
 be.belgium.eid.EIDCard.prototype.setMunicipality = function(municipality) {	
@@ -791,11 +800,11 @@ be.belgium.eid.SISCard.prototype.setCardNumber = function(cardNumber) {
  * Return card number.
  * @public
  * @method getCardNumber
- * @return a Number object containing card number.
- * @type Number
+ * @return a primitive number containing card number.
+ * @type primitive number
  */
 be.belgium.eid.SISCard.prototype.getCardNumber = function() {
-	return this.cardNumber; 
+	return this.cardNumber.valueOf(); 
 };
 
 be.belgium.eid.SISCard.prototype.setValidityBeginDate = function(beginDate) {			
@@ -839,11 +848,11 @@ be.belgium.eid.SISCard.prototype.setSocialSecurityNumber = function(socialSecuri
  * Return social security number (= national number).
  * @public
  * @method getSocialSecurityNumber
- * @return a Number object containing social security number.
- * @type String 
+ * @return a primitive number containing social security number.
+ * @type primitive number 
  */
 be.belgium.eid.SISCard.prototype.getSocialSecurityNumber = function() {
-	return this.socialSecurityNumber; 
+	return this.socialSecurityNumber.valueOf(); 
 };
 
 be.belgium.eid.SISCard.prototype.setSurname = function(surname) {	
@@ -923,10 +932,10 @@ be.belgium.eid.SISCard.prototype.getSex = function() {
  * @public
  * @method getFemale
  * @return true if female, false if male.
- * @type Boolean 
+ * @type primitive boolean 
  */
 be.belgium.eid.SISCard.prototype.getFemale = function() {
-	return new Boolean(this.sex === be.belgium.eid.sex.FEMALE); 
+	return (this.sex === be.belgium.eid.sex.FEMALE); 
 };
 
 /**
@@ -934,10 +943,10 @@ be.belgium.eid.SISCard.prototype.getFemale = function() {
  * @public
  * @method getMale
  * @return true if male, false if female.
- * @type Boolean 
+ * @type primitive boolean 
  */
 be.belgium.eid.SISCard.prototype.getMale = function() {
-	return new Boolean(this.sex === be.belgium.eid.sex.MALE);
+	return (this.sex === be.belgium.eid.sex.MALE);
 };
 
 be.belgium.eid.SISCard.prototype.setBirthDate = function(birthDate) {			
@@ -1334,57 +1343,38 @@ be.belgium.eid.SISCardBuilder35 = function() {
 be.belgium.eid.SISCardBuilder35.prototype = new be.belgium.eid.CardBuilder; // extends CardBuilder
 
 /**
- * Java String objects containing validity dates returned by Java applets are converted into Javascript Objects.
+ * Java String objects containing dates returned by Java applets are converted into Javascript Objects.
  * This function converts these Javascript Objects into Javavascript Date Objects.
- * Format of validity dates yyyymmdd
+ * Format of validity dates dd/mm/yyyy
  * <p>
  * Formats of identity data on a SIS card are described in the following documents:
  * @see <a href="http://www.ksz-bcss.fgov.be/nl/documentation/document_3.htm#document3_3">http://www.ksz-bcss.fgov.be/nl/documentation/document_3.htm#document3_3</a>
  * @see <a href="http://www.ksz-bcss.fgov.be/documentation/nl/documentation/appareils%20de%20lecture%20carte%20SIS/td-002bis-nl.pdf">http://www.ksz-bcss.fgov.be/documentation/nl/documentation/appareils%20de%20lecture%20carte%20SIS/td-002bis-nl.pdf</a>
  *  
  * @private
- * @method parseValidityDate
- * @parameter appletDateString a Javascript Object containing a validity date, returned by a Java applet
+ * @static
+ * @method parseDate
+ * @parameter appletDateString a Javascript Object containing a date, returned by a Java applet
  * @throws NullPointerException if appletDateString is null or undefined.
- * @throws IllegalArgumentException if appletDateString does not contain a valid validity date.
+ * @throws IllegalArgumentException if appletDateString does not contain a valid date.
  * @return a Javascript Date object
  * @type Date
- */
-be.belgium.eid.SISCardBuilder35.parseValidityDate = function(appletDateString) {
+ */ 
+be.belgium.eid.SISCardBuilder35.parseDate = function(appletDateString) {
 	var dateString = be.belgium.eid.CardBuilder.parseString(appletDateString);
 		
-	if (dateString.length != 8)  // format yyyymmdd 
+	if (dateString.length != 10)  // format dd/mm/yyyy 
 		throw new be.belgium.eid.IllegalArgumentException();
 	
 	var day = 1;			
 	var month = 1;
 	var year = 1970;
-			
-	day = dateString.substr(6, 2);	
-	month = dateString.substr(4, 2);			
-	year = dateString.substr(0, 4);
-	return new Date(year, (month - 1), day, 0, 0, 0, 0);
-};
+	
+	day = dateString.substr(0, 2);
+	month = dateString.substr(3, 2);		
+	year = dateString.substr(6, 4);	
 
-/**
- * Java String objects containing birth dates returned by Java applets are converted into Javascript Objects.
- * This function converts these Javascript Objects into Javavascript Date Objects.
- * Format of birth dates yyyymmdd 
- * <p>
- * Formats of identity data on a SIS card are described in the following documents:
- * @see <a href="http://www.ksz-bcss.fgov.be/nl/documentation/document_3.htm#document3_3">http://www.ksz-bcss.fgov.be/nl/documentation/document_3.htm#document3_3</a>
- * @see <a href="http://www.ksz-bcss.fgov.be/documentation/nl/documentation/appareils%20de%20lecture%20carte%20SIS/td-002bis-nl.pdf">http://www.ksz-bcss.fgov.be/documentation/nl/documentation/appareils%20de%20lecture%20carte%20SIS/td-002bis-nl.pdf</a>
- *
- * @private
- * @method parseBirthDate
- * @parameter appletDateString a Javascript Object containing a birth date, returned by a Java applet
- * @throws NullPointerException if appletDateString is null or undefined.
- * @throws IllegalArgumentException if appletDateString does not contain a valid birth date.
- * @return a Javascript Date object
- * @type Date 
- */
-be.belgium.eid.SISCardBuilder35.parseBirthDate = function(appletDateString) {
-	return be.belgium.eid.SISCardBuilder35.parseValidityDate(appletDateString);
+	return new Date(year, (month - 1), day, 0, 0, 0, 0);
 };
 
 /**
@@ -1405,6 +1395,34 @@ be.belgium.eid.SISCardBuilder35.parseSex = function(appletString) {
 		return be.belgium.eid.sex.MALE;
 };
 
+
+/**
+ * Java String objects containing social security numbers returned by Java applets are converted into Javascript Objects.
+ * This function converts these Javascript Objects into Javavascript Number Objects.
+ * Format of social security number xxxxxx yyy zz
+ * <p>
+ * Format of social security number is described in the following documents:
+ * @see <a href="http://www.ksz-bcss.fgov.be/Nl/faq/faq_5.htm">http://www.ksz-bcss.fgov.be/Nl/faq/faq_5.htm</a>
+ * @see <a href="http://www.cla.be/Kort%20nieuws/2006/KN%20XIV-7-2.htm">http://www.cla.be/Kort%20nieuws/2006/KN%20XIV-7-2.htm</a>
+ * @see <a href="http://www.cimire.fgov.be/siteindex.aspx?lng=nl&id=5">http://www.cimire.fgov.be/siteindex.aspx?lng=nl&id=5</a>
+ * 
+ * @private
+ * @static
+ * @method parseSocialSecurityNumber
+ * @parameter appletNumberString a Javascript Object containing a social security number, returned by a Java applet
+ * @throws NullPointerException if appletNumberString is null or undefined.
+ * @throws IllegalArgumentException if appletNumberString does not contain a valid social security number.
+ * @return a Javascript Number object
+ * @type Number
+ */
+be.belgium.eid.SISCardBuilder35.parseSocialSecurityNumber = function(appletNumberString) {
+	var str = be.belgium.eid.CardBuilder.parseString(appletNumberString);	
+	if (str.length != 13)  // format xxxxxx yyy zz
+		throw new be.belgium.eid.IllegalArgumentException();	
+	var numberStr = str.substr(0, 6) + str.substr(7, 3) + str.substr(11, 2);	
+	return be.belgium.eid.CardBuilder.parseNumber(numberStr);
+};
+
 /*
  * Setters 
  * @public All these methods are public
@@ -1418,19 +1436,19 @@ be.belgium.eid.SISCardBuilder35.prototype.setCardNumber = function(cardNumber) {
 
 be.belgium.eid.SISCardBuilder35.prototype.setValidityDateBegin = function(validityDateBegin) {
 	try {
-		this.card.setValidityBeginDate(be.belgium.eid.SISCardBuilder35.parseValidityDate(validityDateBegin));		
+		this.card.setValidityBeginDate(be.belgium.eid.SISCardBuilder35.parseDate(validityDateBegin));		
 	} catch (e){}
 };
 
 be.belgium.eid.SISCardBuilder35.prototype.setValidityDateEnd = function(validityDateEnd) {
 	try {
-		this.card.setValidityEndDate(be.belgium.eid.SISCardBuilder35.parseValidityDate(validityDateEnd));		
+		this.card.setValidityEndDate(be.belgium.eid.SISCardBuilder35.parseDate(validityDateEnd));		
 	} catch (e){}
 };
 
 be.belgium.eid.SISCardBuilder35.prototype.setNationalNumber = function(nationalNumber) {
 	try {
-		this.card.setSocialSecurityNumber(be.belgium.eid.CardBuilder.parseNumber(nationalNumber));		
+		this.card.setSocialSecurityNumber(be.belgium.eid.SISCardBuilder35.parseSocialSecurityNumber(nationalNumber));		
 	} catch (e){}
 };
 
@@ -1454,7 +1472,7 @@ be.belgium.eid.SISCardBuilder35.prototype.setInitials = function(initials) {
 
 be.belgium.eid.SISCardBuilder35.prototype.setBirthDate = function(birthDate) {
 	try {
-		this.card.setBirthDate(be.belgium.eid.SISCardBuilder35.parseBirthDate(birthDate));		
+		this.card.setBirthDate(be.belgium.eid.SISCardBuilder35.parseDate(birthDate));		
 	} catch (e){}
 };
 
