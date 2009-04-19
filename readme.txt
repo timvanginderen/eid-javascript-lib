@@ -60,3 +60,9 @@ How to run the examples
    This is also explained in readme.txt and copy_binaries.bat in the Samples\misc\Applet\Basic\java subdirectory of the eID SDK.
 
 4) Open the examples in a browser.
+
+
+Remark
+------
+The base64 encoding only works in Internet Explorer, if JRE 6 Update 10 (Java Runtime Environment 1.6.0_10) or higher is installed
+and if the Next-Generation Java Plug-in is enabled (this is the default setting) in the Java Control Panel.
