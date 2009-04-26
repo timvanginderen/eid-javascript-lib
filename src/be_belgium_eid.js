@@ -1,4 +1,4 @@
-// eid-javascript-lib version 1.1
+// eid-javascript-lib version 1.2
 
 // Copyright (c) 2009 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 
 /*
+	1.2 26/04/2009
+	- Added Card object. This object is the base for EIDCard and SISCard.
 	1.1 28/03/2009
 	- Changed parsing of dates and social security number in SISCardBuilder35.
 	- Getters of EIDCard and SISCard do not return Number- and Boolean objects anymore.
@@ -72,7 +74,7 @@ if (!be.belgium) be.belgium = new Object();
  * SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
  * More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  * 
- * @version 1.1 28/03/2009
+ * @version 1.2 26/04/2009
  * @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
  */
 
@@ -126,6 +128,70 @@ be.belgium.eid.documentType = {
 be.belgium.eid.sex = { FEMALE : 'F', MALE : 'M' };
 
 /** 
+ * Abstract object Card. No instance of this object should be created.
+ * @description
+ * @constructor
+ * @abstract
+ */ 
+be.belgium.eid.Card = function() {
+	this.cardNumber = new Number(0);
+	this.validityBeginDate = new Date(0);
+	this.validityEndDate = new Date(0);	
+};
+
+/*
+ * Setters and Getters
+ */
+ 
+be.belgium.eid.Card.prototype.setCardNumber = function(cardNumber) {		
+	if (cardNumber instanceof Number)
+		this.cardNumber = cardNumber;
+	else
+		this.cardNumber = new Number(cardNumber);
+};
+
+/**
+ * Return card number.
+ * @public
+ * @method getCardNumber
+ * @return a primitive number containing card number.
+ * @type primitive number
+ */
+be.belgium.eid.Card.prototype.getCardNumber = function() {
+	return this.cardNumber.valueOf(); 
+};
+
+be.belgium.eid.Card.prototype.setValidityBeginDate = function(beginDate) {			
+	this.validityBeginDate = beginDate;
+};
+
+/**
+ * Return card validity begin date.
+ * @public
+ * @method getValidityBeginDate
+ * @return a Date object containing card validity begin date.
+ * @type Date
+ */
+be.belgium.eid.Card.prototype.getValidityBeginDate = function() {
+	return this.validityBeginDate; 
+};
+
+be.belgium.eid.Card.prototype.setValidityEndDate = function(endDate) {			
+	this.validityEndDate = endDate;
+};
+
+/**
+ * Return card validity end date.
+ * @public
+ * @method getValidityEndDate
+ * @return a Date object containing card validity end date.
+ * @type Date 
+ */
+be.belgium.eid.Card.prototype.getValidityEndDate = function() {
+	return this.validityEndDate; 
+};
+
+/** 
  * EIDCard contains the public readable identity data of an eID card.
  * @description
  * Almost all the properties of this object are of type String, Number, Date or Boolean.
@@ -142,13 +208,11 @@ be.belgium.eid.sex = { FEMALE : 'F', MALE : 'M' };
  * Formats of identity data on an eID card are described in the following documents:
  * @see <a href="http://www.ibz.rrn.fgov.be/fileadmin/user_upload/CI/eID/5%20aspects%20techniques/nl/belgian_electronic_identity_card_content_v2.8.a.pdf">belgian_electronic_identity_card_content_v2.8.a.pdf</a><br>
  * @see <a href="http://www.ibz.rrn.fgov.be/fileadmin/user_upload/CI/eID/5%20aspects%20techniques/nl/format%20des%20dates/formaat_van_de_datums_04042006.pdf">formaat_van_de_datums_04042006.pdf</a>
+ * @extends be.belgium.eid.Card
  * @constructor
  */
-be.belgium.eid.EIDCard = function() {
-	this.cardNumber = new Number(0);
+be.belgium.eid.EIDCard = function() {	
 	this.chipNumber = new String("");
-	this.validityBeginDate = new Date(0);
-	this.validityEndDate = new Date(0);
 	this.issuingMunicipality  = new String("");
 	this.nationalNumber = new Number(0);
 	this.surname = new String("");	
@@ -173,6 +237,7 @@ be.belgium.eid.EIDCard = function() {
 	this.country = new String("");	
 	this.picture = null; // byte array (type object, instanceof Array)
 };
+be.belgium.eid.EIDCard.prototype = new be.belgium.eid.Card; // extends Card
 
 /**
  * Returns a string representation of public readable identity data of an eID card.
@@ -230,24 +295,6 @@ be.belgium.eid.EIDCard.prototype.toString = function() {
 /*
  * Setters and Getters
  */
- 
-be.belgium.eid.EIDCard.prototype.setCardNumber = function(cardNumber) {		
-	if (cardNumber instanceof Number)
-		this.cardNumber = cardNumber;
-	else
-		this.cardNumber = new Number(cardNumber);
-};
-
-/**
- * Return card number.
- * @public
- * @method getCardNumber
- * @return a primitive number containing card number.
- * @type primitive number
- */
-be.belgium.eid.EIDCard.prototype.getCardNumber = function() {
-	return this.cardNumber.valueOf(); 
-};
 
 be.belgium.eid.EIDCard.prototype.setChipNumber = function(chipNumber) {	
 	if (chipNumber instanceof String)
@@ -265,36 +312,6 @@ be.belgium.eid.EIDCard.prototype.setChipNumber = function(chipNumber) {
  */
 be.belgium.eid.EIDCard.prototype.getChipNumber = function() {
 	return this.chipNumber; 
-};
-
-be.belgium.eid.EIDCard.prototype.setValidityBeginDate = function(beginDate) {			
-	this.validityBeginDate = beginDate;
-};
-
-/**
- * Return card validity begin date.
- * @public
- * @method getValidityBeginDate
- * @return a Date object containing card validity begin date.
- * @type Date
- */
-be.belgium.eid.EIDCard.prototype.getValidityBeginDate = function() {
-	return this.validityBeginDate; 
-};
-
-be.belgium.eid.EIDCard.prototype.setValidityEndDate = function(endDate) {			
-	this.validityEndDate = endDate;
-};
-
-/**
- * Return card validity end date.
- * @public
- * @method getValidityEndDate
- * @return a Date object containing card validity end date.
- * @type Date 
- */
-be.belgium.eid.EIDCard.prototype.getValidityEndDate = function() {
-	return this.validityEndDate; 
 };
 
 be.belgium.eid.EIDCard.prototype.setIssuingMunicipality = function(municipality) {	
@@ -740,12 +757,10 @@ be.belgium.eid.EIDCard.prototype.getPicture = function() {
  * Formats of identity data on an SIS card are described in the following documents:   
  * @see <a href="http://www.ksz-bcss.fgov.be/nl/documentation/document_3.htm#document3_3">http://www.ksz-bcss.fgov.be/nl/documentation/document_3.htm#document3_3</a><br>
  * @see <a href="http://www.ksz-bcss.fgov.be/documentation/nl/documentation/appareils%20de%20lecture%20carte%20SIS/td-002bis-nl.pdf">http://www.ksz-bcss.fgov.be/documentation/nl/documentation/appareils%20de%20lecture%20carte%20SIS/td-002bis-nl.pdf</a>
+ * @extends be.belgium.eid.Card
  * @constructor
  */
 be.belgium.eid.SISCard = function() {
-	this.cardNumber = new Number(0);
-	this.validityBeginDate = new Date(0);
-	this.validityEndDate = new Date(0);			
 	this.socialSecurityNumber = new Number(0);		
 	this.surname = new String("");	
 	this.initials = new String("");	
@@ -753,6 +768,7 @@ be.belgium.eid.SISCard = function() {
 	this.sex = be.belgium.eid.sex.FEMALE;				
 	this.birthDate = new Date(0);
 };
+be.belgium.eid.SISCard.prototype = new be.belgium.eid.Card; // extends Card
 
 /**
  * Returns a string representation of public readable identity data of a SIS card.
@@ -788,54 +804,6 @@ be.belgium.eid.SISCard.prototype.toString = function() {
 /*
  * Setters and Getters
  */
- 
-be.belgium.eid.SISCard.prototype.setCardNumber = function(cardNumber) {		
-	if (cardNumber instanceof Number)
-		this.cardNumber = cardNumber;
-	else
-		this.cardNumber = new Number(cardNumber);
-};
-
-/**
- * Return card number.
- * @public
- * @method getCardNumber
- * @return a primitive number containing card number.
- * @type primitive number
- */
-be.belgium.eid.SISCard.prototype.getCardNumber = function() {
-	return this.cardNumber.valueOf(); 
-};
-
-be.belgium.eid.SISCard.prototype.setValidityBeginDate = function(beginDate) {			
-	this.validityBeginDate = beginDate;
-};
-
-/**
- * Return card validity begin date.
- * @public
- * @method getValidityBeginDate
- * @return a Date object containing card validity begin date.
- * @type Date 
- */
-be.belgium.eid.SISCard.prototype.getValidityBeginDate = function() {
-	return this.validityBeginDate; 
-};
-
-be.belgium.eid.SISCard.prototype.setValidityEndDate = function(endDate) {			
-	this.validityEndDate = endDate;
-};
-
-/**
- * Return card validity end date.
- * @public
- * @method getValidityEndDate
- * @return a Date object containing card validity end date.
- * @type Date 
- */
-be.belgium.eid.SISCard.prototype.getValidityEndDate = function() {
-	return this.validityEndDate; 
-};
 
 be.belgium.eid.SISCard.prototype.setSocialSecurityNumber = function(socialSecurityNumber) {	
 	if (socialSecurityNumber instanceof Number)
@@ -1070,7 +1038,6 @@ be.belgium.eid.CardBuilder.parseNumber = function(appletNumberString) {
  * @description
  * @constructor
  * @extends be.belgium.eid.CardBuilder
- * @abstract
  */
 be.belgium.eid.EIDCardBuilder35 = function() {
 	this.card = new be.belgium.eid.EIDCard();
@@ -1335,7 +1302,6 @@ be.belgium.eid.EIDCardBuilder35.prototype.setPicture = function(pictureByteArray
  * @description
  * @constructor
  * @extends be.belgium.eid.CardBuilder
- * @abstract
  */
 be.belgium.eid.SISCardBuilder35 = function() {
 	this.card = new be.belgium.eid.SISCard(); 
