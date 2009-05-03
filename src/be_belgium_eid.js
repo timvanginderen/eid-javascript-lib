@@ -191,6 +191,27 @@ be.belgium.eid.Card.prototype.getValidityEndDate = function() {
 	return this.validityEndDate; 
 };
 
+/**
+ * Returns a string representation of a card.
+ * @public
+ * @method toString
+ * @return a string representation of a card.
+ * @type primitive string
+ */
+be.belgium.eid.Card.prototype.toString = function() {
+	var newline = "\r\n";
+	var str = "";			
+	str += "cardNumber: " + this.cardNumber.toString() + newline;
+	if (this.validityBeginDate.toLocaleDateString) {
+		str += "validityBeginDate: " + this.validityBeginDate.toLocaleDateString() + newline; // IE 5.5+
+		str += "validityBeginDate: " + this.validityEndDate.toLocaleDateString(); // IE 5.5+
+	} else {
+		str += "validityBeginDate: " + this.validityBeginDate.toString() + newline;
+		str += "validityBeginDate: " + this.validityEndDate.toString();
+	}
+	return str;
+};
+
 /** 
  * EIDCard contains the public readable identity data of an eID card.
  * @description
@@ -248,16 +269,9 @@ be.belgium.eid.EIDCard.prototype = new be.belgium.eid.Card; // extends Card
  */
 be.belgium.eid.EIDCard.prototype.toString = function() {
 	var newline = "\r\n";
-	var str = "eID card" + newline;			
-	str += "cardNumber: " + this.cardNumber.toString() + newline;
+	var str = "eID card" + newline;
+	str += be.belgium.eid.Card.prototype.toString.call(this) + newline;
 	str += "chipNumber: " + this.chipNumber + newline;
-	if (this.validityBeginDate.toLocaleDateString) {
-		str += "validityBeginDate: " + this.validityBeginDate.toLocaleDateString() + newline; // IE 5.5+
-		str += "validityBeginDate: " + this.validityEndDate.toLocaleDateString() + newline; // IE 5.5+
-	} else {
-		str += "validityBeginDate: " + this.validityBeginDate.toString() + newline;
-		str += "validityBeginDate: " + this.validityEndDate.toString() + newline;
-	}
 	str += "issuingMunicipality: " + this.issuingMunicipality + newline;
 	str += "nationalNumber: " + this.nationalNumber.toString() + newline;
 	str += "surname: " + this.surname + newline;	
@@ -779,15 +793,8 @@ be.belgium.eid.SISCard.prototype = new be.belgium.eid.Card; // extends Card
  */
 be.belgium.eid.SISCard.prototype.toString = function() {
 	var newline = "\r\n";	
-	var str = "SIS card" + newline;		
-	str += "cardNumber: " + this.cardNumber.toString() + newline;	
-	if (this.validityBeginDate.toLocaleDateString) {
-		str += "validityBeginDate: " + this.validityBeginDate.toLocaleDateString() + newline; // IE 5.5+
-		str += "validityBeginDate: " + this.validityEndDate.toLocaleDateString() + newline; // IE 5.5+
-	} else {
-		str += "validityBeginDate: " + this.validityBeginDate.toString() + newline;
-		str += "validityBeginDate: " + this.validityEndDate.toString() + newline;
-	}	
+	var str = "SIS card" + newline;
+	str += be.belgium.eid.Card.prototype.toString.call(this) + newline;		
 	str += "socialSecurityNumber: " + this.socialSecurityNumber.toString() + newline;
 	str += "surname: " + this.surname + newline;	
 	str += "initials: " + this.initials + newline;
