@@ -1,0 +1,8 @@
+#summary eID Applet References.
+
+= References =
+
+= Other eID projects =
+
+  * [http://code.google.com/p/eidlib/ Native Java e-ID library]
+  * [http://code.google.com/p/eid-applet/ eID Applet by Frank Cornelis]
