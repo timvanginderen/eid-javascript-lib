@@ -27,11 +27,20 @@ How to run the examples
     * The archive contains the following subdirectories: examples, jsdoc and src.
     * Unzip the archive in a directory, for example c:\eid-javascript-lib
   # Install eID software with the eID Quick install. Instructions can be found at
-    http://eid.belgium.be/nl/Hoe_installeer_je_de_eID/Quick_Install/ or
-    http://eid.belgium.be/fr/Comment_installer_l_eID/Quick_Install/
+    * http://eid.belgium.be/nl/Hoe_installeer_je_de_eID/Quick_Install/ or
+    * http://eid.belgium.be/fr/Comment_installer_l_eID/Quick_Install/
   # Download Belgium Identity Card Developer's Kit (eID SDK 3.5) from 
-    http://eid.belgium.be/nl/Achtergrondinfo/De_eID_technisch/index.jsp or
-    http://eid.belgium.be/fr/Informations_legales_et_techniques/L_eID_d_un_point_de_vue_technique/index.jsp
+    * http://eid.belgium.be/nl/Achtergrondinfo/De_eID_technisch/index.jsp or
+    * http://eid.belgium.be/fr/Informations_legales_et_techniques/L_eID_d_un_point_de_vue_technique/index.jsp
+
+    * Unzip the archive
+    * Run the installer from the archive
+    * Select the Common and JAVA feature to be installed.
+    * Go to the installation directory of the eID SDK (probably C:\Documents and Settings\<user>\My Documents\Belgium Identity Card SDK)
+    * Go to the subdirectory \beidlib\Java\bin of the installation directory.
+    * Copy the following files to the examples subdirectory of the eid-javascript-lib:
+
+
   #
 
 <code>
