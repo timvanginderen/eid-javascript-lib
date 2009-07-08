@@ -32,16 +32,33 @@ How to run the examples
   # Download Belgium Identity Card Developer's Kit (eID SDK 3.5) from 
     * http://eid.belgium.be/nl/Achtergrondinfo/De_eID_technisch/index.jsp or
     * http://eid.belgium.be/fr/Informations_legales_et_techniques/L_eID_d_un_point_de_vue_technique/index.jsp
-
       * Unzip the eID SDK 3.5 archive
       * Run the installer from the archive
       * Select the Common and JAVA feature to be installed.
       * Go to the installation directory of the eID SDK (probably C:\Documents and Settings\`<user>`\My Documents\Belgium Identity Card SDK)
       * Go to the subdirectory \beidlib\Java\bin of the installation directory.
       * Copy the following files to the examples subdirectory of the eid-javascript-lib:
+        * Applet-Launcher License.rtf
+        * applet-launcher.jar
+        * beid35JavaWrapper-linux.jar
+        * beid35JavaWrapper-mac.jar
+        * beid35JavaWrapper-win.jar
+        * beid35libJava.jar
+        * beid.jnlp
+        * BEID_Applet.jar
+  # Open the copied beid.jnlp in notepad (or any other text editor) The codebase directory should be changed to the examples subdirectory of the eid-javascript-lib:<br>
+<code>   
+   If your examples subdirectory is C:\eid-javascript-lib\examples\
 
+   change 
+	<jnlp codebase="http://127.0.0.1/" href="beid.jnlp"> 
+   into 
+	<jnlp codebase="file:///C:/eid-javascript-lib/examples/" href="beid.jnlp">
 
-  #
+   This is also explained in readme.txt and copy_binaries.bat in the Samples\misc\Applet\Basic\java subdirectory of the eID SDK.
+</code>
+  #Open the examples in a browser.
+
 
 <code>
 How to run the examples
