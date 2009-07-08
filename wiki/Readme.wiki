@@ -46,8 +46,8 @@ How to run the examples
         * beid35libJava.jar
         * beid.jnlp
         * BEID_Applet.jar
-  # Open the copied beid.jnlp in notepad (or any other text editor) The codebase directory should be changed to the examples subdirectory of the eid-javascript-lib:<br>
-<code>   
+  # Open the copied beid.jnlp in notepad (or any other text editor). The codebase directory should be changed to the examples subdirectory of the eid-javascript-lib:
+{{{
    If your examples subdirectory is C:\eid-javascript-lib\examples\
 
    change 
@@ -56,8 +56,13 @@ How to run the examples
 	<jnlp codebase="file:///C:/eid-javascript-lib/examples/" href="beid.jnlp">
 
    This is also explained in readme.txt and copy_binaries.bat in the Samples\misc\Applet\Basic\java subdirectory of the eID SDK.
-</code>
-  #Open the examples in a browser.
+}}}
+  # Open the examples in a browser.
+
+Remark
+
+The base64 encoding only works in Internet Explorer, if JRE 6 Update 10 (Java Runtime Environment 1.6.0_10) or higher is installed
+and if the Next-Generation Java Plug-in is enabled (this is the default setting) in the Java Control Panel.
 
 
 <code>
