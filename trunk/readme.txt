@@ -24,11 +24,16 @@ More information about SIS card plugins in the eID V3 middleware can be found at
 How to run the examples
 -----------------------
 
-1) Install eID software with the eID Quick install. Instructions can be found at
+1) Download the archive eidjavascriptlib.zip from http://code.google.com/p/eid-javascript-lib/
+   
+   - The archive contains the following subdirectories: examples, jsdoc and src.
+   - Unzip the archive in a directory, for example c:\eid-javascript-lib
+
+2) Install eID software with the eID Quick install. Instructions can be found at
    http://eid.belgium.be/nl/Hoe_installeer_je_de_eID/Quick_Install/
    http://eid.belgium.be/fr/Comment_installer_l_eID/Quick_Install/
 
-2) Download Belgium Identity Card Developer's Kit (eID SDK 3.5) from 
+3) Download Belgium Identity Card Developer's Kit (eID SDK 3.5) from 
    http://eid.belgium.be/nl/Achtergrondinfo/De_eID_technisch/index.jsp
    http://eid.belgium.be/fr/Informations_legales_et_techniques/L_eID_d_un_point_de_vue_technique/index.jsp
    
@@ -47,7 +52,7 @@ How to run the examples
          - beid.jnlp
          - BEID_Applet.jar
 
-3) Open the copied beid.jnlp in notepad (or any other text editor)
+4) Open the copied beid.jnlp in notepad (or any other text editor)
    The codebase directory should be changed to the examples subdirectory of the eid-javascript-lib:
    
    If your examples subdirectory is C:\eid-javascript-lib\examples\
@@ -59,7 +64,7 @@ How to run the examples
 
    This is also explained in readme.txt and copy_binaries.bat in the Samples\misc\Applet\Basic\java subdirectory of the eID SDK.
 
-4) Open the examples in a browser.
+5) Open the examples in a browser.
 
 
 Remark
