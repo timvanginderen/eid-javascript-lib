@@ -21,7 +21,7 @@ More information about SIS card plugins in the eID V3 middleware can be found at
 @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/<br>
 <br>
 
-How to run the examples
+<B>How to run the examples</B>
 
   # Download the archive eidjavascriptlib.zip from http://code.google.com/p/eid-javascript-lib/
     * The archive contains the following subdirectories: examples, jsdoc and src.
@@ -59,10 +59,10 @@ How to run the examples
 }}}
   # Open the examples in a browser.
 
-Remark
+<B>Remark</B>
 
-The base64 encoding only works in Internet Explorer, if JRE 6 Update 10 (Java Runtime Environment 1.6.0_10) or higher is installed
-and if the Next-Generation Java Plug-in is enabled (this is the default setting) in the Java Control Panel.
+The base64 encoding only works in Internet Explorer, if JRE 6 Update 10 (Java Runtime Environment 1.6.0_10) or higher is installed and<br>
+if the Next-Generation Java Plug-in is enabled (this is the default setting) in the Java Control Panel.
 
 
 <code>
