@@ -1,4 +1,4 @@
-// eid-javascript-lib version 1.2
+// eid-javascript-lib version 1.3
 
 // Copyright (c) 2009 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 
 /*
+	1.3 18/07/2009
+	- Added DateFormatter.
 	1.2 26/04/2009
 	- Added Card object. This object is the base for EIDCard and SISCard.
 	1.1 28/03/2009
@@ -74,7 +76,7 @@ if (!be.belgium) be.belgium = new Object();
  * SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
  * More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  * 
- * @version 1.2 26/04/2009
+ * @version 1.3 18/07/2009
  * @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
  */
 
@@ -126,6 +128,184 @@ be.belgium.eid.documentType = {
  */
 
 be.belgium.eid.sex = { FEMALE : 'F', MALE : 'M' };
+
+/**
+ * Enumeration of date formats<br>
+ * DDMMYYYY : 0,<br>
+ * MMDDYYYY : 1,<br>
+ * YYYYMMDD : 2,<br>
+ * DD_MM_YYYY : 3,<br>
+ * MM_DD_YYYY : 4,<br>
+ * YYYY_MM_DD : 5 
+ * @memberOf be.belgium.eid
+ */
+be.belgium.eid.dateFormat = {
+	DDMMYYYY : 0,
+	MMDDYYYY : 1,
+	YYYYMMDD : 2,
+	DD_MM_YYYY : 3,
+	MM_DD_YYYY : 4,
+	YYYY_MM_DD : 5
+};
+
+/**
+ * Object which formats and parses dates
+ * @description
+ * @constructor
+ * @param {be.belgium.eid.dateFormat} format the date format
+ */
+be.belgium.eid.DateFormatter = function(format) {
+	this.dateFormat = format;
+	this.dateSeparator = "/";
+};
+
+/**
+ * Set date separator. Only one character strings should be used.
+ * @public
+ * @method setDateSeparator
+ * @param {primitive string|String} separator a date separator (one character).
+ */
+be.belgium.eid.DateFormatter.prototype.setDateSeparator = function(separator) {
+	if (separator === null || typeof(separator) == "undefined")
+		return;
+	separator = new String(separator);
+	if (separator.length == 0)
+		return;
+	this.dateSeparator = separator.substr(0,1);
+};
+
+/**
+ * Return date separator.
+ * @public
+ * @method getDateSeparator
+ * @return a date separator.
+ * @type {primitive string|String} 
+ */
+be.belgium.eid.DateFormatter.prototype.getDateSeparator = function() {
+	return this.dateSeparator; 
+};
+
+/**
+ * Parses text from the given string to produce a date.
+ * @public
+ * @method parse
+ * @param dateString a string to be parsed.
+ * @throws NullPointerException if dateString is null or undefined.
+ * @throws IllegalArgumentException if dateString does not contain a valid date.
+ * @return a Javascript Date object
+ * @type Date
+ */
+be.belgium.eid.DateFormatter.prototype.parse = function(dateString) {	
+	if (dateString === null || typeof(dateString) == "undefined")
+		throw new be.belgium.eid.NullPointerException();
+				
+	var day = 1;			
+	var month = 1;
+	var year = 1970;		
+
+	switch (this.dateFormat) {
+		case be.belgium.eid.dateFormat.DDMMYYYY :
+			if (dateString.length != 8)
+				throw new be.belgium.eid.IllegalArgumentException();
+			day = dateString.substr(0, 2);
+			if (day === "") day = 1;
+			month = dateString.substr(2, 2);
+			if (month === "") month = 1;
+			year = dateString.substr(4, 4);
+			break;
+		case be.belgium.eid.dateFormat.MMDDYYYY :
+			if (dateString.length != 8)
+				throw new be.belgium.eid.IllegalArgumentException();
+			month = dateString.substr(0, 2);
+			if (month === "") month = 1;
+			day = dateString.substr(2, 2);
+			if (day === "") day = 1;
+			year = dateString.substr(4, 4);
+			break;
+		case be.belgium.eid.dateFormat.YYYYMMDD :
+			if (dateString.length != 8)
+				throw new be.belgium.eid.IllegalArgumentException();
+			year = dateString.substr(0, 4);
+			month = dateString.substr(4, 2);
+			if (month === "") month = 1;
+			day = dateString.substr(6, 2);
+			if (day === "") day = 1;
+			break;
+		case be.belgium.eid.dateFormat.MM_DD_YYYY :
+			if (dateString.length != 10)
+				throw new be.belgium.eid.IllegalArgumentException();
+			month = dateString.substr(0, 2);
+			if (month === "") month = 1;
+			day = dateString.substr(3, 2);
+			if (day === "") day = 1;
+			year = dateString.substr(6, 4);
+			break;
+		case be.belgium.eid.dateFormat.YYYY_MM_DD :
+			if (dateString.length != 10)
+				throw new be.belgium.eid.IllegalArgumentException();
+			year = dateString.substr(0, 4);
+			month = dateString.substr(5, 2);
+			if (month === "") month = 1;
+			day = dateString.substr(8, 2);
+			if (day === "") day = 1;
+			break;
+		default: // be.belgium.eid.dateFormat.DD_MM_YYYY
+			if (dateString.length != 10)
+				throw new be.belgium.eid.IllegalArgumentException();
+			day = dateString.substr(0, 2);
+			if (day === "") day = 1;
+			month = dateString.substr(3, 2);
+			if (month === "") month = 1;
+			year = dateString.substr(6, 4);
+			break;
+	}
+	
+	return new Date(year, (month - 1), day, 0, 0, 0, 0);			
+};
+
+/**
+ * formats a given date into a date string.
+ * @public
+ * @method format
+ * @param date a date to be formatted.
+ * @throws NullPointerException if date is null or undefined.
+ * @return a formatted date string
+ * @type primitive string 
+ */
+be.belgium.eid.DateFormatter.prototype.format = function(date) {	
+	if (date === null || typeof(date) == "undefined")
+		throw new be.belgium.eid.NullPointerException();
+		
+	var returnValue = "";
+		
+	var day = date.getDate();
+    if (day < 10) day = "0" + day; // zero padding
+    var month = date.getMonth() + 1;
+	if (month < 10) month = "0" + month; // zero padding
+    var year = date.getFullYear();
+			
+	switch (this.dateFormat) {
+		case be.belgium.eid.dateFormat.DDMMYYYY :
+            returnValue = "" + day + "" + month + "" + year;
+			break;
+		case be.belgium.eid.dateFormat.MMDDYYYY :
+			returnValue = "" + month + "" + day + "" + year;
+			break;
+		case be.belgium.eid.dateFormat.YYYYMMDD :
+			returnValue = "" + year + "" + month + "" + day;
+			break;
+		case be.belgium.eid.dateFormat.MM_DD_YYYY :
+			returnValue = "" + month + this.dateSeparator + day + this.dateSeparator + year;
+			break;
+		case be.belgium.eid.dateFormat.YYYY_MM_DD :
+			returnValue = "" + year + this.dateSeparator + month + this.dateSeparator + day;
+			break;
+		default: // be.belgium.eid.dateFormat.DD_MM_YYYY
+			returnValue = "" + day + this.dateSeparator + month + this.dateSeparator + year;
+			break;
+	}
+	return returnValue;
+};
 
 /** 
  * Abstract object Card. No instance of this object should be created.
@@ -1007,7 +1187,7 @@ be.belgium.eid.CardBuilder.prototype.getCard = function() {
  * @private
  * @static
  * @method parseString
- * @parameter appletString a Javascript Object containing a string, returned by a Java applet
+ * @param appletString a Javascript Object containing a string, returned by a Java applet
  * @throws NullPointerException if appletString is null or undefined.
  * @return a Javascript String object
  * @type String
@@ -1024,7 +1204,7 @@ be.belgium.eid.CardBuilder.parseString = function(appletString) {
  * @private
  * @static
  * @method parseNumber
- * @parameter appletNumberString a Javascript Object containing a number, returned by a Java applet
+ * @param appletNumberString a Javascript Object containing a number, returned by a Java applet
  * @throws NullPointerException if appletNumberString is null or undefined.
  * @throws IllegalArgumentException if appletNumberString does not contain a number.
  * @return a Javascript Number object
@@ -1081,7 +1261,7 @@ be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[11] = new RegExp("dec|dez",
  * @private
  * @static
  * @method parseValidityDate
- * @parameter appletDateString a Javascript Object containing a validity date, returned by a Java applet
+ * @param appletDateString a Javascript Object containing a validity date, returned by a Java applet
  * @throws NullPointerException if appletDateString is null or undefined.
  * @throws IllegalArgumentException if appletDateString does not contain a valid validity date.
  * @return a Javascript Date object
@@ -1118,7 +1298,7 @@ be.belgium.eid.EIDCardBuilder35.parseValidityDate = function(appletDateString) {
  * @private
  * @static 
  * @method parseBirthDate
- * @parameter appletDateString a Javascript Object containing a birth date, returned by a Java applet
+ * @param appletDateString a Javascript Object containing a birth date, returned by a Java applet
  * @throws NullPointerException if appletDateString is null or undefined.
  * @throws IllegalArgumentException if appletDateString does not contain a valid birth date.
  * @return a Javascript Date object
@@ -1154,7 +1334,7 @@ be.belgium.eid.EIDCardBuilder35.parseBirthDate = function(appletDateString) {
  * @private
  * @static 
  * @method parseSex
- * @parameter appletString a Javascript Object containing a string, returned by a Java applet
+ * @param appletString a Javascript Object containing a string, returned by a Java applet
  * @throws NullPointerException if appletString is null or undefined.
  * @return value of type be.belgium.eid.sex
  * @type be.belgium.eid.sex
@@ -1327,7 +1507,7 @@ be.belgium.eid.SISCardBuilder35.prototype = new be.belgium.eid.CardBuilder; // e
  * @private
  * @static
  * @method parseDate
- * @parameter appletDateString a Javascript Object containing a date, returned by a Java applet
+ * @param appletDateString a Javascript Object containing a date, returned by a Java applet
  * @throws NullPointerException if appletDateString is null or undefined.
  * @throws IllegalArgumentException if appletDateString does not contain a valid date.
  * @return a Javascript Date object
@@ -1354,7 +1534,7 @@ be.belgium.eid.SISCardBuilder35.parseDate = function(appletDateString) {
  * @private
  * @static 
  * @method parseSex
- * @parameter appletString a Javascript Object containing a string, returned by a Java applet
+ * @param appletString a Javascript Object containing a string, returned by a Java applet
  * @throw NullPointerException if appletString is null or undefined.
  * @return value of type be.belgium.eid.sex
  * @type be.belgium.eid.sex 
@@ -1382,7 +1562,7 @@ be.belgium.eid.SISCardBuilder35.parseSex = function(appletString) {
  * @private
  * @static
  * @method parseSocialSecurityNumber
- * @parameter appletNumberString a Javascript Object containing a social security number, returned by a Java applet
+ * @param appletNumberString a Javascript Object containing a social security number, returned by a Java applet
  * @throws NullPointerException if appletNumberString is null or undefined.
  * @throws IllegalArgumentException if appletNumberString does not contain a valid social security number.
  * @return a Javascript Number object
