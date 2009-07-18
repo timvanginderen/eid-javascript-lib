@@ -229,9 +229,9 @@ be.belgium.eid.DateFormatter.prototype.setLanguage = function(language) {
 		case be.belgium.eid.language.DUTCH :
 		case be.belgium.eid.language.FRENCH :
 		case be.belgium.eid.language.GERMAN :
-			this.language = language;	
+			this.language = language;
 			break;
-	}	
+	}
 };
 
 /**
@@ -255,35 +255,35 @@ be.belgium.eid.DateFormatter.prototype.getLanguage = function() {
  * @return a Javascript Date object
  * @type Date
  */
-be.belgium.eid.DateFormatter.prototype.parse = function(dateString) {	
+be.belgium.eid.DateFormatter.prototype.parse = function(dateString) {
 	if (dateString === null || typeof(dateString) == "undefined")
 		throw new be.belgium.eid.NullPointerException();
-				
-	var day = 1;			
+
+	var day = 1;
 	var month = 1;
 	var year = 1970;
-	
+
 	if (this.dateFormat == be.belgium.eid.dateFormat.EID_BIRTH_DATE) {
 		var length = dateString.length;
-		var regExp;	
+		var regExp;
 		if (length < 11 || length > 12) // format DD mmmm YYYY (Dutch, French) or DD.MMM.YYYY (German)
 			throw new be.belgium.eid.IllegalArgumentException();
-		day = dateString.substr(0, 2);					
+		day = dateString.substr(0, 2);
 		for (var i = 0; i < 12; i++) {
-			regExp = new RegExp(this.eIDBirthDateAbbreviations[i].join("|"), "i");							
-			if (regExp.test(dateString)) {		
+			regExp = new RegExp(this.eIDBirthDateAbbreviations[i].join("|"), "i");
+			if (regExp.test(dateString)) {
 				month = (i + 1);
 				break;
 			}
-		}			
+		}
 		year = dateString.substr((length - 4), 4);	
-	} else {			
+	} else {
 		switch (this.dateFormat) {
 			case be.belgium.eid.dateFormat.DDMMYYYY :
 				if (dateString.length != 8)
 					throw new be.belgium.eid.IllegalArgumentException();
-				day = dateString.substr(0, 2);			
-				month = dateString.substr(2, 2);			
+				day = dateString.substr(0, 2);
+				month = dateString.substr(2, 2);
 				year = dateString.substr(4, 4);
 				break;
 			case be.belgium.eid.dateFormat.MMDDYYYY :
@@ -323,11 +323,11 @@ be.belgium.eid.DateFormatter.prototype.parse = function(dateString) {
 				break;
 		}
 	}
-	
+
 	if (day === "  ") day = 1;
 	if (month === "  ") month = 1;
-	
-	return new Date(year, (month - 1), day, 0, 0, 0, 0);			
+
+	return new Date(year, (month - 1), day, 0, 0, 0, 0);
 };
 
 /**
@@ -346,7 +346,7 @@ be.belgium.eid.DateFormatter.prototype.format = function(date) {
 	var returnValue = "";
 		
 	var day = date.getDate();
-    if (day < 10) day = "0" + day; // zero padding
+	if (day < 10) day = "0" + day; // zero padding
 	
 	var month = date.getMonth();
 	if (this.dateFormat == be.belgium.eid.dateFormat.EID_BIRTH_DATE) {
@@ -358,14 +358,14 @@ be.belgium.eid.DateFormatter.prototype.format = function(date) {
 		}
 	} else {
 		month = month + 1;
-		if (month < 10) month = "0" + month; // zero padding	
+		if (month < 10) month = "0" + month; // zero padding
 	}
-	
-    var year = date.getFullYear();	
-			
+
+	var year = date.getFullYear();
+
 	switch (this.dateFormat) {
 		case be.belgium.eid.dateFormat.DDMMYYYY :
-            returnValue = "" + day + "" + month + "" + year;
+			returnValue = "" + day + "" + month + "" + year;
 			break;
 		case be.belgium.eid.dateFormat.MMDDYYYY :
 			returnValue = "" + month + "" + day + "" + year;
