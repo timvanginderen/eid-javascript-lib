@@ -149,7 +149,7 @@ be.belgium.eid.dateFormat = {
 };
 
 /**
- * Object which formats and parses dates
+ * Object which formats and parses dates.
  * @description
  * @constructor
  * @param {be.belgium.eid.dateFormat} format the date format
@@ -207,19 +207,15 @@ be.belgium.eid.DateFormatter.prototype.parse = function(dateString) {
 		case be.belgium.eid.dateFormat.DDMMYYYY :
 			if (dateString.length != 8)
 				throw new be.belgium.eid.IllegalArgumentException();
-			day = dateString.substr(0, 2);
-			if (day === "") day = 1;
-			month = dateString.substr(2, 2);
-			if (month === "") month = 1;
+			day = dateString.substr(0, 2);			
+			month = dateString.substr(2, 2);			
 			year = dateString.substr(4, 4);
 			break;
 		case be.belgium.eid.dateFormat.MMDDYYYY :
 			if (dateString.length != 8)
 				throw new be.belgium.eid.IllegalArgumentException();
 			month = dateString.substr(0, 2);
-			if (month === "") month = 1;
 			day = dateString.substr(2, 2);
-			if (day === "") day = 1;
 			year = dateString.substr(4, 4);
 			break;
 		case be.belgium.eid.dateFormat.YYYYMMDD :
@@ -227,17 +223,13 @@ be.belgium.eid.DateFormatter.prototype.parse = function(dateString) {
 				throw new be.belgium.eid.IllegalArgumentException();
 			year = dateString.substr(0, 4);
 			month = dateString.substr(4, 2);
-			if (month === "") month = 1;
 			day = dateString.substr(6, 2);
-			if (day === "") day = 1;
 			break;
 		case be.belgium.eid.dateFormat.MM_DD_YYYY :
 			if (dateString.length != 10)
 				throw new be.belgium.eid.IllegalArgumentException();
 			month = dateString.substr(0, 2);
-			if (month === "") month = 1;
 			day = dateString.substr(3, 2);
-			if (day === "") day = 1;
 			year = dateString.substr(6, 4);
 			break;
 		case be.belgium.eid.dateFormat.YYYY_MM_DD :
@@ -245,20 +237,19 @@ be.belgium.eid.DateFormatter.prototype.parse = function(dateString) {
 				throw new be.belgium.eid.IllegalArgumentException();
 			year = dateString.substr(0, 4);
 			month = dateString.substr(5, 2);
-			if (month === "") month = 1;
 			day = dateString.substr(8, 2);
-			if (day === "") day = 1;
 			break;
 		default: // be.belgium.eid.dateFormat.DD_MM_YYYY
 			if (dateString.length != 10)
 				throw new be.belgium.eid.IllegalArgumentException();
 			day = dateString.substr(0, 2);
-			if (day === "") day = 1;
 			month = dateString.substr(3, 2);
-			if (month === "") month = 1;
 			year = dateString.substr(6, 4);
 			break;
 	}
+	
+	if (day === "  ") day = 1;
+	if (month === "  ") month = 1;
 	
 	return new Date(year, (month - 1), day, 0, 0, 0, 0);			
 };
