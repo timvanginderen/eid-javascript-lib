@@ -130,13 +130,27 @@ be.belgium.eid.documentType = {
 be.belgium.eid.sex = { FEMALE : 'F', MALE : 'M' };
 
 /**
+ * Enumeration of languages<br>
+ * DUTCH : 0,<br>
+ * FRENCH : 1,<br>
+ * GERMAN : 2
+ * @memberOf be.belgium.eid
+ */
+be.belgium.eid.language = {
+	DUTCH : 0,
+	FRENCH : 1,
+	GERMAN : 2
+};
+
+/**
  * Enumeration of date formats<br>
  * DDMMYYYY : 0,<br>
  * MMDDYYYY : 1,<br>
  * YYYYMMDD : 2,<br>
  * DD_MM_YYYY : 3,<br>
  * MM_DD_YYYY : 4,<br>
- * YYYY_MM_DD : 5 
+ * YYYY_MM_DD : 5,<br>
+ * EID_BIRTH_DATE : 6 
  * @memberOf be.belgium.eid
  */
 be.belgium.eid.dateFormat = {
@@ -145,7 +159,8 @@ be.belgium.eid.dateFormat = {
 	YYYYMMDD : 2,
 	DD_MM_YYYY : 3,
 	MM_DD_YYYY : 4,
-	YYYY_MM_DD : 5
+	YYYY_MM_DD : 5,
+	EID_BIRTH_DATE : 6
 };
 
 /**
@@ -156,7 +171,25 @@ be.belgium.eid.dateFormat = {
  */
 be.belgium.eid.DateFormatter = function(format) {
 	this.dateFormat = format;
-	this.dateSeparator = "/";
+	if (format === be.belgium.eid.dateFormat.EID_BIRTH_DATE)
+		this.dateSeparator = " ";
+	else
+		this.dateSeparator = "/";
+	this.language = be.belgium.eid.language.DUTCH;
+	
+	this.eIDBirthDateAbbreviations = new Array(12);
+	this.eIDBirthDateAbbreviations[0] = new Array("JAN");
+	this.eIDBirthDateAbbreviations[1] = new Array("FEB", "FEV");
+	this.eIDBirthDateAbbreviations[2] = new Array("MAAR", "MARS", "MÄR", "MAR");
+	this.eIDBirthDateAbbreviations[3] = new Array("APR", "AVR");
+	this.eIDBirthDateAbbreviations[4] = new Array("MEI", "MAI", "MAI");
+	this.eIDBirthDateAbbreviations[5] = new Array("JUN", "JUIN");
+	this.eIDBirthDateAbbreviations[6] = new Array("JUL", "JUIL");
+	this.eIDBirthDateAbbreviations[7] = new Array("AUG", "AOUT");
+	this.eIDBirthDateAbbreviations[8] = new Array("SEP", "SEPT");
+	this.eIDBirthDateAbbreviations[9] = new Array("OKT", "OCT");
+	this.eIDBirthDateAbbreviations[10] = new Array("NOV");
+	this.eIDBirthDateAbbreviations[11] = new Array("DEC", "DEC", "DEZ");
 };
 
 /**
@@ -186,6 +219,33 @@ be.belgium.eid.DateFormatter.prototype.getDateSeparator = function() {
 };
 
 /**
+ * Set language used by EID_BIRTH_DATE date format.
+ * @public
+ * @method setLanguage
+ * @param be.belgium.eid.language language a language (DUTCH, FRENCH, GERMAN).
+ */
+be.belgium.eid.DateFormatter.prototype.setLanguage = function(language) {
+	switch (language) {
+		case be.belgium.eid.language.DUTCH :
+		case be.belgium.eid.language.FRENCH :
+		case be.belgium.eid.language.GERMAN :
+			this.language = language;	
+			break;
+	}	
+};
+
+/**
+ * Return language.
+ * @public
+ * @method getLanguage
+ * @return a language.
+ * @type be.belgium.eid.language 
+ */
+be.belgium.eid.DateFormatter.prototype.getLanguage = function() {
+	return this.language; 
+};
+
+/**
  * Parses text from the given string to produce a date.
  * @public
  * @method parse
@@ -201,51 +261,67 @@ be.belgium.eid.DateFormatter.prototype.parse = function(dateString) {
 				
 	var day = 1;			
 	var month = 1;
-	var year = 1970;		
-
-	switch (this.dateFormat) {
-		case be.belgium.eid.dateFormat.DDMMYYYY :
-			if (dateString.length != 8)
-				throw new be.belgium.eid.IllegalArgumentException();
-			day = dateString.substr(0, 2);			
-			month = dateString.substr(2, 2);			
-			year = dateString.substr(4, 4);
-			break;
-		case be.belgium.eid.dateFormat.MMDDYYYY :
-			if (dateString.length != 8)
-				throw new be.belgium.eid.IllegalArgumentException();
-			month = dateString.substr(0, 2);
-			day = dateString.substr(2, 2);
-			year = dateString.substr(4, 4);
-			break;
-		case be.belgium.eid.dateFormat.YYYYMMDD :
-			if (dateString.length != 8)
-				throw new be.belgium.eid.IllegalArgumentException();
-			year = dateString.substr(0, 4);
-			month = dateString.substr(4, 2);
-			day = dateString.substr(6, 2);
-			break;
-		case be.belgium.eid.dateFormat.MM_DD_YYYY :
-			if (dateString.length != 10)
-				throw new be.belgium.eid.IllegalArgumentException();
-			month = dateString.substr(0, 2);
-			day = dateString.substr(3, 2);
-			year = dateString.substr(6, 4);
-			break;
-		case be.belgium.eid.dateFormat.YYYY_MM_DD :
-			if (dateString.length != 10)
-				throw new be.belgium.eid.IllegalArgumentException();
-			year = dateString.substr(0, 4);
-			month = dateString.substr(5, 2);
-			day = dateString.substr(8, 2);
-			break;
-		default: // be.belgium.eid.dateFormat.DD_MM_YYYY
-			if (dateString.length != 10)
-				throw new be.belgium.eid.IllegalArgumentException();
-			day = dateString.substr(0, 2);
-			month = dateString.substr(3, 2);
-			year = dateString.substr(6, 4);
-			break;
+	var year = 1970;
+	
+	if (this.dateFormat == be.belgium.eid.dateFormat.EID_BIRTH_DATE) {
+		var length = dateString.length;
+		var regExp;	
+		if (length < 11 || length > 12) // format DD mmmm YYYY (Dutch, French) or DD.MMM.YYYY (German)
+			throw new be.belgium.eid.IllegalArgumentException();
+		day = dateString.substr(0, 2);					
+		for (var i = 0; i < 12; i++) {
+			regExp = new RegExp(this.eIDBirthDateAbbreviations[i].join("|"), "i");							
+			if (regExp.test(dateString)) {		
+				month = (i + 1);
+				break;
+			}
+		}			
+		year = dateString.substr((length - 4), 4);	
+	} else {			
+		switch (this.dateFormat) {
+			case be.belgium.eid.dateFormat.DDMMYYYY :
+				if (dateString.length != 8)
+					throw new be.belgium.eid.IllegalArgumentException();
+				day = dateString.substr(0, 2);			
+				month = dateString.substr(2, 2);			
+				year = dateString.substr(4, 4);
+				break;
+			case be.belgium.eid.dateFormat.MMDDYYYY :
+				if (dateString.length != 8)
+					throw new be.belgium.eid.IllegalArgumentException();
+				month = dateString.substr(0, 2);
+				day = dateString.substr(2, 2);
+				year = dateString.substr(4, 4);
+				break;
+			case be.belgium.eid.dateFormat.YYYYMMDD :
+				if (dateString.length != 8)
+					throw new be.belgium.eid.IllegalArgumentException();
+				year = dateString.substr(0, 4);
+				month = dateString.substr(4, 2);
+				day = dateString.substr(6, 2);
+				break;
+			case be.belgium.eid.dateFormat.MM_DD_YYYY :
+				if (dateString.length != 10)
+					throw new be.belgium.eid.IllegalArgumentException();
+				month = dateString.substr(0, 2);
+				day = dateString.substr(3, 2);
+				year = dateString.substr(6, 4);
+				break;
+			case be.belgium.eid.dateFormat.YYYY_MM_DD :
+				if (dateString.length != 10)
+					throw new be.belgium.eid.IllegalArgumentException();
+				year = dateString.substr(0, 4);
+				month = dateString.substr(5, 2);
+				day = dateString.substr(8, 2);
+				break;
+			default: // be.belgium.eid.dateFormat.DD_MM_YYYY
+				if (dateString.length != 10)
+					throw new be.belgium.eid.IllegalArgumentException();
+				day = dateString.substr(0, 2);
+				month = dateString.substr(3, 2);
+				year = dateString.substr(6, 4);
+				break;
+		}
 	}
 	
 	if (day === "  ") day = 1;
@@ -271,9 +347,21 @@ be.belgium.eid.DateFormatter.prototype.format = function(date) {
 		
 	var day = date.getDate();
     if (day < 10) day = "0" + day; // zero padding
-    var month = date.getMonth() + 1;
-	if (month < 10) month = "0" + month; // zero padding
-    var year = date.getFullYear();
+	
+	var month = date.getMonth();
+	if (this.dateFormat == be.belgium.eid.dateFormat.EID_BIRTH_DATE) {
+		var nbrAbbrev = this.eIDBirthDateAbbreviations[month].length;
+		if (this.language < 0 || this.language >= nbrAbbrev) {
+			month = this.eIDBirthDateAbbreviations[month][0];
+		} else {
+			month = this.eIDBirthDateAbbreviations[month][this.language];
+		}
+	} else {
+		month = month + 1;
+		if (month < 10) month = "0" + month; // zero padding	
+	}
+	
+    var year = date.getFullYear();	
 			
 	switch (this.dateFormat) {
 		case be.belgium.eid.dateFormat.DDMMYYYY :
@@ -290,6 +378,9 @@ be.belgium.eid.DateFormatter.prototype.format = function(date) {
 			break;
 		case be.belgium.eid.dateFormat.YYYY_MM_DD :
 			returnValue = "" + year + this.dateSeparator + month + this.dateSeparator + day;
+			break;
+		case be.belgium.eid.dateFormat.EID_BIRTH_DATE :
+			returnValue = "" + day + this.dateSeparator + month + this.dateSeparator + year;
 			break;
 		default: // be.belgium.eid.dateFormat.DD_MM_YYYY
 			returnValue = "" + day + this.dateSeparator + month + this.dateSeparator + year;
