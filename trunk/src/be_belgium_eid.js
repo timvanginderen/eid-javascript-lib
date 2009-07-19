@@ -1219,9 +1219,11 @@ be.belgium.eid.SISCard.prototype.getBirthDate = function() {
 };
 
 /**
- * Exception extends native javascript Error object
+ * Exception extends native javascript Error object.
+ * Constructs a new exception with the specified detail message.
  * @description
  * @constructor
+ * @param {primitive string|String} [s=""] detail message.
  */
 be.belgium.eid.Exception = function(s) {
 	if (s === null || typeof(s) == "undefined")
