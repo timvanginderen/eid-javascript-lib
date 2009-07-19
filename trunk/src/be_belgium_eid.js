@@ -1224,13 +1224,20 @@ be.belgium.eid.SISCard.prototype.getBirthDate = function() {
  * @constructor
  */
 be.belgium.eid.Exception = function(s) {
-	if (typeof(s) != "undefined")
-		this.message = "" + s;
-	else
+	if (s === null || typeof(s) == "undefined")
 		this.message = "";
+	else
+		this.message = "" + s;
 };
 be.belgium.eid.Exception.prototype = new Error;
 be.belgium.eid.Exception.prototype.name = "Exception";
+/**
+ * Return a short description (name and detail message) of this exception.
+ * @public
+ * @method toString
+ * @return name and detail message.
+ * @type primitive string
+ */
 be.belgium.eid.Exception.prototype.toString = function() {
 	return this.name + ": " + this.message;
 };
@@ -1322,7 +1329,7 @@ be.belgium.eid.CardBuilder.prototype.setBirthDate = function(birthDate) {
  * @type String
  */
 be.belgium.eid.CardBuilder.parseString = function(appletString) {
-	if (typeof(appletString) == "undefined" || appletString === null)
+	if (appletString === null || typeof(appletString) == "undefined")
 		throw new be.belgium.eid.NullPointerException();
 	return new String("" + appletString);
 };
@@ -1640,7 +1647,7 @@ be.belgium.eid.CardReader.prototype.getBEIDApplet = function() {
  * @param {primitive string|String} readerName
  */
 be.belgium.eid.CardReader.prototype.setReaderName = function(readerName) {
-	if (typeof(readerName) == "undefined" || readerName === null)
+	if (readerName === null || typeof(readerName) == "undefined")
 		this.readerName = "";
 	else if (readerName instanceof String)
 		this.readerName = readerName.valueOf();
@@ -1688,7 +1695,7 @@ be.belgium.eid.CardReader.prototype.getAppletLauncherId = function() {
  * @param {function|Function Object} handler reference to a function or a Function object.
  */
 be.belgium.eid.CardReader.prototype.setNoCardPresentHandler = function(handler) {
-	if (typeof(handler) != "undefined" && handler !== null && (typeof(handler) == "function" || handler instanceof Function))
+	if (handler !== null && typeof(handler) != "undefined" && (typeof(handler) == "function" || handler instanceof Function))
 		this.noCardPresentHandler = handler;
 	else
 		this.noCardPresentHandler = null;
@@ -1701,7 +1708,7 @@ be.belgium.eid.CardReader.prototype.setNoCardPresentHandler = function(handler) 
  * @param {function|Function Object} handler reference to a function or a Function object.
  */
 be.belgium.eid.CardReader.prototype.setNoReaderDetectedHandler = function(handler) {
-	if (typeof(handler) != "undefined" && handler !== null && (typeof(handler) == "function" || handler instanceof Function))
+	if (handler !== null && typeof(handler) != "undefined" && (typeof(handler) == "function" || handler instanceof Function))
 		this.noReaderDetectedHandler = handler;
 	else
 		this.noReaderDetectedHandler = null;
