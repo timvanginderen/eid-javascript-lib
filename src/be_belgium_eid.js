@@ -163,11 +163,6 @@ be.belgium.eid.dateFormat = {
 	EID_BIRTH_DATE : 6
 };
 
-/**
- * @private
- * @static
- * Array of regular expressions to test birth date month names in Dutch, French and German
- */
 /*
 be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray = new Array(12);
 be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[0] = new RegExp("jan", "i");
@@ -234,7 +229,7 @@ be.belgium.eid.DateFormatter.prototype.setDateSeparator = function(separator) {
  * @public
  * @method getDateSeparator
  * @return a date separator.
- * @type {primitive string|String} 
+ * @type primitive string
  */
 be.belgium.eid.DateFormatter.prototype.getDateSeparator = function() {
 	return this.dateSeparator; 
@@ -1357,8 +1352,8 @@ be.belgium.eid.CardBuilder.parseNumber = function(appletNumberString) {
  * EIDCardBuilder35 extends CardBuilder.
  * EIDCardBuilder35, builds a EIDCard object step by step using data returned by the applet from eID middleware 3.5
  * <p>
- * Format of validity dates DD.MM.YYYY (DD and MM can be empty strings, in this case DD = 01 and MM = 01 is presumed) 
- * Format of birth dates DD MMMM YYYY (Dutch, French) or DD.MMM.YYYY (German) (DD and MMMM can be empty strings, in this case DD = 1 and MMMM = JAN is presumed)
+ * Format of validity dates: DD.MM.YYYY (DD and MM can be empty strings, in this case DD = 01 and MM = 01 is presumed)<br>
+ * Format of birth dates: DD MMMM YYYY (Dutch, French) or DD.MMM.YYYY (German) (DD and MMMM can be empty strings, in this case DD = 1 and MMMM = JAN is presumed)
  * <p>
  * Formats of identity data on an eID card are described in the following documents:
  * @see <a href="http://www.ibz.rrn.fgov.be/fileadmin/user_upload/CI/eID/5%20aspects%20techniques/nl/format%20des%20dates/formaat_van_de_datums_04042006.pdf">formaat_van_de_datums_04042006.pdf</a>
@@ -1507,7 +1502,7 @@ be.belgium.eid.EIDCardBuilder35.prototype.setPicture = function(pictureByteArray
  * SISCardBuilder35 extends CardBuilder.
  * SISCardBuilder35, builds a SISCard object step by step using data returned by the applet from eID middleware 3.5
  * <p>
- * Format of validity dates dd/mm/yyyy
+ * Format of validity dates and birth dates: DD/MM/YYYY
  * <p>
  * Formats of identity data on a SIS card are described in the following documents:
  * @see <a href="http://www.ksz-bcss.fgov.be/nl/documentation/document_3.htm#document3_3">http://www.ksz-bcss.fgov.be/nl/documentation/document_3.htm#document3_3</a>
