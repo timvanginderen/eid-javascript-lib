@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - be.belgium.eid.SISCard</title>
+		<title>JsDoc Reference - be.belgium.eid.DateFormatter</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -228,13 +228,11 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class be.belgium.eid.SISCard
+				Class be.belgium.eid.DateFormatter
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
-				<br />Extends
-					<a href="../symbols/be.belgium.eid.Card.html">be.belgium.eid.Card</a>.<br />
 				
 			
 				
@@ -246,7 +244,7 @@ ul.inheritsList
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class be.belgium.eid.SISCard.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class be.belgium.eid.DateFormatter.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -259,9 +257,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/be.belgium.eid.SISCard.html">be.belgium.eid.SISCard</a></b>()
+								<b><a href="../symbols/be.belgium.eid.DateFormatter.html">be.belgium.eid.DateFormatter</a></b>(format)
 							</div>
-							<div class="description">SISCard contains the public readable identity data of a SIS card.</div>
+							<div class="description">Object which formats and parses dates.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -275,7 +273,7 @@ ul.inheritsList
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class be.belgium.eid.SISCard.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class be.belgium.eid.DateFormatter.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -288,81 +286,54 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.SISCard.html#getBirthDate">getBirthDate</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.DateFormatter.html#format">format</a></b>(date)
 								</div>
-								<div class="description">Return birth date.</div>
+								<div class="description">formats a given date into a date string.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.SISCard.html#getFemale">getFemale</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.DateFormatter.html#getDateSeparator">getDateSeparator</a></b>()
 								</div>
-								<div class="description">Return female sex status.</div>
+								<div class="description">Return date separator.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.SISCard.html#getInitials">getInitials</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.DateFormatter.html#getLanguage">getLanguage</a></b>()
 								</div>
-								<div class="description">Return initials.</div>
+								<div class="description">Return language.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.SISCard.html#getMale">getMale</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.DateFormatter.html#parse">parse</a></b>(dateString)
 								</div>
-								<div class="description">Return male sex status.</div>
+								<div class="description">Parses text from the given string to produce a date.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.SISCard.html#getName">getName</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.DateFormatter.html#setDateSeparator">setDateSeparator</a></b>(separator)
 								</div>
-								<div class="description">Return first names.</div>
+								<div class="description">Set date separator.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.SISCard.html#getSex">getSex</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.DateFormatter.html#setLanguage">setLanguage</a></b>()
 								</div>
-								<div class="description">Return sex.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.SISCard.html#getSocialSecurityNumber">getSocialSecurityNumber</a></b>()
-								</div>
-								<div class="description">Return social security number (= national number).</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.SISCard.html#getSurname">getSurname</a></b>()
-								</div>
-								<div class="description">Return surname.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/be.belgium.eid.SISCard.html#toString">toString</a></b>()
-								</div>
-								<div class="description">Returns a string representation of public readable identity data of a SIS card.</div>
+								<div class="description">Set language used by EID_BIRTH_DATE date format.</div>
 							</td>
 						</tr>
 					
@@ -370,10 +341,6 @@ ul.inheritsList
 				</table>
 				
 				
-				
-				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/be.belgium.eid.Card.html">be.belgium.eid.Card</a>: </dt><dd><a href="../symbols/be.belgium.eid.Card.html#getCardNumber">getCardNumber</a>, <a href="../symbols/be.belgium.eid.Card.html#getValidityBeginDate">getValidityBeginDate</a>, <a href="../symbols/be.belgium.eid.Card.html#getValidityEndDate">getValidityEndDate</a></dd>
-				</dl>
 				
 			
 <!-- ============================== events summary ======================== -->
@@ -387,12 +354,12 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>be.belgium.eid.SISCard</b>()
+						<b>be.belgium.eid.DateFormatter</b>(format)
 				</div>
 				
 				<div class="description">
-					SISCard contains the public readable identity data of a SIS card.
-Almost all the properties of this object are of type String, Number, Date or Boolean.Except property sex that has a type which is especially defined in this library. <p>Formats of identity data on an SIS card are described in the following documents:
+					Object which formats and parses dates.
+
 					
 				</div>
 				
@@ -400,20 +367,22 @@ Almost all the properties of this object are of type String, Number, Date or Boo
 				
 				
 					
-					
-					
-					
-					
-					
-					
 						<dl class="detailList">
-						<dt class="heading">See:</dt>
+						<dt class="heading">Parameters:</dt>
 						
-							<dd><a href="http://www.ksz-bcss.fgov.be/nl/documentation/document_3.htm#document3_3">http://www.ksz-bcss.fgov.be/nl/documentation/document_3.htm#document3_3</a><br></dd>
-						
-							<dd><a href="http://www.ksz-bcss.fgov.be/documentation/nl/documentation/appareils%20de%20lecture%20carte%20SIS/td-002bis-nl.pdf">http://www.ksz-bcss.fgov.be/documentation/nl/documentation/appareils%20de%20lecture%20carte%20SIS/td-002bis-nl.pdf</a></dd>
+							<dt>
+								<span class="light fixedFont">{<a href="../symbols/be.belgium.eid.html#.dateFormat">be.belgium.eid.dateFormat</a>}</span>  <b>format</b>
+								
+							</dt>
+								<dd>the date format</dd>
 						
 						</dl>
+					
+					
+					
+					
+					
+					
 					
 
 			</div>
@@ -428,271 +397,68 @@ Almost all the properties of this object are of type String, Number, Date or Boo
 					Method Detail
 				</div>
 				
-					<a name="getBirthDate"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{Date}</span>
-					<b>getBirthDate</b>()
-					
-					</div>
-					<div class="description">
-						Return birth date.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd>a Date object containing birth date.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getFemale"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{primitive boolean}</span>
-					<b>getFemale</b>()
-					
-					</div>
-					<div class="description">
-						Return female sex status.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd>true if female, false if male.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getInitials"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{String}</span>
-					<b>getInitials</b>()
-					
-					</div>
-					<div class="description">
-						Return initials.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd>a String object containing initials.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getMale"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{primitive boolean}</span>
-					<b>getMale</b>()
-					
-					</div>
-					<div class="description">
-						Return male sex status.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd>true if male, false if female.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getName"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{String}</span>
-					<b>getName</b>()
-					
-					</div>
-					<div class="description">
-						Return first names.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd>a String object containing first names.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getSex"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{<a href="../symbols/be.belgium.eid.html#.sex">be.belgium.eid.sex</a>}</span>
-					<b>getSex</b>()
-					
-					</div>
-					<div class="description">
-						Return sex.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd>"F" for female, "M" for male</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getSocialSecurityNumber"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{primitive number}</span>
-					<b>getSocialSecurityNumber</b>()
-					
-					</div>
-					<div class="description">
-						Return social security number (= national number).
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd>a primitive number containing social security number.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="getSurname"> </a>
-					<div class="fixedFont">
-					
-					<span class="light">{String}</span>
-					<b>getSurname</b>()
-					
-					</div>
-					<div class="description">
-						Return surname.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd>a String object containing surname.</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="toString"> </a>
+					<a name="format"> </a>
 					<div class="fixedFont">
 					
 					<span class="light">{primitive string}</span>
-					<b>toString</b>()
+					<b>format</b>(date)
 					
 					</div>
 					<div class="description">
-						Returns a string representation of public readable identity data of a SIS card.
+						formats a given date into a date string.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>date</b>
+									
+								</dt>
+								<dd>a date to be formatted.</dd>
+							
+							</dl>
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Throws:</dt>
+							
+								<dt>
+									 <b></b>
+								</dt>
+								<dd>NullPointerException if date is null or undefined.</dd>
+							
+							</dl>
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>a formatted date string</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getDateSeparator"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{primitive string}</span>
+					<b>getDateSeparator</b>()
+					
+					</div>
+					<div class="description">
+						Return date separator.
 						
 						
 					</div>
@@ -707,9 +473,171 @@ Almost all the properties of this object are of type String, Number, Date or Boo
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd>a string representation of public readable identity data of a SIS card.</dd>
+								<dd>a date separator.</dd>
 							
 							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getLanguage"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/be.belgium.eid.html#.language">be.belgium.eid.language</a>}</span>
+					<b>getLanguage</b>()
+					
+					</div>
+					<div class="description">
+						Return language.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>a language.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="parse"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Date}</span>
+					<b>parse</b>(dateString)
+					
+					</div>
+					<div class="description">
+						Parses text from the given string to produce a date.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>dateString</b>
+									
+								</dt>
+								<dd>a string to be parsed.</dd>
+							
+							</dl>
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Throws:</dt>
+							
+								<dt>
+									 <b></b>
+								</dt>
+								<dd>NullPointerException if dateString is null or undefined.</dd>
+							
+								<dt>
+									 <b></b>
+								</dt>
+								<dd>IllegalArgumentException if dateString does not contain a valid date.</dd>
+							
+							</dl>
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>a Javascript Date object</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="setDateSeparator"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setDateSeparator</b>(separator)
+					
+					</div>
+					<div class="description">
+						Set date separator. Only one character strings should be used.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{primitive string|String}</span> <b>separator</b>
+									
+								</dt>
+								<dd>a date separator (one character).</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setLanguage"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setLanguage</b>()
+					
+					</div>
+					<div class="description">
+						Set language used by EID_BIRTH_DATE date format.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>be.belgium.eid.language</b>
+									
+								</dt>
+								<dd>language a language (DUTCH, FRENCH, GERMAN).</dd>
+							
+							</dl>
+						
+						
+						
+						
 						
 						
 						
