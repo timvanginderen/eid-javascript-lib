@@ -276,7 +276,7 @@ be.belgium.eid.DateFormatter.prototype.parse = function(dateString) {
 				break;
 			}
 		}
-		year = dateString.substr((length - 4), 4);	
+		year = dateString.substr((length - 4), 4);
 	} else {
 		switch (this.dateFormat) {
 			case be.belgium.eid.dateFormat.DDMMYYYY :
@@ -339,15 +339,15 @@ be.belgium.eid.DateFormatter.prototype.parse = function(dateString) {
  * @return a formatted date string
  * @type primitive string 
  */
-be.belgium.eid.DateFormatter.prototype.format = function(date) {	
+be.belgium.eid.DateFormatter.prototype.format = function(date) {
 	if (date === null || typeof(date) == "undefined")
 		throw new be.belgium.eid.NullPointerException();
-		
+
 	var returnValue = "";
-		
+
 	var day = date.getDate();
 	if (day < 10) day = "0" + day; // zero padding
-	
+
 	var month = date.getMonth();
 	if (this.dateFormat == be.belgium.eid.dateFormat.EID_BIRTH_DATE) {
 		var nbrAbbrev = this.eIDBirthDateAbbreviations[month].length;
@@ -398,14 +398,14 @@ be.belgium.eid.DateFormatter.prototype.format = function(date) {
 be.belgium.eid.Card = function() {
 	this.cardNumber = new Number(0);
 	this.validityBeginDate = new Date(0);
-	this.validityEndDate = new Date(0);	
+	this.validityEndDate = new Date(0);
 };
 
 /*
  * Setters and Getters
  */
  
-be.belgium.eid.Card.prototype.setCardNumber = function(cardNumber) {		
+be.belgium.eid.Card.prototype.setCardNumber = function(cardNumber) {
 	if (cardNumber instanceof Number)
 		this.cardNumber = cardNumber;
 	else
@@ -423,7 +423,7 @@ be.belgium.eid.Card.prototype.getCardNumber = function() {
 	return this.cardNumber.valueOf(); 
 };
 
-be.belgium.eid.Card.prototype.setValidityBeginDate = function(beginDate) {			
+be.belgium.eid.Card.prototype.setValidityBeginDate = function(beginDate) {
 	this.validityBeginDate = beginDate;
 };
 
@@ -438,7 +438,7 @@ be.belgium.eid.Card.prototype.getValidityBeginDate = function() {
 	return this.validityBeginDate; 
 };
 
-be.belgium.eid.Card.prototype.setValidityEndDate = function(endDate) {			
+be.belgium.eid.Card.prototype.setValidityEndDate = function(endDate) {
 	this.validityEndDate = endDate;
 };
 
@@ -462,14 +462,14 @@ be.belgium.eid.Card.prototype.getValidityEndDate = function() {
  */
 be.belgium.eid.Card.prototype.toString = function() {
 	var newline = "\r\n";
-	var str = "";			
+	var str = "";
 	str += "cardNumber: " + this.cardNumber.toString() + newline;
 	if (this.validityBeginDate.toLocaleDateString) {
 		str += "validityBeginDate: " + this.validityBeginDate.toLocaleDateString() + newline; // IE 5.5+
-		str += "validityBeginDate: " + this.validityEndDate.toLocaleDateString(); // IE 5.5+
+		str += "validityEndDate: " + this.validityEndDate.toLocaleDateString(); // IE 5.5+
 	} else {
 		str += "validityBeginDate: " + this.validityBeginDate.toString() + newline;
-		str += "validityBeginDate: " + this.validityEndDate.toString();
+		str += "validityEndDate: " + this.validityEndDate.toString();
 	}
 	return str;
 };
@@ -494,14 +494,14 @@ be.belgium.eid.Card.prototype.toString = function() {
  * @extends be.belgium.eid.Card
  * @constructor
  */
-be.belgium.eid.EIDCard = function() {	
+be.belgium.eid.EIDCard = function() {
 	this.chipNumber = new String("");
 	this.issuingMunicipality  = new String("");
 	this.nationalNumber = new Number(0);
-	this.surname = new String("");	
+	this.surname = new String("");
 	this.firstName1 = new String("");
 	this.firstName2 = new String("");
-	this.firstName3 = new String("");	
+	this.firstName3 = new String("");
 	this.nationality = new String("");
 	this.birthLocation = new String("");
 	this.birthDate = new Date(0);
@@ -511,13 +511,13 @@ be.belgium.eid.EIDCard = function() {
 	this.specialStatus = be.belgium.eid.specialStatus.NO_STATUS;
 	this.whiteCane = new Boolean(false);
 	this.yellowCane = new Boolean(false);
-	this.extendedMinority = new Boolean(false);	
+	this.extendedMinority = new Boolean(false);
 	this.street = new String("");
 	this.streetNumber = new String(""); // Usually digits, but street numbers like for example 32A do exist
 	this.boxNumber = new String("");
 	this.zipCode = new Number(0);
 	this.municipality = new String("");
-	this.country = new String("");	
+	this.country = new String("");
 	this.picture = null; // byte array (type object, instanceof Array)
 };
 be.belgium.eid.EIDCard.prototype = new be.belgium.eid.Card; // extends Card
@@ -536,12 +536,12 @@ be.belgium.eid.EIDCard.prototype.toString = function() {
 	str += "chipNumber: " + this.chipNumber + newline;
 	str += "issuingMunicipality: " + this.issuingMunicipality + newline;
 	str += "nationalNumber: " + this.nationalNumber.toString() + newline;
-	str += "surname: " + this.surname + newline;	
+	str += "surname: " + this.surname + newline;
 	str += "firstName1: " + this.firstName1 + newline;
 	str += "firstName2: " + this.firstName2 + newline;
 	str += "firstName3: " + this.firstName3 + newline;
 	str += "nationality: " + this.nationality + newline;
-	str += "birthLocation: " + this.birthLocation + newline;	
+	str += "birthLocation: " + this.birthLocation + newline;
 	if (this.birthDate.toLocaleDateString) {
 		str += "birthDate: " + this.birthDate.toLocaleDateString() + newline;
 	} else {
@@ -560,7 +560,7 @@ be.belgium.eid.EIDCard.prototype.toString = function() {
 	str += "zipCode: " + this.zipCode.toString() + newline;
 	str += "municipality: " + this.municipality.toString() + newline;
 	str += "country: " + this.country.toString() + newline;
-	if (this.picture !== null) {	
+	if (this.picture !== null) {
 		str += "A picture is available.";
 	} else {
 		str += "No picture available."
@@ -572,7 +572,7 @@ be.belgium.eid.EIDCard.prototype.toString = function() {
  * Setters and Getters
  */
 
-be.belgium.eid.EIDCard.prototype.setChipNumber = function(chipNumber) {	
+be.belgium.eid.EIDCard.prototype.setChipNumber = function(chipNumber) {
 	if (chipNumber instanceof String)
 		this.chipNumber = chipNumber;
 	else
@@ -590,7 +590,7 @@ be.belgium.eid.EIDCard.prototype.getChipNumber = function() {
 	return this.chipNumber; 
 };
 
-be.belgium.eid.EIDCard.prototype.setIssuingMunicipality = function(municipality) {	
+be.belgium.eid.EIDCard.prototype.setIssuingMunicipality = function(municipality) {
 	if (municipality instanceof String)
 		this.issuingMunicipality = municipality;
 	else
@@ -608,7 +608,7 @@ be.belgium.eid.EIDCard.prototype.getIssuingMunicipality = function() {
 	return this.issuingMunicipality; 
 };
 
-be.belgium.eid.EIDCard.prototype.setNationalNumber = function(nationalNumber) {	
+be.belgium.eid.EIDCard.prototype.setNationalNumber = function(nationalNumber) {
 	if (nationalNumber instanceof Number)
 		this.nationalNumber = nationalNumber;
 	else
@@ -626,7 +626,7 @@ be.belgium.eid.EIDCard.prototype.getNationalNumber = function() {
 	return this.nationalNumber.valueOf(); 
 };
 
-be.belgium.eid.EIDCard.prototype.setSurname = function(surname) {	
+be.belgium.eid.EIDCard.prototype.setSurname = function(surname) {
 	if (surname instanceof String)
 		this.surname = surname;
 	else
@@ -644,7 +644,7 @@ be.belgium.eid.EIDCard.prototype.getSurname = function() {
 	return this.surname; 
 };
 
-be.belgium.eid.EIDCard.prototype.setFirstName1 = function(firstName1) {	
+be.belgium.eid.EIDCard.prototype.setFirstName1 = function(firstName1) {
 	if (firstName1 instanceof String)
 		this.firstName1 = firstName1;
 	else
@@ -662,7 +662,7 @@ be.belgium.eid.EIDCard.prototype.getFirstName1 = function() {
 	return this.firstName1; 
 };
 
-be.belgium.eid.EIDCard.prototype.setFirstName2 = function(firstName2) {	
+be.belgium.eid.EIDCard.prototype.setFirstName2 = function(firstName2) {
 	if (firstName2 instanceof String)
 		this.firstName2 = firstName2;
 	else
@@ -680,7 +680,7 @@ be.belgium.eid.EIDCard.prototype.getFirstName2 = function() {
 	return this.firstName2; 
 };
 
-be.belgium.eid.EIDCard.prototype.setFirstName3 = function(firstName3) {	
+be.belgium.eid.EIDCard.prototype.setFirstName3 = function(firstName3) {
 	if (firstName3 instanceof String)
 		this.firstName3 = firstName3;
 	else
@@ -698,7 +698,7 @@ be.belgium.eid.EIDCard.prototype.getFirstName3 = function() {
 	return this.firstName3; 
 };
 
-be.belgium.eid.EIDCard.prototype.setNationality = function(nationality) {	
+be.belgium.eid.EIDCard.prototype.setNationality = function(nationality) {
 	if (nationality instanceof String)
 		this.nationality = nationality;
 	else
@@ -716,7 +716,7 @@ be.belgium.eid.EIDCard.prototype.getNationality = function() {
 	return this.nationality; 
 };
 
-be.belgium.eid.EIDCard.prototype.setBirthLocation = function(birthLocation) {	
+be.belgium.eid.EIDCard.prototype.setBirthLocation = function(birthLocation) {
 	if (birthLocation instanceof String)
 		this.birthLocation = birthLocation;
 	else
@@ -734,7 +734,7 @@ be.belgium.eid.EIDCard.prototype.getBirthLocation = function() {
 	return this.birthLocation; 
 };
 
-be.belgium.eid.EIDCard.prototype.setBirthDate = function(birthDate) {			
+be.belgium.eid.EIDCard.prototype.setBirthDate = function(birthDate) {
 	this.birthDate = birthDate;
 };
 
@@ -789,7 +789,7 @@ be.belgium.eid.EIDCard.prototype.getMale = function() {
 	return (this.sex === be.belgium.eid.sex.MALE);
 };
 
-be.belgium.eid.EIDCard.prototype.setNobleCondition = function(nobleCondition) {	
+be.belgium.eid.EIDCard.prototype.setNobleCondition = function(nobleCondition) {
 	if (nobleCondition instanceof String)
 		this.nobleCondition = nobleCondition;
 	else
@@ -828,7 +828,7 @@ be.belgium.eid.EIDCard.prototype.getDocumentType = function() {
 /*
  *  @param specialStatus value of type be.belgium.eid.specialStatus
  */
-be.belgium.eid.EIDCard.prototype.setSpecialStatus = function(specialStatus) {	
+be.belgium.eid.EIDCard.prototype.setSpecialStatus = function(specialStatus) {
 	this.specialStatus = specialStatus;
 	
 	// be.belgium.eid.specialStatus.NO_STATUS
@@ -836,24 +836,24 @@ be.belgium.eid.EIDCard.prototype.setSpecialStatus = function(specialStatus) {
 	this.yellowCane = new Boolean(false);
 	this.extendedMinority = new Boolean(false);	
 	
-	switch (this.specialStatus) {		
+	switch (this.specialStatus) {
 		case be.belgium.eid.specialStatus.WHITE_CANE :
 				this.whiteCane = new Boolean(true);
-			break;		
+			break;
 		case be.belgium.eid.specialStatus.EXTENDED_MINORITY :
-				this.extendedMinority = new Boolean(true);	
-			break;		
+				this.extendedMinority = new Boolean(true);
+			break;
 		case be.belgium.eid.specialStatus.WHITE_CANE_AND_EXTENDED_MINORITY :
 				this.whiteCane = new Boolean(true);
-				this.extendedMinority = new Boolean(true);				
-			break;		
+				this.extendedMinority = new Boolean(true);
+			break;
 		case be.belgium.eid.specialStatus.YELLOW_CANE :
 				this.yellowCane = new Boolean(true);
-			break;		
+			break;
 		case be.belgium.eid.specialStatus.YELLOW_CANE_AND_EXTENDED_MINORITY :
 				this.yellowCane = new Boolean(true);
-				this.extendedMinority = new Boolean(true);				
-			break;				
+				this.extendedMinority = new Boolean(true);
+			break;
 	}
 };
 
@@ -901,7 +901,7 @@ be.belgium.eid.EIDCard.prototype.getExtendedMinority = function() {
 	return this.extendedMinority.valueOf();
 };
 
-be.belgium.eid.EIDCard.prototype.setStreet = function(street) {	
+be.belgium.eid.EIDCard.prototype.setStreet = function(street) {
 	if (street instanceof String)
 		this.street = street;
 	else
@@ -919,7 +919,7 @@ be.belgium.eid.EIDCard.prototype.getStreet = function() {
 	return this.street; 
 };
 
-be.belgium.eid.EIDCard.prototype.setStreetNumber = function(streetNumber) {	
+be.belgium.eid.EIDCard.prototype.setStreetNumber = function(streetNumber) {
 	if (streetNumber instanceof String)
 		this.streetNumber = streetNumber;
 	else
@@ -937,7 +937,7 @@ be.belgium.eid.EIDCard.prototype.getStreetNumber = function() {
 	return this.streetNumber; 
 };
 
-be.belgium.eid.EIDCard.prototype.setBoxNumber = function(boxNumber) {	
+be.belgium.eid.EIDCard.prototype.setBoxNumber = function(boxNumber) {
 	if (boxNumber instanceof String)
 		this.boxNumber = boxNumber;
 	else
@@ -955,7 +955,7 @@ be.belgium.eid.EIDCard.prototype.getBoxNumber = function() {
 	return this.boxNumber; 
 };
 
-be.belgium.eid.EIDCard.prototype.setZipCode = function(zipCode) {	
+be.belgium.eid.EIDCard.prototype.setZipCode = function(zipCode) {
 	if (zipCode instanceof Number)
 		this.zipCode = zipCode;
 	else
@@ -973,7 +973,7 @@ be.belgium.eid.EIDCard.prototype.getZipCode = function() {
 	return this.zipCode.valueOf(); 
 };
 
-be.belgium.eid.EIDCard.prototype.setMunicipality = function(municipality) {	
+be.belgium.eid.EIDCard.prototype.setMunicipality = function(municipality) {
 	if (municipality instanceof String)
 		this.municipality = municipality;
 	else
@@ -991,7 +991,7 @@ be.belgium.eid.EIDCard.prototype.getMunicipality = function() {
 	return this.municipality; 
 };
 
-be.belgium.eid.EIDCard.prototype.setCountry = function(country) {	
+be.belgium.eid.EIDCard.prototype.setCountry = function(country) {
 	if (country instanceof String)
 		this.country = country;
 	else
@@ -1009,7 +1009,7 @@ be.belgium.eid.EIDCard.prototype.getCountry = function() {
 	return this.country; 
 };
 
-be.belgium.eid.EIDCard.prototype.setPicture = function(pictureByteArray) {		
+be.belgium.eid.EIDCard.prototype.setPicture = function(pictureByteArray) {
 	this.picture = pictureByteArray;
 };
 
@@ -1037,11 +1037,11 @@ be.belgium.eid.EIDCard.prototype.getPicture = function() {
  * @constructor
  */
 be.belgium.eid.SISCard = function() {
-	this.socialSecurityNumber = new Number(0);		
-	this.surname = new String("");	
-	this.initials = new String("");	
+	this.socialSecurityNumber = new Number(0);
+	this.surname = new String("");
+	this.initials = new String("");
 	this.name = new String("");
-	this.sex = be.belgium.eid.sex.FEMALE;				
+	this.sex = be.belgium.eid.sex.FEMALE;
 	this.birthDate = new Date(0);
 };
 be.belgium.eid.SISCard.prototype = new be.belgium.eid.Card; // extends Card
@@ -1054,11 +1054,11 @@ be.belgium.eid.SISCard.prototype = new be.belgium.eid.Card; // extends Card
  * @type primitive string
  */
 be.belgium.eid.SISCard.prototype.toString = function() {
-	var newline = "\r\n";	
+	var newline = "\r\n";
 	var str = "SIS card" + newline;
-	str += be.belgium.eid.Card.prototype.toString.call(this) + newline;		
+	str += be.belgium.eid.Card.prototype.toString.call(this) + newline;
 	str += "socialSecurityNumber: " + this.socialSecurityNumber.toString() + newline;
-	str += "surname: " + this.surname + newline;	
+	str += "surname: " + this.surname + newline;
 	str += "initials: " + this.initials + newline;
 	str += "name: " + this.name + newline;
 	str += "sex: " + this.sex + newline;
@@ -1066,7 +1066,7 @@ be.belgium.eid.SISCard.prototype.toString = function() {
 		str += "birthDate: " + this.birthDate.toLocaleDateString() + newline;
 	} else {
 		str += "birthDate: " + this.birthDate.toString() + newline;
-	}		
+	}
 	return str;
 };
 
@@ -1092,7 +1092,7 @@ be.belgium.eid.SISCard.prototype.getSocialSecurityNumber = function() {
 	return this.socialSecurityNumber.valueOf(); 
 };
 
-be.belgium.eid.SISCard.prototype.setSurname = function(surname) {	
+be.belgium.eid.SISCard.prototype.setSurname = function(surname) {
 	if (surname instanceof String)
 		this.surname = surname;
 	else
@@ -1110,7 +1110,7 @@ be.belgium.eid.SISCard.prototype.getSurname = function() {
 	return this.surname; 
 };
 
-be.belgium.eid.SISCard.prototype.setInitials = function(initials) {	
+be.belgium.eid.SISCard.prototype.setInitials = function(initials) {
 	if (initials instanceof String)
 		this.initials = initials;
 	else
@@ -1128,7 +1128,7 @@ be.belgium.eid.SISCard.prototype.getInitials = function() {
 	return this.initials; 
 };
 
-be.belgium.eid.SISCard.prototype.setName = function(name) {	
+be.belgium.eid.SISCard.prototype.setName = function(name) {
 	if (name instanceof String)
 		this.name = name;
 	else
@@ -1186,7 +1186,7 @@ be.belgium.eid.SISCard.prototype.getMale = function() {
 	return (this.sex === be.belgium.eid.sex.MALE);
 };
 
-be.belgium.eid.SISCard.prototype.setBirthDate = function(birthDate) {			
+be.belgium.eid.SISCard.prototype.setBirthDate = function(birthDate) {
 	this.birthDate = birthDate;
 };
 
@@ -1210,11 +1210,11 @@ be.belgium.eid.Exception = function(s) {
 	if (typeof(s) != "undefined")
 		this.message = "" + s;
 	else
-		this.message = "";	
+		this.message = "";
 };
 be.belgium.eid.Exception.prototype = new Error;
 be.belgium.eid.Exception.prototype.name = "Exception";
-be.belgium.eid.Exception.prototype.toString = function() {	
+be.belgium.eid.Exception.prototype.toString = function() {
 	return this.name + ": " + this.message;
 };
 
@@ -1224,7 +1224,7 @@ be.belgium.eid.Exception.prototype.toString = function() {
  * @constructor
  * @extends be.belgium.eid.Exception
  */
-be.belgium.eid.IllegalArgumentException = function(s) {	
+be.belgium.eid.IllegalArgumentException = function(s) {
 	be.belgium.eid.Exception.call(this, s); // IE 5.5+
 };
 be.belgium.eid.IllegalArgumentException.prototype = new be.belgium.eid.Exception;
@@ -1237,7 +1237,7 @@ be.belgium.eid.IllegalArgumentException.prototype.name = "IllegalArgumentExcepti
  * @extends be.belgium.eid.Exception
  */
 be.belgium.eid.NullPointerException = function(s) {
-	be.belgium.eid.Exception.call(this, s); // IE 5.5+	
+	be.belgium.eid.Exception.call(this, s); // IE 5.5+
 };
 be.belgium.eid.NullPointerException.prototype = new be.belgium.eid.Exception;
 be.belgium.eid.NullPointerException.prototype.name = "NullPointerException";
@@ -1249,7 +1249,9 @@ be.belgium.eid.NullPointerException.prototype.name = "NullPointerException";
  * @abstract
  */ 
 be.belgium.eid.CardBuilder = function() {
-	this.card = null; 
+	this.card = null;
+	this.birthDateFormatter = null;
+	this.validityDateFormatter = null;
 };
 
 /**
@@ -1261,6 +1263,34 @@ be.belgium.eid.CardBuilder = function() {
  */
 be.belgium.eid.CardBuilder.prototype.getCard = function() {	
 	return this.card;
+};
+
+be.belgium.eid.CardBuilder.prototype.setCardNumber = function(cardNumber) {
+	try {
+		if (this.card)
+			this.card.setCardNumber(be.belgium.eid.CardBuilder.parseNumber(cardNumber));
+	} catch (e){}
+};
+
+be.belgium.eid.CardBuilder.prototype.setValidityDateBegin = function(validityDateBegin) {
+	try {
+		if (this.card && this.validityDateFormatter)
+			this.card.setValidityBeginDate(this.validityDateFormatter.parse(be.belgium.eid.CardBuilder.parseString(validityDateBegin)));
+	} catch (e){}
+};
+
+be.belgium.eid.CardBuilder.prototype.setValidityDateEnd = function(validityDateEnd) {
+	try {
+		if (this.card && this.validityDateFormatter)
+			this.card.setValidityEndDate(this.validityDateFormatter.parse(be.belgium.eid.CardBuilder.parseString(validityDateEnd)));
+	} catch (e){}
+};
+
+be.belgium.eid.CardBuilder.prototype.setBirthDate = function(birthDate) {
+	try {
+		if (this.card && this.birthDateFormatter)
+			this.card.setBirthDate(this.birthDateFormatter.parse(be.belgium.eid.CardBuilder.parseString(birthDate)));
+	} catch (e){}
 };
 
 /**
@@ -1276,7 +1306,7 @@ be.belgium.eid.CardBuilder.prototype.getCard = function() {
  */
 be.belgium.eid.CardBuilder.parseString = function(appletString) {
 	if (typeof(appletString) == "undefined" || appletString === null)
-		throw new be.belgium.eid.NullPointerException();	
+		throw new be.belgium.eid.NullPointerException();
 	return new String("" + appletString);
 };
 
@@ -1293,12 +1323,12 @@ be.belgium.eid.CardBuilder.parseString = function(appletString) {
  * @type Number
  */
 be.belgium.eid.CardBuilder.parseNumber = function(appletNumberString) {
-	var numberString = be.belgium.eid.CardBuilder.parseString(appletNumberString);	
+	var numberString = be.belgium.eid.CardBuilder.parseString(appletNumberString);
 	var num = new Number(numberString);
 	if (isNaN(num))
 		throw new be.belgium.eid.IllegalArgumentException();
 	else
-		return num;		
+		return num;
 };
 
 /**
@@ -1310,6 +1340,8 @@ be.belgium.eid.CardBuilder.parseNumber = function(appletNumberString) {
  */
 be.belgium.eid.EIDCardBuilder35 = function() {
 	this.card = new be.belgium.eid.EIDCard();
+	this.birthDateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.EID_BIRTH_DATE);
+	this.validityDateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DD_MM_YYYY);
 };
 be.belgium.eid.EIDCardBuilder35.prototype = new be.belgium.eid.CardBuilder; // extends CardBuilder
 
@@ -1351,18 +1383,18 @@ be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[11] = new RegExp("dec|dez",
  */
 be.belgium.eid.EIDCardBuilder35.parseValidityDate = function(appletDateString) {
 	var dateString = be.belgium.eid.CardBuilder.parseString(appletDateString);
-		
+
 	if (dateString.length != 10)  // format DD.MM.YYYY
 		throw new be.belgium.eid.IllegalArgumentException();
-	
-	var day = 1;			
+
+	var day = 1;
 	var month = 1;
 	var year = 1970;
-			
+
 	day = dateString.substr(0, 2);
-	if (day === "")	day = 1;	
+	if (day === "")	day = 1;
 	month = dateString.substr(3, 2);
-	if (month === "") month = 1;			
+	if (month === "") month = 1;
 	year = dateString.substr(6, 4);
 	return new Date(year, (month - 1), day, 0, 0, 0, 0);
 };
@@ -1388,28 +1420,28 @@ be.belgium.eid.EIDCardBuilder35.parseValidityDate = function(appletDateString) {
  */
 be.belgium.eid.EIDCardBuilder35.parseBirthDate = function(appletDateString) {
 	var dateString = be.belgium.eid.CardBuilder.parseString(appletDateString);
-		
-	var length = dateString.length;		
+
+	var length = dateString.length;
 	if (length < 11 || length > 12) // format DD mmmm YYYY (Dutch, French) or DD.MMM.YYYY (German)
 		throw new be.belgium.eid.IllegalArgumentException();
-		
-	var day = 1;			
+
+	var day = 1;
 	var month = 1;
 	var year = 1970;
-	
+
 	day = dateString.substr(0, 2);
-	if (day === "")	day = 1;	
-	
+	if (day === "")	day = 1;
+
 	for (var i = 0; i < 12; i++) {
-		if (be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[i].test(dateString)) {		
+		if (be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[i].test(dateString)) {
 			month = (i + 1);
 			break;
 		}
-	}	
+	}
 
 	year = dateString.substr((length - 4), 4);
-	
-	return new Date(year, (month - 1), day, 0, 0, 0, 0);	
+
+	return new Date(year, (month - 1), day, 0, 0, 0, 0);
 };
 
 /**
@@ -1422,8 +1454,8 @@ be.belgium.eid.EIDCardBuilder35.parseBirthDate = function(appletDateString) {
  * @type be.belgium.eid.sex
  */
 be.belgium.eid.EIDCardBuilder35.parseSex = function(appletString) {
-	var str = be.belgium.eid.CardBuilder.parseString(appletString);			
-	var regExp = new RegExp("F|V|W", "i");	
+	var str = be.belgium.eid.CardBuilder.parseString(appletString);
+	var regExp = new RegExp("F|V|W", "i");
 	if (regExp.test(str))
 		return be.belgium.eid.sex.FEMALE;
 	else
@@ -1435,133 +1467,109 @@ be.belgium.eid.EIDCardBuilder35.parseSex = function(appletString) {
  * @public All these methods are public
  */
  
-be.belgium.eid.EIDCardBuilder35.prototype.setCardNumber = function(cardNumber) {
-	try {
-		this.card.setCardNumber(be.belgium.eid.CardBuilder.parseNumber(cardNumber));
-	} catch (e){}
-};
-
 be.belgium.eid.EIDCardBuilder35.prototype.setChipNumber = function(chipNumber) {
 	try {
-		this.card.setChipNumber(be.belgium.eid.CardBuilder.parseString(chipNumber));		
-	} catch (e){}	
-};
-
-be.belgium.eid.EIDCardBuilder35.prototype.setValidityDateBegin = function(validityDateBegin) {
-	try {
-		this.card.setValidityBeginDate(be.belgium.eid.EIDCardBuilder35.parseValidityDate(validityDateBegin));		
-	} catch (e){}	
-};
-
-be.belgium.eid.EIDCardBuilder35.prototype.setValidityDateEnd = function(validityDateEnd) {
-	try {
-		this.card.setValidityEndDate(be.belgium.eid.EIDCardBuilder35.parseValidityDate(validityDateEnd));		
-	} catch (e){}	
+		this.card.setChipNumber(be.belgium.eid.CardBuilder.parseString(chipNumber));
+	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setIssMunicipality = function(issMunicipality) {
 	try {
-		this.card.setIssuingMunicipality(be.belgium.eid.CardBuilder.parseString(issMunicipality));		
-	} catch (e){}	
+		this.card.setIssuingMunicipality(be.belgium.eid.CardBuilder.parseString(issMunicipality));
+	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setNationalNumber = function(nationalNumber) {
 	try {
-		this.card.setNationalNumber(be.belgium.eid.CardBuilder.parseNumber(nationalNumber));		
-	} catch (e){}	
+		this.card.setNationalNumber(be.belgium.eid.CardBuilder.parseNumber(nationalNumber));
+	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setSurname = function(surname) {
 	try {
-		this.card.setSurname(be.belgium.eid.CardBuilder.parseString(surname));		
+		this.card.setSurname(be.belgium.eid.CardBuilder.parseString(surname));
 	} catch (e){}
 };
 
 // Some people have a first name consisting of two words. For example Pieter Jan or Jean Marie
 // So it is impossible to determine the second and third firstname.
 // I left the second and third firstname in order to be backwards compatible with the applet from middleware 2.5.9 / 2.6
-be.belgium.eid.EIDCardBuilder35.prototype.setFirstName = function(firstName) {						
+be.belgium.eid.EIDCardBuilder35.prototype.setFirstName = function(firstName) {
 	try {
-		this.card.setFirstName1(be.belgium.eid.CardBuilder.parseString(firstName));		
+		this.card.setFirstName1(be.belgium.eid.CardBuilder.parseString(firstName));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setNationality = function(nationality) {
 	try {
-		this.card.setNationality(be.belgium.eid.CardBuilder.parseString(nationality));		
+		this.card.setNationality(be.belgium.eid.CardBuilder.parseString(nationality));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setBirthLocation = function(birthLocation) {
 	try {
-		this.card.setBirthLocation(be.belgium.eid.CardBuilder.parseString(birthLocation));		
-	} catch (e){}
-};
-
-be.belgium.eid.EIDCardBuilder35.prototype.setBirthDate = function(birthDate) {
-	try {
-		this.card.setBirthDate(be.belgium.eid.EIDCardBuilder35.parseBirthDate(birthDate));		
+		this.card.setBirthLocation(be.belgium.eid.CardBuilder.parseString(birthLocation));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setSex = function(sex) {
 	try {
-		this.card.setSex(be.belgium.eid.EIDCardBuilder35.parseSex(sex));		
+		this.card.setSex(be.belgium.eid.EIDCardBuilder35.parseSex(sex));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setNobleCondition = function(nobleCondition) {
 	try {
-		this.card.setNobleCondition(be.belgium.eid.CardBuilder.parseString(nobleCondition));		
+		this.card.setNobleCondition(be.belgium.eid.CardBuilder.parseString(nobleCondition));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setSpecialStatus = function(specialStatus) {
 	try {
 		specialStatus = be.belgium.eid.CardBuilder.parseNumber(specialStatus);
-		this.card.setSpecialStatus(specialStatus.valueOf());		
+		this.card.setSpecialStatus(specialStatus.valueOf());
 	} catch (e){}
 };
 
-be.belgium.eid.EIDCardBuilder35.prototype.setStreet = function(street) {	
+be.belgium.eid.EIDCardBuilder35.prototype.setStreet = function(street) {
 	try {
-		this.card.setStreet(be.belgium.eid.CardBuilder.parseString(street));		
+		this.card.setStreet(be.belgium.eid.CardBuilder.parseString(street));
 	} catch (e){}
 };
 
-be.belgium.eid.EIDCardBuilder35.prototype.setStreetNumber = function(streetNumber) {	
+be.belgium.eid.EIDCardBuilder35.prototype.setStreetNumber = function(streetNumber) {
 	try {
-		this.card.setStreetNumber(be.belgium.eid.CardBuilder.parseString(streetNumber));		
+		this.card.setStreetNumber(be.belgium.eid.CardBuilder.parseString(streetNumber));
 	} catch (e){}
 };
 
-be.belgium.eid.EIDCardBuilder35.prototype.setBoxNumber = function(boxNumber) {	
+be.belgium.eid.EIDCardBuilder35.prototype.setBoxNumber = function(boxNumber) {
 	try {
-		this.card.setBoxNumber(be.belgium.eid.CardBuilder.parseString(boxNumber));		
+		this.card.setBoxNumber(be.belgium.eid.CardBuilder.parseString(boxNumber));
 	} catch (e){}
 };
 
-be.belgium.eid.EIDCardBuilder35.prototype.setZip = function(zip) {	
+be.belgium.eid.EIDCardBuilder35.prototype.setZip = function(zip) {
 	try {
-		this.card.setZipCode(be.belgium.eid.CardBuilder.parseNumber(zip));		
+		this.card.setZipCode(be.belgium.eid.CardBuilder.parseNumber(zip));
 	} catch (e){}
 };
 
-be.belgium.eid.EIDCardBuilder35.prototype.setMunicipality = function(municipality) {	
+be.belgium.eid.EIDCardBuilder35.prototype.setMunicipality = function(municipality) {
 	try {
-		this.card.setMunicipality(be.belgium.eid.CardBuilder.parseString(municipality));		
+		this.card.setMunicipality(be.belgium.eid.CardBuilder.parseString(municipality));
 	} catch (e){}
 };
 
-be.belgium.eid.EIDCardBuilder35.prototype.setCountry = function(country) {	
+be.belgium.eid.EIDCardBuilder35.prototype.setCountry = function(country) {
 	try {
-		this.card.setCountry(be.belgium.eid.CardBuilder.parseString(country));		
+		this.card.setCountry(be.belgium.eid.CardBuilder.parseString(country));
 	} catch (e){}
 };
 
-be.belgium.eid.EIDCardBuilder35.prototype.setPicture = function(pictureByteArray) {	
+be.belgium.eid.EIDCardBuilder35.prototype.setPicture = function(pictureByteArray) {
 	try {
-		this.card.setPicture(pictureByteArray);		
+		this.card.setPicture(pictureByteArray);
 	} catch (e){}
 };
 
@@ -1573,7 +1581,9 @@ be.belgium.eid.EIDCardBuilder35.prototype.setPicture = function(pictureByteArray
  * @extends be.belgium.eid.CardBuilder
  */
 be.belgium.eid.SISCardBuilder35 = function() {
-	this.card = new be.belgium.eid.SISCard(); 
+	this.card = new be.belgium.eid.SISCard();
+	this.birthDateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DD_MM_YYYY);
+	this.validityDateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DD_MM_YYYY);
 };
 be.belgium.eid.SISCardBuilder35.prototype = new be.belgium.eid.CardBuilder; // extends CardBuilder
 
@@ -1597,16 +1607,16 @@ be.belgium.eid.SISCardBuilder35.prototype = new be.belgium.eid.CardBuilder; // e
  */ 
 be.belgium.eid.SISCardBuilder35.parseDate = function(appletDateString) {
 	var dateString = be.belgium.eid.CardBuilder.parseString(appletDateString);
-		
+
 	if (dateString.length != 10)  // format dd/mm/yyyy 
 		throw new be.belgium.eid.IllegalArgumentException();
-	
-	var day = 1;			
+
+	var day = 1;
 	var month = 1;
 	var year = 1970;
-	
+
 	day = dateString.substr(0, 2);
-	month = dateString.substr(3, 2);		
+	month = dateString.substr(3, 2);
 	year = dateString.substr(6, 4);	
 
 	return new Date(year, (month - 1), day, 0, 0, 0, 0);
@@ -1623,7 +1633,7 @@ be.belgium.eid.SISCardBuilder35.parseDate = function(appletDateString) {
  */
 be.belgium.eid.SISCardBuilder35.parseSex = function(appletString) {
 	var str = be.belgium.eid.CardBuilder.parseString(appletString);
-	str = str.toUpperCase();	
+	str = str.toUpperCase();
 	if (str === "F")
 		return be.belgium.eid.sex.FEMALE;
 	else
@@ -1651,10 +1661,10 @@ be.belgium.eid.SISCardBuilder35.parseSex = function(appletString) {
  * @type Number
  */
 be.belgium.eid.SISCardBuilder35.parseSocialSecurityNumber = function(appletNumberString) {
-	var str = be.belgium.eid.CardBuilder.parseString(appletNumberString);	
+	var str = be.belgium.eid.CardBuilder.parseString(appletNumberString);
 	if (str.length != 13)  // format xxxxxx yyy zz
-		throw new be.belgium.eid.IllegalArgumentException();	
-	var numberStr = str.substr(0, 6) + str.substr(7, 3) + str.substr(11, 2);	
+		throw new be.belgium.eid.IllegalArgumentException();
+	var numberStr = str.substr(0, 6) + str.substr(7, 3) + str.substr(11, 2);
 	return be.belgium.eid.CardBuilder.parseNumber(numberStr);
 };
 
@@ -1662,58 +1672,34 @@ be.belgium.eid.SISCardBuilder35.parseSocialSecurityNumber = function(appletNumbe
  * Setters 
  * @public All these methods are public
  */
- 
-be.belgium.eid.SISCardBuilder35.prototype.setCardNumber = function(cardNumber) {
-	try {
-		this.card.setCardNumber(be.belgium.eid.CardBuilder.parseNumber(cardNumber));		
-	} catch (e){}	
-};
-
-be.belgium.eid.SISCardBuilder35.prototype.setValidityDateBegin = function(validityDateBegin) {
-	try {
-		this.card.setValidityBeginDate(be.belgium.eid.SISCardBuilder35.parseDate(validityDateBegin));		
-	} catch (e){}
-};
-
-be.belgium.eid.SISCardBuilder35.prototype.setValidityDateEnd = function(validityDateEnd) {
-	try {
-		this.card.setValidityEndDate(be.belgium.eid.SISCardBuilder35.parseDate(validityDateEnd));		
-	} catch (e){}
-};
 
 be.belgium.eid.SISCardBuilder35.prototype.setNationalNumber = function(nationalNumber) {
 	try {
-		this.card.setSocialSecurityNumber(be.belgium.eid.SISCardBuilder35.parseSocialSecurityNumber(nationalNumber));		
+		this.card.setSocialSecurityNumber(be.belgium.eid.SISCardBuilder35.parseSocialSecurityNumber(nationalNumber));
 	} catch (e){}
 };
 
 be.belgium.eid.SISCardBuilder35.prototype.setSurname = function(surname) {
 	try {
-		this.card.setSurname(be.belgium.eid.CardBuilder.parseString(surname));		
+		this.card.setSurname(be.belgium.eid.CardBuilder.parseString(surname));
 	} catch (e){}
 };
 
-be.belgium.eid.SISCardBuilder35.prototype.setFirstName = function(firstName) {	
+be.belgium.eid.SISCardBuilder35.prototype.setFirstName = function(firstName) {
 	try {
-		this.card.setName(be.belgium.eid.CardBuilder.parseString(firstName));		
+		this.card.setName(be.belgium.eid.CardBuilder.parseString(firstName));
 	} catch (e){}
 };
 
 be.belgium.eid.SISCardBuilder35.prototype.setInitials = function(initials) {
 	try {
-		this.card.setInitials(be.belgium.eid.CardBuilder.parseString(initials));		
-	} catch (e){}
-};
-
-be.belgium.eid.SISCardBuilder35.prototype.setBirthDate = function(birthDate) {
-	try {
-		this.card.setBirthDate(be.belgium.eid.SISCardBuilder35.parseDate(birthDate));		
+		this.card.setInitials(be.belgium.eid.CardBuilder.parseString(initials));
 	} catch (e){}
 };
 
 be.belgium.eid.SISCardBuilder35.prototype.setSex = function(sex) {
 	try {
-		this.card.setSex(be.belgium.eid.SISCardBuilder35.parseSex(sex));		
+		this.card.setSex(be.belgium.eid.SISCardBuilder35.parseSex(sex));
 	} catch (e){}
 };
 
@@ -1725,8 +1711,8 @@ be.belgium.eid.SISCardBuilder35.prototype.setSex = function(sex) {
  */
 be.belgium.eid.CardReader = function(readerName) {
 	this.readerName = "";
-	this.setReaderName(readerName);		
-	this.appletLauncherId = "BEIDAppletLauncher";	
+	this.setReaderName(readerName);
+	this.appletLauncherId = "BEIDAppletLauncher";
 	this.noCardPresentHandler = null;
 	this.noReaderDetectedHandler = null;
 	this.BEIDApplet = null;
@@ -1740,14 +1726,14 @@ be.belgium.eid.CardReader = function(readerName) {
  * @return BEID applet.
  * @type Object
  */
-be.belgium.eid.CardReader.prototype.getBEIDApplet = function() {			
+be.belgium.eid.CardReader.prototype.getBEIDApplet = function() {
 	if (!this.BEIDApplet) {
-		if (document.getElementById(this.appletLauncherId)) {			
+		if (document.getElementById(this.appletLauncherId)) {
 			this.BEIDApplet = document.getElementById(this.appletLauncherId).getSubApplet();
 		}
 		if (!this.BEIDApplet)
-			throw new be.belgium.eid.NullPointerException();	
-	}		
+			throw new be.belgium.eid.NullPointerException();
+	}
 	return this.BEIDApplet;
 };
 
@@ -1763,7 +1749,7 @@ be.belgium.eid.CardReader.prototype.setReaderName = function(readerName) {
 	else if (readerName instanceof String)
 		this.readerName = readerName.valueOf();
 	else
-		this.readerName = readerName;		
+		this.readerName = readerName;
 };
 
 /**
@@ -1833,20 +1819,20 @@ be.belgium.eid.CardReader.prototype.setNoReaderDetectedHandler = function(handle
  * @type Array of primitive strings
  */
 be.belgium.eid.CardReader.prototype.getReaderNames = function() {
-	var readerNames = new Array(0);	
-	try {		
-		this.getBEIDApplet().InitLib(null);		
+	var readerNames = new Array(0);
+	try {
+		this.getBEIDApplet().InitLib(null);
 		var nbrReaders = this.BEIDApplet.readerCount();
-		readerNames = new Array(nbrReaders);	
+		readerNames = new Array(nbrReaders);
 		for (var i = 0; i < nbrReaders; i++) {
-			readerNames[i] = "" + this.BEIDApplet.getReaderByNum(i);		
+			readerNames[i] = "" + this.BEIDApplet.getReaderByNum(i);
 		}
 	} catch (e){} // catch Javascript and Java exceptions
-	
-	try {		
+
+	try {
 		this.getBEIDApplet().exitLib();
 	} catch (e){} // catch Javascript and Java exceptions
-	
+
 	return readerNames;
 };
 
@@ -1859,12 +1845,12 @@ be.belgium.eid.CardReader.prototype.getReaderNames = function() {
  */
 be.belgium.eid.CardReader.prototype.getDefaultReaderName = function() {
 	var defaultReaderName = "";
-	try {		
+	try {
 		this.getBEIDApplet().InitLib(null);
 		defaultReaderName = "" + this.BEIDApplet.getReaderByNum(0);
 	} catch (e){} // catch Javascript and Java exceptions
-	
-	try {		
+
+	try {
 		this.getBEIDApplet().exitLib();
 	} catch (e){} // catch Javascript and Java exceptions
 
@@ -1896,40 +1882,40 @@ be.belgium.eid.CardReader.validChipNumber = function(chipNumber) {
  * @return a EIDCard or SISCard object or null if no card is present or there was a failure to read the card.
  * @type EIDCard,SISCard,null
  */
-be.belgium.eid.CardReader.prototype.read = function() {				
+be.belgium.eid.CardReader.prototype.read = function() {
 	var card = null;
 	var cardBuilder = null;
 
 	try {
 		// Reset all objects and previous read card values
 		this.getBEIDApplet().InitLib(null);
-	
+
 		// No reader name provided, use default reader name or reader name defined as applet parameter
 		if (this.readerName === "") {
-			var parameterReaderName = "" + this.getBEIDApplet().getParameter("Reader");						
+			var parameterReaderName = "" + this.getBEIDApplet().getParameter("Reader");
 			if (parameterReaderName === null || parameterReaderName === "") {
 				// Reader name is not defined as applet parameter
-				this.readerName = this.getDefaultReaderName();		 						
+				this.readerName = this.getDefaultReaderName();
 			} else {
 				this.readerName = parameterReaderName;
 			}
 		}
-				
+
 		// Still no reader name ...
 		if (this.readerName === "") {
 			if (this.noReaderDetectedHandler)
 				this.noReaderDetectedHandler();
 
 			try {
-				this.getBEIDApplet().exitLib();		
-			} catch (e){}				
-				
+				this.getBEIDApplet().exitLib();
+			} catch (e){}
+
 			return null;
-		}		
-												
-		this.getBEIDApplet().InitLib(this.readerName);		
-									
-		if (this.BEIDApplet.isCardPresent(this.readerName)) {			
+		}
+
+		this.getBEIDApplet().InitLib(this.readerName);
+
+		if (this.BEIDApplet.isCardPresent(this.readerName)) {
 			if (be.belgium.eid.CardReader.validChipNumber(this.BEIDApplet.getChipNumber())) {
 				cardBuilder = new be.belgium.eid.EIDCardBuilder35();
 				cardBuilder.setCardNumber(this.BEIDApplet.getCardNumber());
@@ -1941,8 +1927,8 @@ be.belgium.eid.CardReader.prototype.read = function() {
 				cardBuilder.setSurname(this.BEIDApplet.getSurname());
 				cardBuilder.setFirstName(this.BEIDApplet.getFirstName());
 				cardBuilder.setNationality(this.BEIDApplet.getNationality());
-				cardBuilder.setBirthLocation(this.BEIDApplet.getBirthLocation());				
-				cardBuilder.setBirthDate(this.BEIDApplet.getBirthDate());				
+				cardBuilder.setBirthLocation(this.BEIDApplet.getBirthLocation());
+				cardBuilder.setBirthDate(this.BEIDApplet.getBirthDate());
 				cardBuilder.setSex(this.BEIDApplet.getSex());
 				cardBuilder.setNobleCondition(this.BEIDApplet.getNobleCondition());
 				cardBuilder.setSpecialStatus(this.BEIDApplet.getSpecialStatus());
@@ -1951,39 +1937,39 @@ be.belgium.eid.CardReader.prototype.read = function() {
 				cardBuilder.setBoxNumber(this.BEIDApplet.getBoxNumber());
 				cardBuilder.setZip(this.BEIDApplet.getZip());
 				cardBuilder.setMunicipality(this.BEIDApplet.getMunicipality());
-				cardBuilder.setCountry(this.BEIDApplet.getCountry());				
-				cardBuilder.setPicture(this.BEIDApplet.GetPicture());							
+				cardBuilder.setCountry(this.BEIDApplet.getCountry());
+				cardBuilder.setPicture(this.BEIDApplet.GetPicture());
 			} else { 
 				// The applet does not return a chip number for SIS cards.
 				cardBuilder = new be.belgium.eid.SISCardBuilder35();
-				cardBuilder.setCardNumber(this.BEIDApplet.getCardNumber());				
+				cardBuilder.setCardNumber(this.BEIDApplet.getCardNumber());
 				cardBuilder.setValidityDateBegin(this.BEIDApplet.getValidityDateBegin());
-				cardBuilder.setValidityDateEnd(this.BEIDApplet.getValidityDateEnd());				
+				cardBuilder.setValidityDateEnd(this.BEIDApplet.getValidityDateEnd());
 				cardBuilder.setNationalNumber(this.BEIDApplet.getNationalNumber());
 				cardBuilder.setSurname(this.BEIDApplet.getSurname());
-				cardBuilder.setFirstName(this.BEIDApplet.getFirstName());								
+				cardBuilder.setFirstName(this.BEIDApplet.getFirstName());
 				cardBuilder.setInitials(this.BEIDApplet.getInitials());
-				cardBuilder.setBirthDate(this.BEIDApplet.getBirthDate());				
+				cardBuilder.setBirthDate(this.BEIDApplet.getBirthDate());
 				cardBuilder.setSex(this.BEIDApplet.getSex());
-			}											
+			}
 
 			card = cardBuilder.getCard();
-			
-		} else {		
+
+		} else {
 			if (this.noCardPresentHandler)
 				this.noCardPresentHandler();
-		}		
-	} catch (e) { 
+		}
+	} catch (e) {
 		if (e instanceof be.belgium.eid.NullPointerException) {
 			window.alert("BEID Applet not found.");
 		} else {
 			window.alert("BEID Applet throw exception: " + e);
 		}
 	}
-	
+
 	try {
-		this.getBEIDApplet().exitLib();		
+		this.getBEIDApplet().exitLib();
 	} catch (e){}
 
-	return card;	
+	return card;
 };
