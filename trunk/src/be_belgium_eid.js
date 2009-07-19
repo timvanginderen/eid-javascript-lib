@@ -164,6 +164,27 @@ be.belgium.eid.dateFormat = {
 };
 
 /**
+ * @private
+ * @static
+ * Array of regular expressions to test birth date month names in Dutch, French and German
+ */
+/*
+be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray = new Array(12);
+be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[0] = new RegExp("jan", "i");
+be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[1] = new RegExp("feb|fev", "i");
+be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[2] = new RegExp("maar|mar|mär|mars", "i");
+be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[3] = new RegExp("apr|avr", "i");
+be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[4] = new RegExp("mai|mei", "i");
+be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[5] = new RegExp("juin|jun", "i");
+be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[6] = new RegExp("juil|jul", "i");
+be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[7] = new RegExp("aout|aug", "i");
+be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[8] = new RegExp("sep|sept", "i");
+be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[9] = new RegExp("oct|okt", "i");
+be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[10] = new RegExp("nov", "i");
+be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[11] = new RegExp("dec|dez", "i");
+*/
+
+/**
  * Object which formats and parses dates.
  * @description
  * @constructor
@@ -176,7 +197,8 @@ be.belgium.eid.DateFormatter = function(format) {
 	else
 		this.dateSeparator = "/";
 	this.language = be.belgium.eid.language.DUTCH;
-	
+
+	//Array of birth date month abbreviations in Dutch, French and German
 	this.eIDBirthDateAbbreviations = new Array(12);
 	this.eIDBirthDateAbbreviations[0] = new Array("JAN");
 	this.eIDBirthDateAbbreviations[1] = new Array("FEB", "FEV");
@@ -1333,7 +1355,14 @@ be.belgium.eid.CardBuilder.parseNumber = function(appletNumberString) {
 
 /**
  * EIDCardBuilder35 extends CardBuilder.
- * EIDCardBuilder35, builds a EIDCard object step by step using data returned by the applet from eID middleware 3.5 
+ * EIDCardBuilder35, builds a EIDCard object step by step using data returned by the applet from eID middleware 3.5
+ * <p>
+ * Format of validity dates DD.MM.YYYY (DD and MM can be empty strings, in this case DD = 01 and MM = 01 is presumed) 
+ * Format of birth dates DD MMMM YYYY (Dutch, French) or DD.MMM.YYYY (German) (DD and MMMM can be empty strings, in this case DD = 1 and MMMM = JAN is presumed)
+ * <p>
+ * Formats of identity data on an eID card are described in the following documents:
+ * @see <a href="http://www.ibz.rrn.fgov.be/fileadmin/user_upload/CI/eID/5%20aspects%20techniques/nl/format%20des%20dates/formaat_van_de_datums_04042006.pdf">formaat_van_de_datums_04042006.pdf</a>
+ * @see <a href="http://www.ibz.rrn.fgov.be/fileadmin/user_upload/CI/eID/5%20aspects%20techniques/nl/belgian_electronic_identity_card_content_v2.8.a.pdf">belgian_electronic_identity_card_content_v2.8.a.pdf</a>
  * @description
  * @constructor
  * @extends be.belgium.eid.CardBuilder
@@ -1344,105 +1373,6 @@ be.belgium.eid.EIDCardBuilder35 = function() {
 	this.validityDateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DD_MM_YYYY);
 };
 be.belgium.eid.EIDCardBuilder35.prototype = new be.belgium.eid.CardBuilder; // extends CardBuilder
-
-/**
- * @private
- * @static
- * Array of regular expressions to test birth date month names in Dutch, French and German
- */
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray = new Array(12);
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[0] = new RegExp("jan", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[1] = new RegExp("feb|fev", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[2] = new RegExp("maar|mar|mär|mars", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[3] = new RegExp("apr|avr", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[4] = new RegExp("mai|mei", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[5] = new RegExp("juin|jun", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[6] = new RegExp("juil|jul", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[7] = new RegExp("aout|aug", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[8] = new RegExp("sep|sept", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[9] = new RegExp("oct|okt", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[10] = new RegExp("nov", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[11] = new RegExp("dec|dez", "i");
-
-/**
- * Java String objects containing validity dates returned by Java applets are converted into Javascript Objects.
- * This function converts these Javascript Objects into Javavascript Date Objects.
- * Format of validity dates DD.MM.YYYY (DD and MM can be empty strings, in this case DD = 01 and MM = 01 is presumed)
- * <p>
- * Formats of identity data on an eID card are described in the following documents:
- * @see <a href="http://www.ibz.rrn.fgov.be/fileadmin/user_upload/CI/eID/5%20aspects%20techniques/nl/format%20des%20dates/formaat_van_de_datums_04042006.pdf">formaat_van_de_datums_04042006.pdf</a>
- * @see <a href="http://www.ibz.rrn.fgov.be/fileadmin/user_upload/CI/eID/5%20aspects%20techniques/nl/belgian_electronic_identity_card_content_v2.8.a.pdf">belgian_electronic_identity_card_content_v2.8.a.pdf</a>
- * @private
- * @static
- * @method parseValidityDate
- * @param appletDateString a Javascript Object containing a validity date, returned by a Java applet
- * @throws NullPointerException if appletDateString is null or undefined.
- * @throws IllegalArgumentException if appletDateString does not contain a valid validity date.
- * @return a Javascript Date object
- * @type Date
- */
-be.belgium.eid.EIDCardBuilder35.parseValidityDate = function(appletDateString) {
-	var dateString = be.belgium.eid.CardBuilder.parseString(appletDateString);
-
-	if (dateString.length != 10)  // format DD.MM.YYYY
-		throw new be.belgium.eid.IllegalArgumentException();
-
-	var day = 1;
-	var month = 1;
-	var year = 1970;
-
-	day = dateString.substr(0, 2);
-	if (day === "")	day = 1;
-	month = dateString.substr(3, 2);
-	if (month === "") month = 1;
-	year = dateString.substr(6, 4);
-	return new Date(year, (month - 1), day, 0, 0, 0, 0);
-};
-
-/**
- * Java String objects containing birth dates returned by Java applets are converted into Javascript Objects.
- * This function converts these Javascript Objects into Javavascript Date Objects.
- * Format of birth dates DD MMMM YYYY (Dutch, French) or DD.MMM.YYYY (German)
- * DD and MMMM can be empty strings, in this case DD = 1 and MMMM = JAN is presumed)
- * <p>
- * Formats of identity data on an eID card are described in the following documents:
- * @see <a href="http://www.ibz.rrn.fgov.be/fileadmin/user_upload/CI/eID/5%20aspects%20techniques/nl/format%20des%20dates/formaat_van_de_datums_04042006.pdf">formaat_van_de_datums_04042006.pdf</a>
- * @see <a href="http://www.ibz.rrn.fgov.be/fileadmin/user_upload/CI/eID/5%20aspects%20techniques/nl/belgian_electronic_identity_card_content_v2.8.a.pdf">belgian_electronic_identity_card_content_v2.8.a.pdf</a> 
- *
- * @private
- * @static 
- * @method parseBirthDate
- * @param appletDateString a Javascript Object containing a birth date, returned by a Java applet
- * @throws NullPointerException if appletDateString is null or undefined.
- * @throws IllegalArgumentException if appletDateString does not contain a valid birth date.
- * @return a Javascript Date object
- * @type Date 
- */
-be.belgium.eid.EIDCardBuilder35.parseBirthDate = function(appletDateString) {
-	var dateString = be.belgium.eid.CardBuilder.parseString(appletDateString);
-
-	var length = dateString.length;
-	if (length < 11 || length > 12) // format DD mmmm YYYY (Dutch, French) or DD.MMM.YYYY (German)
-		throw new be.belgium.eid.IllegalArgumentException();
-
-	var day = 1;
-	var month = 1;
-	var year = 1970;
-
-	day = dateString.substr(0, 2);
-	if (day === "")	day = 1;
-
-	for (var i = 0; i < 12; i++) {
-		if (be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[i].test(dateString)) {
-			month = (i + 1);
-			break;
-		}
-	}
-
-	year = dateString.substr((length - 4), 4);
-
-	return new Date(year, (month - 1), day, 0, 0, 0, 0);
-};
 
 /**
  * @private
@@ -1575,7 +1505,13 @@ be.belgium.eid.EIDCardBuilder35.prototype.setPicture = function(pictureByteArray
 
 /**
  * SISCardBuilder35 extends CardBuilder.
- * SISCardBuilder35, builds a SISCard object step by step using data returned by the applet from eID middleware 3.5 
+ * SISCardBuilder35, builds a SISCard object step by step using data returned by the applet from eID middleware 3.5
+ * <p>
+ * Format of validity dates dd/mm/yyyy
+ * <p>
+ * Formats of identity data on a SIS card are described in the following documents:
+ * @see <a href="http://www.ksz-bcss.fgov.be/nl/documentation/document_3.htm#document3_3">http://www.ksz-bcss.fgov.be/nl/documentation/document_3.htm#document3_3</a>
+ * @see <a href="http://www.ksz-bcss.fgov.be/documentation/nl/documentation/appareils%20de%20lecture%20carte%20SIS/td-002bis-nl.pdf">http://www.ksz-bcss.fgov.be/documentation/nl/documentation/appareils%20de%20lecture%20carte%20SIS/td-002bis-nl.pdf</a>
  * @description
  * @constructor
  * @extends be.belgium.eid.CardBuilder
@@ -1586,41 +1522,6 @@ be.belgium.eid.SISCardBuilder35 = function() {
 	this.validityDateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DD_MM_YYYY);
 };
 be.belgium.eid.SISCardBuilder35.prototype = new be.belgium.eid.CardBuilder; // extends CardBuilder
-
-/**
- * Java String objects containing dates returned by Java applets are converted into Javascript Objects.
- * This function converts these Javascript Objects into Javavascript Date Objects.
- * Format of validity dates dd/mm/yyyy
- * <p>
- * Formats of identity data on a SIS card are described in the following documents:
- * @see <a href="http://www.ksz-bcss.fgov.be/nl/documentation/document_3.htm#document3_3">http://www.ksz-bcss.fgov.be/nl/documentation/document_3.htm#document3_3</a>
- * @see <a href="http://www.ksz-bcss.fgov.be/documentation/nl/documentation/appareils%20de%20lecture%20carte%20SIS/td-002bis-nl.pdf">http://www.ksz-bcss.fgov.be/documentation/nl/documentation/appareils%20de%20lecture%20carte%20SIS/td-002bis-nl.pdf</a>
- *  
- * @private
- * @static
- * @method parseDate
- * @param appletDateString a Javascript Object containing a date, returned by a Java applet
- * @throws NullPointerException if appletDateString is null or undefined.
- * @throws IllegalArgumentException if appletDateString does not contain a valid date.
- * @return a Javascript Date object
- * @type Date
- */ 
-be.belgium.eid.SISCardBuilder35.parseDate = function(appletDateString) {
-	var dateString = be.belgium.eid.CardBuilder.parseString(appletDateString);
-
-	if (dateString.length != 10)  // format dd/mm/yyyy 
-		throw new be.belgium.eid.IllegalArgumentException();
-
-	var day = 1;
-	var month = 1;
-	var year = 1970;
-
-	day = dateString.substr(0, 2);
-	month = dateString.substr(3, 2);
-	year = dateString.substr(6, 4);	
-
-	return new Date(year, (month - 1), day, 0, 0, 0, 0);
-};
 
 /**
  * @private
