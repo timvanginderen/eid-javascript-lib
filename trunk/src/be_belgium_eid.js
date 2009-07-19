@@ -122,12 +122,64 @@ be.belgium.eid.documentType = {
 
 /**
  * Enumeration of sex
- * FEMALE : 'F',
+ * FEMALE : 'F',<br>
  * MALE : 'M'
  * @memberOf be.belgium.eid
  */
 
 be.belgium.eid.sex = { FEMALE : 'F', MALE : 'M' };
+
+/**
+ * Exception extends native javascript Error object.
+ * Constructs a new exception with the specified detail message.
+ * @description
+ * @constructor
+ * @param {primitive string|String} [s=""] detail message.
+ */
+be.belgium.eid.Exception = function(s) {
+	if (s === null || typeof(s) == "undefined")
+		this.message = "";
+	else
+		this.message = "" + s;
+};
+be.belgium.eid.Exception.prototype = new Error;
+be.belgium.eid.Exception.prototype.name = "Exception";
+/**
+ * Return a short description (name and detail message) of this exception.
+ * @public
+ * @method toString
+ * @return name and detail message.
+ * @type primitive string
+ */
+be.belgium.eid.Exception.prototype.toString = function() {
+	return this.name + ": " + this.message;
+};
+
+/**
+ * IllegalArgumentException
+ * @description
+ * @constructor
+ * @param {primitive string|String} [s=""] detail message.
+ * @extends be.belgium.eid.Exception
+ */
+be.belgium.eid.IllegalArgumentException = function(s) {
+	be.belgium.eid.Exception.call(this, s); // IE 5.5+
+};
+be.belgium.eid.IllegalArgumentException.prototype = new be.belgium.eid.Exception;
+be.belgium.eid.IllegalArgumentException.prototype.name = "IllegalArgumentException";
+
+/**
+ * NullPointerException
+ * @description
+ * @constructor
+ * @param {primitive string|String} [s=""] detail message.
+ * @extends be.belgium.eid.Exception
+ */
+be.belgium.eid.NullPointerException = function(s) {
+	be.belgium.eid.Exception.call(this, s); // IE 5.5+
+};
+be.belgium.eid.NullPointerException.prototype = new be.belgium.eid.Exception;
+be.belgium.eid.NullPointerException.prototype.name = "NullPointerException";
 
 /**
  * Enumeration of languages<br>
@@ -406,6 +458,53 @@ be.belgium.eid.DateFormatter.prototype.format = function(date) {
 	return returnValue;
 };
 
+/**
+ * Convertor of JavaObject objects
+ * @description
+ * @constructor
+ * @abstract 
+ */
+be.belgium.eid.JavaObjectConvertor = new Object();
+
+/**
+ * Java String objects returned by Java applets are converted into JavaObject objects.
+ * This function converts these JavaObject objects into Javavascript String Objects.
+ * @public
+ * @static
+ * @method toString
+ * @parameter javaObject a JavaObject containing a string, returned by a Java applet
+ * @throws NullPointerException if javaObject is null or undefined.
+ * @return a Javascript String object
+ * @type String
+ */
+be.belgium.eid.JavaObjectConvertor.toString = function(javaObject) {
+	if (javaObject === null || typeof(javaObject) == "undefined")
+		throw new be.belgium.eid.NullPointerException();
+	return new String(javaObject); //new String("" + javaObject);
+};
+
+/**
+ * Java objects containing numbers returned by Java applets are converted into JavaObject objects.
+ * This function converts these JavaObject objects into Javavascript Number Objects.
+ * @public
+ * @static
+ * @method toNumber
+ * @parameter javaObject a Javascript Object containing a number, returned by a Java applet
+ * @throws NullPointerException if javaObject is null or undefined.
+ * @throws IllegalArgumentException if javaObject does not contain a number.
+ * @return a Javascript Number object
+ * @type Number
+ */
+be.belgium.eid.JavaObjectConvertor.toNumber = function(javaObject) {
+	if (javaObject === null || typeof(javaObject) == "undefined")
+		throw new be.belgium.eid.NullPointerException();
+	var num = new Number(javaObject);
+	if (isNaN(num))
+		throw new be.belgium.eid.IllegalArgumentException();
+	else
+		return num;
+};
+
 /** 
  * Abstract object Card. No instance of this object should be created.
  * @description
@@ -524,7 +623,7 @@ be.belgium.eid.EIDCard = function() {
 	this.birthDate = new Date(0);
 	this.sex = be.belgium.eid.sex.FEMALE;
 	this.nobleCondition = new String("");
-	this.documentType = be.belgium.eid.documentType.UNDEFINED;
+	this.documentType = be.belgium.eid.documentType.BELGIAN_CITIZEN;
 	this.specialStatus = be.belgium.eid.specialStatus.NO_STATUS;
 	this.whiteCane = new Boolean(false);
 	this.yellowCane = new Boolean(false);
@@ -1218,56 +1317,6 @@ be.belgium.eid.SISCard.prototype.getBirthDate = function() {
 	return this.birthDate; 
 };
 
-/**
- * Exception extends native javascript Error object.
- * Constructs a new exception with the specified detail message.
- * @description
- * @constructor
- * @param {primitive string|String} [s=""] detail message.
- */
-be.belgium.eid.Exception = function(s) {
-	if (s === null || typeof(s) == "undefined")
-		this.message = "";
-	else
-		this.message = "" + s;
-};
-be.belgium.eid.Exception.prototype = new Error;
-be.belgium.eid.Exception.prototype.name = "Exception";
-/**
- * Return a short description (name and detail message) of this exception.
- * @public
- * @method toString
- * @return name and detail message.
- * @type primitive string
- */
-be.belgium.eid.Exception.prototype.toString = function() {
-	return this.name + ": " + this.message;
-};
-
-/**
- * IllegalArgumentException
- * @description
- * @constructor
- * @extends be.belgium.eid.Exception
- */
-be.belgium.eid.IllegalArgumentException = function(s) {
-	be.belgium.eid.Exception.call(this, s); // IE 5.5+
-};
-be.belgium.eid.IllegalArgumentException.prototype = new be.belgium.eid.Exception;
-be.belgium.eid.IllegalArgumentException.prototype.name = "IllegalArgumentException";
-
-/**
- * NullPointerException
- * @description
- * @constructor
- * @extends be.belgium.eid.Exception
- */
-be.belgium.eid.NullPointerException = function(s) {
-	be.belgium.eid.Exception.call(this, s); // IE 5.5+
-};
-be.belgium.eid.NullPointerException.prototype = new be.belgium.eid.Exception;
-be.belgium.eid.NullPointerException.prototype.name = "NullPointerException";
-
 /** 
  * Abstract object CardBuilder. No instance of this object should be created.
  * @description
@@ -1294,28 +1343,28 @@ be.belgium.eid.CardBuilder.prototype.getCard = function() {
 be.belgium.eid.CardBuilder.prototype.setCardNumber = function(cardNumber) {
 	try {
 		if (this.card)
-			this.card.setCardNumber(be.belgium.eid.CardBuilder.parseNumber(cardNumber));
+			this.card.setCardNumber(be.belgium.eid.JavaObjectConvertor.toNumber(cardNumber));
 	} catch (e){}
 };
 
 be.belgium.eid.CardBuilder.prototype.setValidityDateBegin = function(validityDateBegin) {
 	try {
 		if (this.card && this.validityDateFormatter)
-			this.card.setValidityBeginDate(this.validityDateFormatter.parse(be.belgium.eid.CardBuilder.parseString(validityDateBegin)));
+			this.card.setValidityBeginDate(this.validityDateFormatter.parse(be.belgium.eid.JavaObjectConvertor.toString(validityDateBegin)));
 	} catch (e){}
 };
 
 be.belgium.eid.CardBuilder.prototype.setValidityDateEnd = function(validityDateEnd) {
 	try {
 		if (this.card && this.validityDateFormatter)
-			this.card.setValidityEndDate(this.validityDateFormatter.parse(be.belgium.eid.CardBuilder.parseString(validityDateEnd)));
+			this.card.setValidityEndDate(this.validityDateFormatter.parse(be.belgium.eid.JavaObjectConvertor.toString(validityDateEnd)));
 	} catch (e){}
 };
 
 be.belgium.eid.CardBuilder.prototype.setBirthDate = function(birthDate) {
 	try {
 		if (this.card && this.birthDateFormatter)
-			this.card.setBirthDate(this.birthDateFormatter.parse(be.belgium.eid.CardBuilder.parseString(birthDate)));
+			this.card.setBirthDate(this.birthDateFormatter.parse(be.belgium.eid.JavaObjectConvertor.toString(birthDate)));
 	} catch (e){}
 };
 
@@ -1403,25 +1452,25 @@ be.belgium.eid.EIDCardBuilder35.parseSex = function(appletString) {
  
 be.belgium.eid.EIDCardBuilder35.prototype.setChipNumber = function(chipNumber) {
 	try {
-		this.card.setChipNumber(be.belgium.eid.CardBuilder.parseString(chipNumber));
+		this.card.setChipNumber(be.belgium.eid.JavaObjectConvertor.toString(chipNumber));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setIssMunicipality = function(issMunicipality) {
 	try {
-		this.card.setIssuingMunicipality(be.belgium.eid.CardBuilder.parseString(issMunicipality));
+		this.card.setIssuingMunicipality(be.belgium.eid.JavaObjectConvertor.toString(issMunicipality));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setNationalNumber = function(nationalNumber) {
 	try {
-		this.card.setNationalNumber(be.belgium.eid.CardBuilder.parseNumber(nationalNumber));
+		this.card.setNationalNumber(be.belgium.eid.JavaObjectConvertor.toNumber(nationalNumber));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setSurname = function(surname) {
 	try {
-		this.card.setSurname(be.belgium.eid.CardBuilder.parseString(surname));
+		this.card.setSurname(be.belgium.eid.JavaObjectConvertor.toString(surname));
 	} catch (e){}
 };
 
@@ -1430,19 +1479,19 @@ be.belgium.eid.EIDCardBuilder35.prototype.setSurname = function(surname) {
 // I left the second and third firstname in order to be backwards compatible with the applet from middleware 2.5.9 / 2.6
 be.belgium.eid.EIDCardBuilder35.prototype.setFirstName = function(firstName) {
 	try {
-		this.card.setFirstName1(be.belgium.eid.CardBuilder.parseString(firstName));
+		this.card.setFirstName1(be.belgium.eid.JavaObjectConvertor.toString(firstName));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setNationality = function(nationality) {
 	try {
-		this.card.setNationality(be.belgium.eid.CardBuilder.parseString(nationality));
+		this.card.setNationality(be.belgium.eid.JavaObjectConvertor.toString(nationality));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setBirthLocation = function(birthLocation) {
 	try {
-		this.card.setBirthLocation(be.belgium.eid.CardBuilder.parseString(birthLocation));
+		this.card.setBirthLocation(be.belgium.eid.JavaObjectConvertor.toString(birthLocation));
 	} catch (e){}
 };
 
@@ -1454,50 +1503,50 @@ be.belgium.eid.EIDCardBuilder35.prototype.setSex = function(sex) {
 
 be.belgium.eid.EIDCardBuilder35.prototype.setNobleCondition = function(nobleCondition) {
 	try {
-		this.card.setNobleCondition(be.belgium.eid.CardBuilder.parseString(nobleCondition));
+		this.card.setNobleCondition(be.belgium.eid.JavaObjectConvertor.toString(nobleCondition));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setSpecialStatus = function(specialStatus) {
 	try {
-		specialStatus = be.belgium.eid.CardBuilder.parseNumber(specialStatus);
+		specialStatus = be.belgium.eid.JavaObjectConvertor.toNumber(specialStatus);
 		this.card.setSpecialStatus(specialStatus.valueOf());
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setStreet = function(street) {
 	try {
-		this.card.setStreet(be.belgium.eid.CardBuilder.parseString(street));
+		this.card.setStreet(be.belgium.eid.JavaObjectConvertor.toString(street));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setStreetNumber = function(streetNumber) {
 	try {
-		this.card.setStreetNumber(be.belgium.eid.CardBuilder.parseString(streetNumber));
+		this.card.setStreetNumber(be.belgium.eid.JavaObjectConvertor.toString(streetNumber));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setBoxNumber = function(boxNumber) {
 	try {
-		this.card.setBoxNumber(be.belgium.eid.CardBuilder.parseString(boxNumber));
+		this.card.setBoxNumber(be.belgium.eid.JavaObjectConvertor.toString(boxNumber));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setZip = function(zip) {
 	try {
-		this.card.setZipCode(be.belgium.eid.CardBuilder.parseNumber(zip));
+		this.card.setZipCode(be.belgium.eid.JavaObjectConvertor.toNumber(zip));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setMunicipality = function(municipality) {
 	try {
-		this.card.setMunicipality(be.belgium.eid.CardBuilder.parseString(municipality));
+		this.card.setMunicipality(be.belgium.eid.JavaObjectConvertor.toString(municipality));
 	} catch (e){}
 };
 
 be.belgium.eid.EIDCardBuilder35.prototype.setCountry = function(country) {
 	try {
-		this.card.setCountry(be.belgium.eid.CardBuilder.parseString(country));
+		this.card.setCountry(be.belgium.eid.JavaObjectConvertor.toString(country));
 	} catch (e){}
 };
 
@@ -1566,11 +1615,11 @@ be.belgium.eid.SISCardBuilder35.parseSex = function(appletString) {
  * @type Number
  */
 be.belgium.eid.SISCardBuilder35.parseSocialSecurityNumber = function(appletNumberString) {
-	var str = be.belgium.eid.CardBuilder.parseString(appletNumberString);
+	var str = be.belgium.eid.JavaObjectConvertor.toString(appletNumberString);
 	if (str.length != 13)  // format xxxxxx yyy zz
 		throw new be.belgium.eid.IllegalArgumentException();
 	var numberStr = str.substr(0, 6) + str.substr(7, 3) + str.substr(11, 2);
-	return be.belgium.eid.CardBuilder.parseNumber(numberStr);
+	return be.belgium.eid.JavaObjectConvertor.toNumber(numberStr);
 };
 
 /*
@@ -1586,19 +1635,19 @@ be.belgium.eid.SISCardBuilder35.prototype.setNationalNumber = function(nationalN
 
 be.belgium.eid.SISCardBuilder35.prototype.setSurname = function(surname) {
 	try {
-		this.card.setSurname(be.belgium.eid.CardBuilder.parseString(surname));
+		this.card.setSurname(be.belgium.eid.JavaObjectConvertor.toString(surname));
 	} catch (e){}
 };
 
 be.belgium.eid.SISCardBuilder35.prototype.setFirstName = function(firstName) {
 	try {
-		this.card.setName(be.belgium.eid.CardBuilder.parseString(firstName));
+		this.card.setName(be.belgium.eid.JavaObjectConvertor.toString(firstName));
 	} catch (e){}
 };
 
 be.belgium.eid.SISCardBuilder35.prototype.setInitials = function(initials) {
 	try {
-		this.card.setInitials(be.belgium.eid.CardBuilder.parseString(initials));
+		this.card.setInitials(be.belgium.eid.JavaObjectConvertor.toString(initials));
 	} catch (e){}
 };
 
@@ -1770,7 +1819,7 @@ be.belgium.eid.CardReader.prototype.getDefaultReaderName = function() {
  */
 be.belgium.eid.CardReader.validChipNumber = function(chipNumber) {
 	try {
-		chipNumber = be.belgium.eid.CardBuilder.parseString(chipNumber);
+		chipNumber = be.belgium.eid.JavaObjectConvertor.toString(chipNumber);
 		if (chipNumber.length == 0)
 			return false;
 		else
