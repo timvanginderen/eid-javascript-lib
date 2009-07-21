@@ -215,22 +215,6 @@ be.belgium.eid.dateFormat = {
 	EID_BIRTH_DATE : 6
 };
 
-/*
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray = new Array(12);
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[0] = new RegExp("jan", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[1] = new RegExp("feb|fev", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[2] = new RegExp("maar|mar|mär|mars", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[3] = new RegExp("apr|avr", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[4] = new RegExp("mai|mei", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[5] = new RegExp("juin|jun", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[6] = new RegExp("juil|jul", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[7] = new RegExp("aout|aug", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[8] = new RegExp("sep|sept", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[9] = new RegExp("oct|okt", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[10] = new RegExp("nov", "i");
-be.belgium.eid.EIDCardBuilder35.birthDateRegExpArray[11] = new RegExp("dec|dez", "i");
-*/
-
 /**
  * Object which formats and parses dates.
  * @description
@@ -503,6 +487,32 @@ be.belgium.eid.JavaObjectConvertor.toNumber = function(javaObject) {
 		throw new be.belgium.eid.IllegalArgumentException();
 	else
 		return num;
+};
+
+/**
+ * Object which parses gender strings
+ * @description
+ * @constructor
+ * @abstract 
+ */
+be.belgium.eid.GenderParser = new Object();
+/**
+ * @public
+ * @static 
+ * @method parse
+ * @parameter str a string containing a gender
+ * @throws NullPointerException if str is null or undefined.
+ * @return value of type be.belgium.eid.sex
+ * @type be.belgium.eid.sex
+ */
+be.belgium.eid.GenderParser.parse = function(str) {
+	if (str === null || typeof(str) == "undefined")
+		throw new be.belgium.eid.NullPointerException();
+	var regExp = new RegExp("F|V|W", "i");
+	if (regExp.test(str))
+		return be.belgium.eid.sex.FEMALE;
+	else
+		return be.belgium.eid.sex.MALE;
 };
 
 /** 
@@ -1369,44 +1379,6 @@ be.belgium.eid.CardBuilder.prototype.setBirthDate = function(birthDate) {
 };
 
 /**
- * Java String objects returned by Java applets are converted into Javascript Objects.
- * This function converts these Javascript Objects into Javavascript String Objects.
- * @private
- * @static
- * @method parseString
- * @param appletString a Javascript Object containing a string, returned by a Java applet
- * @throws NullPointerException if appletString is null or undefined.
- * @return a Javascript String object
- * @type String
- */
-be.belgium.eid.CardBuilder.parseString = function(appletString) {
-	if (appletString === null || typeof(appletString) == "undefined")
-		throw new be.belgium.eid.NullPointerException();
-	return new String("" + appletString);
-};
-
-/**
- * Java String objects containing numbers returned by Java applets are converted into Javascript Objects.
- * This function converts these Javascript Objects into Javavascript Number Objects.
- * @private
- * @static
- * @method parseNumber
- * @param appletNumberString a Javascript Object containing a number, returned by a Java applet
- * @throws NullPointerException if appletNumberString is null or undefined.
- * @throws IllegalArgumentException if appletNumberString does not contain a number.
- * @return a Javascript Number object
- * @type Number
- */
-be.belgium.eid.CardBuilder.parseNumber = function(appletNumberString) {
-	var numberString = be.belgium.eid.CardBuilder.parseString(appletNumberString);
-	var num = new Number(numberString);
-	if (isNaN(num))
-		throw new be.belgium.eid.IllegalArgumentException();
-	else
-		return num;
-};
-
-/**
  * EIDCardBuilder35 extends CardBuilder.
  * EIDCardBuilder35, builds a EIDCard object step by step using data returned by the applet from eID middleware 3.5
  * <p>
@@ -1426,24 +1398,6 @@ be.belgium.eid.EIDCardBuilder35 = function() {
 	this.validityDateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DD_MM_YYYY);
 };
 be.belgium.eid.EIDCardBuilder35.prototype = new be.belgium.eid.CardBuilder; // extends CardBuilder
-
-/**
- * @private
- * @static 
- * @method parseSex
- * @param appletString a Javascript Object containing a string, returned by a Java applet
- * @throws NullPointerException if appletString is null or undefined.
- * @return value of type be.belgium.eid.sex
- * @type be.belgium.eid.sex
- */
-be.belgium.eid.EIDCardBuilder35.parseSex = function(appletString) {
-	var str = be.belgium.eid.CardBuilder.parseString(appletString);
-	var regExp = new RegExp("F|V|W", "i");
-	if (regExp.test(str))
-		return be.belgium.eid.sex.FEMALE;
-	else
-		return be.belgium.eid.sex.MALE;
-};
 
 /*
  * Setters 
@@ -1497,7 +1451,7 @@ be.belgium.eid.EIDCardBuilder35.prototype.setBirthLocation = function(birthLocat
 
 be.belgium.eid.EIDCardBuilder35.prototype.setSex = function(sex) {
 	try {
-		this.card.setSex(be.belgium.eid.EIDCardBuilder35.parseSex(sex));
+		this.card.setSex(be.belgium.eid.GenderParser.parse(be.belgium.eid.JavaObjectConvertor.toString(sex)));
 	} catch (e){}
 };
 
@@ -1577,27 +1531,8 @@ be.belgium.eid.SISCardBuilder35 = function() {
 be.belgium.eid.SISCardBuilder35.prototype = new be.belgium.eid.CardBuilder; // extends CardBuilder
 
 /**
- * @private
- * @static 
- * @method parseSex
- * @param appletString a Javascript Object containing a string, returned by a Java applet
- * @throw NullPointerException if appletString is null or undefined.
- * @return value of type be.belgium.eid.sex
- * @type be.belgium.eid.sex 
- */
-be.belgium.eid.SISCardBuilder35.parseSex = function(appletString) {
-	var str = be.belgium.eid.CardBuilder.parseString(appletString);
-	str = str.toUpperCase();
-	if (str === "F")
-		return be.belgium.eid.sex.FEMALE;
-	else
-		return be.belgium.eid.sex.MALE;
-};
-
-
-/**
- * Java String objects containing social security numbers returned by Java applets are converted into Javascript Objects.
- * This function converts these Javascript Objects into Javavascript Number Objects.
+ * Java String objects containing social security numbers returned by Java applets are converted into JavaObject objects.
+ * This function converts these JavaObject objects into Javavascript Number Objects.
  * Format of social security number xxxxxx yyy zz
  * <p>
  * Format of social security number is described in the following documents:
@@ -1653,7 +1588,7 @@ be.belgium.eid.SISCardBuilder35.prototype.setInitials = function(initials) {
 
 be.belgium.eid.SISCardBuilder35.prototype.setSex = function(sex) {
 	try {
-		this.card.setSex(be.belgium.eid.SISCardBuilder35.parseSex(sex));
+		this.card.setSex(be.belgium.eid.GenderParser.parse(be.belgium.eid.JavaObjectConvertor.toString(sex)));
 	} catch (e){}
 };
 
