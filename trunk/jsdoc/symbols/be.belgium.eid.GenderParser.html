@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - be.belgium.eid.EIDCardBuilder35</title>
+		<title>JsDoc Reference - be.belgium.eid.GenderParser</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -232,13 +232,11 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class be.belgium.eid.EIDCardBuilder35
+				Class be.belgium.eid.GenderParser
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
-				<br />Extends
-					<a href="../symbols/be.belgium.eid.CardBuilder.html">be.belgium.eid.CardBuilder</a>.<br />
 				
 			
 				
@@ -250,7 +248,7 @@ ul.inheritsList
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class be.belgium.eid.EIDCardBuilder35.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class be.belgium.eid.GenderParser.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -263,9 +261,10 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/be.belgium.eid.EIDCardBuilder35.html">be.belgium.eid.EIDCardBuilder35</a></b>()
+								<b><a href="../symbols/be.belgium.eid.GenderParser.html">be.belgium.eid.GenderParser</a></b>()
 							</div>
-							<div class="description">EIDCardBuilder35 extends CardBuilder.</div>
+							<div class="description">Object which parses gender strings
+</div>
 						</td>
 					</tr>
 				</tbody>
@@ -279,11 +278,29 @@ ul.inheritsList
 			
 				
 				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class be.belgium.eid.GenderParser.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">be.belgium.eid.GenderParser.<b><a href="../symbols/be.belgium.eid.GenderParser.html#.parse">parse</a></b>(str)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
 				
 				
-				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/be.belgium.eid.CardBuilder.html">be.belgium.eid.CardBuilder</a>: </dt><dd><a href="../symbols/be.belgium.eid.CardBuilder.html#getCard">getCard</a></dd>
-				</dl>
 				
 			
 <!-- ============================== events summary ======================== -->
@@ -297,11 +314,11 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>be.belgium.eid.EIDCardBuilder35</b>()
+						<b>be.belgium.eid.GenderParser</b>()
 				</div>
 				
 				<div class="description">
-					EIDCardBuilder35 extends CardBuilder.EIDCardBuilder35, builds a EIDCard object step by step using data returned by the applet from eID middleware 3.5<p>Format of validity dates: DD.MM.YYYY (DD and MM can be empty strings, in this case DD = 01 and MM = 01 is presumed)<br>Format of birth dates: DD MMMM YYYY (Dutch, French) or DD.MMM.YYYY (German) (DD and MMMM can be empty strings, in this case DD = 1 and MMMM = JAN is presumed)<p>Formats of identity data on an eID card are described in the following documents:
+					Object which parses gender strings
 
 					
 				</div>
@@ -315,15 +332,6 @@ ul.inheritsList
 					
 					
 					
-					
-						<dl class="detailList">
-						<dt class="heading">See:</dt>
-						
-							<dd><a href="http://www.ibz.rrn.fgov.be/fileadmin/user_upload/CI/eID/5%20aspects%20techniques/nl/format%20des%20dates/formaat_van_de_datums_04042006.pdf">formaat_van_de_datums_04042006.pdf</a></dd>
-						
-							<dd><a href="http://www.ibz.rrn.fgov.be/fileadmin/user_upload/CI/eID/5%20aspects%20techniques/nl/belgian_electronic_identity_card_content_v2.8.a.pdf">belgian_electronic_identity_card_content_v2.8.a.pdf</a></dd>
-						
-						</dl>
 					
 
 			</div>
@@ -333,6 +341,64 @@ ul.inheritsList
 			
 
 <!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name=".parse"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{<a href="../symbols/be.belgium.eid.html#.sex">be.belgium.eid.sex</a>}</span>
+					<span class="light">be.belgium.eid.GenderParser.</span><b>parse</b>(str)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>str</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Throws:</dt>
+							
+								<dt>
+									 <b></b>
+								</dt>
+								<dd>NullPointerException if str is null or undefined.</dd>
+							
+							</dl>
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>value of type be.belgium.eid.sex</dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				
 			
 			
 <!-- ============================== event details ========================= -->		
