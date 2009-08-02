@@ -21,8 +21,9 @@
 // THE SOFTWARE.
 
 /*
-	1.3 18/07/2009
+	1.3 02/08/2009
 	- Added DateFormatter.
+	- If the third first name is detected while parsing the first names, it is saved in the firstName3 property.
 	1.2 26/04/2009
 	- Added Card object. This object is the base for EIDCard and SISCard.
 	1.1 28/03/2009
@@ -30,7 +31,7 @@
 	- Getters of EIDCard and SISCard do not return Number- and Boolean objects anymore.
 	  They will return primitive numbers and primitive booleans.
 	1.0 24/03/2009
-	- first release
+	- First release
 */
 
 /*
@@ -608,10 +609,11 @@ be.belgium.eid.Card.prototype.toString = function() {
  * <p>
  * The applet from eID middleware 2.5.9 / 2.6 provided the methods getFirstName1, getFirstName2 and getFirstName3.
  * The applet from eID middleware 3.5 has only one method, getFirstName, which returns the first, second and third first names.
+ * The third first name on the eID card is only the first letter of the third name.
  * Some people have a first name consisting of two words. For example Pieter Jan or Jean Marie.
- * So it is impossible to determine the second and third first name.
- * Therefore the EIDCard object has the firstName2 and firstName3 properties in order to be backwards compatible 
- * with the applet from eID middleware 2.5.9 / 2.6. But the firstName2 and firstName3 properties are always empty strings.
+ * So it is impossible to determine the second first name.
+ * Still the EIDCard object has the firstName2 property in order to be backwards compatible
+ * with the applet from eID middleware 2.5.9 / 2.6. But the firstName2 property is always an empty string.
  * Maybe in a future middleware, the applet will return the first names correctly.
  * <p>
  * Formats of identity data on an eID card are described in the following documents:
@@ -1429,11 +1431,20 @@ be.belgium.eid.EIDCardBuilder35.prototype.setSurname = function(surname) {
 };
 
 // Some people have a first name consisting of two words. For example Pieter Jan or Jean Marie
-// So it is impossible to determine the second and third firstname.
-// I left the second and third firstname in order to be backwards compatible with the applet from middleware 2.5.9 / 2.6
+// So it is impossible to determine the second firstname.
 be.belgium.eid.EIDCardBuilder35.prototype.setFirstName = function(firstName) {
 	try {
-		this.card.setFirstName1(be.belgium.eid.JavaObjectConvertor.toString(firstName));
+		var firstnames = be.belgium.eid.JavaObjectConvertor.toString(firstName);
+		var firstnamesArray = firstnames.split(" ");
+		var length = firstnamesArray.length;
+		if (length > 0) {
+			if (firstnamesArray[length - 1].length == 1) { // eID contains only first letter of 3rd name
+				this.card.setFirstName3(firstnamesArray[length - 1]);
+				firstnamesArray.pop(); // remove 3rd name
+				firstnames = firstnamesArray.join(" "); // rejoin 1st and 2nd name
+			}
+		}
+		this.card.setFirstName1(firstnames);
 	} catch (e){}
 };
 
