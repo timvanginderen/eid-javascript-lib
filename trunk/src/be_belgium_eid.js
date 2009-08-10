@@ -1615,6 +1615,7 @@ be.belgium.eid.CardReader = function(readerName) {
 	this.appletLauncherId = "BEIDAppletLauncher";
 	this.noCardPresentHandler = null;
 	this.noReaderDetectedHandler = null;
+	this.appletNotFoundHandler = null;
 	this.BEIDApplet = null;
 };
 
@@ -1709,6 +1710,19 @@ be.belgium.eid.CardReader.prototype.setNoReaderDetectedHandler = function(handle
 		this.noReaderDetectedHandler = handler;
 	else
 		this.noReaderDetectedHandler = null;
+};
+
+/**
+ * Set handler function that is called when BEID applet is not found.
+ * @public
+ * @method setAppletNotFoundHandler
+ * @param {function|Function Object} handler reference to a function or a Function object.
+ */
+be.belgium.eid.CardReader.prototype.setAppletNotFoundHandler = function(handler) {
+	if (handler !== null && typeof(handler) != "undefined" && (typeof(handler) == "function" || handler instanceof Function))
+		this.appletNotFoundHandler = handler;
+	else
+		this.appletNotFoundHandler = null;
 };
 
 /**
@@ -1861,7 +1875,11 @@ be.belgium.eid.CardReader.prototype.read = function() {
 		}
 	} catch (e) {
 		if (e instanceof be.belgium.eid.NullPointerException) {
-			window.alert("BEID Applet not found.");
+			if (this.appletNotFoundHandler) {
+				this.appletNotFoundHandler();
+			} else {
+				window.alert("BEID Applet not found.");
+			}
 		} else {
 			window.alert("BEID Applet throw exception: " + e);
 		}
