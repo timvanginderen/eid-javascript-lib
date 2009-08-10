@@ -21,9 +21,10 @@
 // THE SOFTWARE.
 
 /*
-	1.3 02/08/2009
+	1.3 11/08/2009
 	- Added DateFormatter.
 	- If the third first name is detected while parsing the first names, it is saved in the firstName3 property.
+	- Applet not found handler added.
 	1.2 26/04/2009
 	- Added Card object. This object is the base for EIDCard and SISCard.
 	1.1 28/03/2009
@@ -77,7 +78,7 @@ if (!be.belgium) be.belgium = new Object();
  * SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
  * More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  * 
- * @version 1.3 18/07/2009
+ * @version 1.3 11/08/2009
  * @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
  */
 
