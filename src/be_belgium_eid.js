@@ -25,6 +25,7 @@
 	- Added DateFormatter.
 	- If the third first name is detected while parsing the first names, it is saved in the firstName3 property.
 	- Applet not found handler added.
+	- Applet exception handler added.
 	1.2 26/04/2009
 	- Added Card object. This object is the base for EIDCard and SISCard.
 	1.1 28/03/2009
@@ -1617,6 +1618,7 @@ be.belgium.eid.CardReader = function(readerName) {
 	this.noCardPresentHandler = null;
 	this.noReaderDetectedHandler = null;
 	this.appletNotFoundHandler = null;
+	this.appletExceptionHandler = null;
 	this.BEIDApplet = null;
 };
 
@@ -1724,6 +1726,19 @@ be.belgium.eid.CardReader.prototype.setAppletNotFoundHandler = function(handler)
 		this.appletNotFoundHandler = handler;
 	else
 		this.appletNotFoundHandler = null;
+};
+
+/**
+ * Set handler function that is called when the BEID applet throws an exception.
+ * @public
+ * @method setAppletExceptionHandler
+ * @param {function|Function Object} handler reference to a function or a Function object.
+ */
+be.belgium.eid.CardReader.prototype.setAppletExceptionHandler = function(handler) {
+	if (handler !== null && typeof(handler) != "undefined" && (typeof(handler) == "function" || handler instanceof Function))
+		this.appletExceptionHandler = handler;
+	else
+		this.appletExceptionHandler = null;
 };
 
 /**
@@ -1882,7 +1897,14 @@ be.belgium.eid.CardReader.prototype.read = function() {
 				window.alert("BEID Applet not found.");
 			}
 		} else {
-			window.alert("BEID Applet throw exception: " + e);
+			if (this.appletExceptionHandler) {
+				if (this.appletExceptionHandler.length > 0)
+					this.appletExceptionHandler(e);
+				else
+					this.appletExceptionHandler();
+			} else {
+				window.alert("BEID Applet throw exception: " + e);
+			}
 		}
 	}
 
