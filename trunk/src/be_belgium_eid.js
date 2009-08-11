@@ -278,7 +278,7 @@ be.belgium.eid.DateFormatter.prototype.getDateSeparator = function() {
  * Set language used by EID_BIRTH_DATE date format.
  * @public
  * @method setLanguage
- * @param be.belgium.eid.language language a language (DUTCH, FRENCH, GERMAN).
+ * @param {be.belgium.eid.language} language a language (DUTCH, FRENCH, GERMAN).
  */
 be.belgium.eid.DateFormatter.prototype.setLanguage = function(language) {
 	switch (language) {
