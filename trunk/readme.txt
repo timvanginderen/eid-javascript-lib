@@ -17,15 +17,14 @@ Other browsers and other platforms were not tested.
 SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
 More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  
-@version 1.3 18/07/2009
+@version 1.3 11/08/2009
 @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
 
 How to run the examples
 -----------------------
 
-1) Download the archive eidjavascriptlib.zip from http://code.google.com/p/eid-javascript-lib/
-   
+1) Download the archive eidjavascriptlib.zip from http://code.google.com/p/eid-javascript-lib/   
    - The archive contains the following subdirectories: examples, jsdoc and src.
    - Unzip the archive in a directory, for example c:\eid-javascript-lib
 
