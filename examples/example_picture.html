@@ -23,7 +23,7 @@ function readCard() {
 		var content = card.toString();
 		if (typeof(base64) != "undefined") {
 			var encodedPicture = base64.encode(card.getPicture(), false, false);
-			document.getElementById("picture").src = "data:image/jpeg;base64," + encodedPicture;	
+			document.getElementById("encoded_picture").src = "data:image/jpeg;base64," + encodedPicture;	
 			content += "\r\n\r\n" + encodedPicture;
 		} else {
 			window.alert("base64 object not defined");
@@ -87,14 +87,18 @@ var url = locarray.join("/");
 <br>
 Card content:<br>
 <textarea id="content" cols=80 rows=20 wrap="virtual">&nbsp;</textarea>
-<img src="" id="picture" width=140 height=200><br>
-The image will only be displayed in Firefox and Opera.<br>
-The base64 encoded picture will be shown in the textarea in every browser.<br>
-The base64 encoding only works in Internet Explorer, if JRE 6 Update 10 (Java Runtime Environment 1.6.0_10) or higher is installed<br> 
+<img src="" id="encoded_picture" width=140 height=200><br>
+<br>
+<u>Remarks:</u><br>
+1. The Base64 encoding works in Firefox and Opera without a problem.<br>
+But in Internet Explorer, the Base64 encoding will only work if JRE 6 Update 10 (Java Runtime Environment 1.6.0_10) or higher is installed<br> 
 and if the Next-Generation Java Plug-in is enabled (this is the default setting) in the Java Control Panel.<br>
 <br>
-The code for base64.js can be downloaded at <a href="http://hellerim.net/base64_src.php">http://hellerim.net/base64_src.php</a><br>
-Small modifications needs to be done. But please, keep the copyright statement intact.<br>
+2. The encoded image (image at the right of the textarea) will only be shown in Firefox and Opera.<br>
+The Base64 encoded picture string will be shown in the textarea in every browser.<br>
+<br>
+3. The code for base64.js can be downloaded at <a href="http://hellerim.net/base64_src.php">http://hellerim.net/base64_src.php</a><br>
+Small modifications needs to be done. Please keep the copyright statement intact.<br>
 Put the following code in comments:<br>
 <pre>
 /*
@@ -119,5 +123,7 @@ core.installClass(base64);
 } // end catch
 */
 </pre>
+<br>
+<br>
 </body>
 </html>
