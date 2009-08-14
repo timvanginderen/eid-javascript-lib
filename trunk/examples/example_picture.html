@@ -1,35 +1,52 @@
 <html>
 <head>
+<title>Example eID picture</title>
 <script type="text/javascript" src="..\src\be_belgium_eid.js"></script>
 <script type="text/javascript" src="..\src\base64.js"></script>
 <script type="text/javascript" language="javascript">
 
 var cardReader = new be.belgium.eid.CardReader();
 
-function nocardpresent() {
+function noCardPresentHandler() {
 	window.alert("No card present!");
 }
-cardReader.setNoCardPresentHandler(nocardpresent);
+cardReader.setNoCardPresentHandler(noCardPresentHandler);
 
-function noreaderdetected() {
+function noReaderDetectedHandler() {
 	window.alert("No reader detected!");
 }
-cardReader.setNoReaderDetectedHandler(noreaderdetected);
+cardReader.setNoReaderDetectedHandler(noReaderDetectedHandler);
+
+function appletNotFoundHandler() {
+	window.alert("Applet not found!");
+}
+cardReader.setAppletNotFoundHandler(appletNotFoundHandler);
+
+function appletExceptionHandler(e) {
+	window.alert("Error reading card!\r\nException: " + e + "\r\nPlease try again.");
+}
+cardReader.setAppletExceptionHandler(appletExceptionHandler);
+
+function clearPicture() {
+	document.getElementById("encoded_picture").src = "data:image/jpeg;base64,";
+}
 
 function readCard() {
-	document.getElementById("content").value = "Please wait ...";	
-	var card = cardReader.read();		
-	if (card != null) {		
+	clearPicture();
+
+	document.getElementById("content").value = "Please wait ...";
+	var card = cardReader.read();
+	if (card != null) {
 		var content = card.toString();
 		if (typeof(base64) != "undefined") {
 			var encodedPicture = base64.encode(card.getPicture(), false, false);
-			document.getElementById("encoded_picture").src = "data:image/jpeg;base64," + encodedPicture;	
+			document.getElementById("encoded_picture").src = "data:image/jpeg;base64," + encodedPicture;
 			content += "\r\n\r\n" + encodedPicture;
 		} else {
 			window.alert("base64 object not defined");
 			content += "\r\n\r\n" + "base64 object not defined";
-		}				
-		document.getElementById("content").value = content;		
+		}
+		document.getElementById("content").value = content;
 	} else {
 		document.getElementById("content").value = "No card returned.";
 	}
