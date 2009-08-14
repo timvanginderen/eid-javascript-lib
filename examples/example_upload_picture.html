@@ -1,33 +1,43 @@
 <html>
 <head>
-<title>how to upload eID picture</title>
+<title>Example upload eID picture</title>
 <script type="text/javascript" src="..\src\be_belgium_eid.js"></script>
 <script type="text/javascript" src="..\src\base64.js"></script>
 <script type="text/javascript" language="javascript">
 
 var cardReader = new be.belgium.eid.CardReader();
 
-function nocardpresent() {
+function noCardPresentHandler() {
 	window.alert("No card present!");
 }
-cardReader.setNoCardPresentHandler(nocardpresent);
+cardReader.setNoCardPresentHandler(noCardPresentHandler);
 
-function noreaderdetected() {
+function noReaderDetectedHandler() {
 	window.alert("No reader detected!");
 }
-cardReader.setNoReaderDetectedHandler(noreaderdetected);
+cardReader.setNoReaderDetectedHandler(noReaderDetectedHandler);
+
+function appletNotFoundHandler() {
+	window.alert("Applet not found!");
+}
+cardReader.setAppletNotFoundHandler(appletNotFoundHandler);
+
+function appletExceptionHandler(e) {
+	window.alert("Error reading card!\r\nException: " + e + "\r\nPlease try again.");
+}
+cardReader.setAppletExceptionHandler(appletExceptionHandler);
 
 function clearInputFields() {
 	document.getElementById("surname").value = "";
 	document.getElementById("name").value = "";
-	document.getElementById("encoded_picture").value = "";	
+	document.getElementById("encoded_picture").value = "";
 }
 
 function readCard() {
 	clearInputFields();
-	
-	var card = cardReader.read();		
-	if (card != null) {		
+
+	var card = cardReader.read();
+	if (card != null) {
 		if (card instanceof be.belgium.eid.EIDCard) {
 			document.getElementById("surname").value = card.getSurname();
 			document.getElementById("name").value = card.getFirstName1();
@@ -92,6 +102,8 @@ var url = locarray.join("/");
 	document.writeln('</applet>');
 
 </script>
+<br>
+<br>
 <form method=POST action="upload">
 Surname: <input type=text id=surname><br>
 Name: <input type=text id=name><br><br>
