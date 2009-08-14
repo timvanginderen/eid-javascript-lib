@@ -1,19 +1,30 @@
 <html>
 <head>
+<title>Example inputfields</title>
 <script type="text/javascript" src="..\src\be_belgium_eid.js"></script>
 <script type="text/javascript" language="javascript">
 
 var cardReader = new be.belgium.eid.CardReader();
 
-function nocardpresent() {
+function noCardPresentHandler() {
 	window.alert("No card present!");
 }
-cardReader.setNoCardPresentHandler(nocardpresent);
+cardReader.setNoCardPresentHandler(noCardPresentHandler);
 
-function noreaderdetected() {
+function noReaderDetectedHandler() {
 	window.alert("No reader detected!");
 }
-cardReader.setNoReaderDetectedHandler(noreaderdetected);
+cardReader.setNoReaderDetectedHandler(noReaderDetectedHandler);
+
+function appletNotFoundHandler() {
+	window.alert("Applet not found!");
+}
+cardReader.setAppletNotFoundHandler(appletNotFoundHandler);
+
+function appletExceptionHandler(e) {
+	window.alert("Error reading card!\r\nException: " + e + "\r\nPlease try again.");
+}
+cardReader.setAppletExceptionHandler(appletExceptionHandler);
 
 function clearInputFields()
 {
@@ -23,13 +34,13 @@ function clearInputFields()
 	document.getElementById("eid_chipNumber").value = "";
 	document.getElementById("eid_validityBeginDate").value = "";
 	document.getElementById("eid_validityEndDate").value = "";
-	document.getElementById("eid_surname").value = "";	
+	document.getElementById("eid_surname").value = "";
 	document.getElementById("eid_sex_F").checked = false;
-	document.getElementById("eid_sex_M").checked = false;	
+	document.getElementById("eid_sex_M").checked = false;
 	document.getElementById("eid_white_cane").checked = false;
-	document.getElementById("eid_yellow_cane").checked = false;	
-	document.getElementById("eid_extended_minority").checked = false;	
-	
+	document.getElementById("eid_yellow_cane").checked = false;
+	document.getElementById("eid_extended_minority").checked = false;
+
 	document.getElementById("sis_card").checked = false;
 	document.getElementById("sis_cardNumber").value = "";
 	document.getElementById("sis_socialSecurityNumber").value = "";
@@ -43,8 +54,8 @@ function clearInputFields()
 function readCard() {
 	clearInputFields();
 	document.getElementById("content").value = "Please wait ...";
-	
-	var card = cardReader.read();		
+
+	var card = cardReader.read();
 	if (card != null) {
 		if (card instanceof be.belgium.eid.EIDCard) {
 			document.getElementById("eid_card").checked = true;
@@ -57,21 +68,20 @@ function readCard() {
 			if (card.getSex() == be.belgium.eid.sex.FEMALE)
 				document.getElementById("eid_sex_F").checked = true;
 			else
-				document.getElementById("eid_sex_M").checked = true;						
+				document.getElementById("eid_sex_M").checked = true;
 			document.getElementById("eid_white_cane").checked = card.getWhiteCane();
-			document.getElementById("eid_yellow_cane").checked = card.getYellowCane();	
-			document.getElementById("eid_extended_minority").checked = card.getExtendedMinority();	
-				
+			document.getElementById("eid_yellow_cane").checked = card.getYellowCane();
+			document.getElementById("eid_extended_minority").checked = card.getExtendedMinority();
 		} else {
 			document.getElementById("sis_card").checked = true;
 			document.getElementById("sis_cardNumber").value = card.getCardNumber();
 			document.getElementById("sis_socialSecurityNumber").value = card.getSocialSecurityNumber();
 			document.getElementById("sis_validityBeginDate").value = card.getValidityBeginDate().toString();
 			document.getElementById("sis_validityEndDate").value = card.getValidityEndDate().toString();
-			document.getElementById("sis_surname").value = card.getSurname();			
+			document.getElementById("sis_surname").value = card.getSurname();
 			document.getElementById("sis_sex_F").checked = card.getFemale();
-			document.getElementById("sis_sex_M").checked = card.getMale();			
-		}	
+			document.getElementById("sis_sex_M").checked = card.getMale();
+		}
 		document.getElementById("content").value = card.toString();
 	} else {
 		document.getElementById("content").value = "No card returned.";
@@ -141,7 +151,7 @@ var url = locarray.join("/");
 <tr><td>Special status</td><td>	<input type=checkbox id=eid_white_cane>White cane<br>
 								<input type=checkbox id=eid_yellow_cane>Yellow cane<br>
 								<input type=checkbox id=eid_extended_minority>Extended minority
-								</td><td>Special status</td><td>Not available.</td></tr>								
+								</td><td>Special status</td><td>Not available.</td></tr>
 </table>
 
 Card content:<br>
