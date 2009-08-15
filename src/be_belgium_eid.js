@@ -24,7 +24,8 @@
 	1.3 11/08/2009
 	- Added DateFormatter.
 	- If the third first name is detected while parsing the first names, it is saved in the firstName3 property.
-	- If the first and second firstname does not contain a whitespace, the first is saved in the firstName1 property and the second in firstName2 property.
+	- If someone has three firstnames and a first and second firstname that does not contain a whitespace,
+	  the first is saved in the firstName1 property and the second in firstName2 property.
 	- Applet not found handler added.
 	- Applet exception handler added.
 	1.2 26/04/2009
@@ -1444,16 +1445,14 @@ be.belgium.eid.EIDCardBuilder35.prototype.setFirstName = function(firstName) {
 			if (firstnamesArray[length - 1].length == 1) { // eID contains only first letter of 3rd name
 				this.card.setFirstName3(firstnamesArray[length - 1]);
 				firstnamesArray.pop(); // remove 3rd name
-				firstnames = firstnamesArray.join(" "); // rejoin 1st and 2nd name
+				if (firstnamesArray.length == 2) { // the first and second firstname does not contain a whitespace
+					this.card.setFirstName2(firstnamesArray[1]);
+					firstnames = firstnamesArray[0];
+				} else {
+					firstnames = firstnamesArray.join(" "); // rejoin 1st and 2nd name
+				}
 			}
 		}
-		
-		firstnamesArray = firstnames.split(" ");
-		if (firstnamesArray.length == 2) { // the first and second firstname of the person does not contain a whitespace
-			this.card.setFirstName2(firstnamesArray[1]);
-			firstnames = firstnamesArray[0];
-		}
-		
 		this.card.setFirstName1(firstnames);
 	} catch (e){}
 };
