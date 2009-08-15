@@ -68,5 +68,5 @@ How to run the examples
 
 Remark
 ------
-The base64 encoding only works in Internet Explorer, if JRE 6 Update 10 (Java Runtime Environment 1.6.0_10) or higher is installed
+The Base64 encoding only works in Internet Explorer, if JRE 6 Update 10 (Java Runtime Environment 1.6.0_10) or higher is installed
 and if the Next-Generation Java Plug-in is enabled (this is the default setting) in the Java Control Panel.
