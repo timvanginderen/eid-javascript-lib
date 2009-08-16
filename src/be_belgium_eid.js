@@ -21,10 +21,10 @@
 // THE SOFTWARE.
 
 /*
-	1.3 11/08/2009
+	1.3 16/08/2009
 	- Added DateFormatter.
 	- If the third first name is detected while parsing the first names, it is saved in the firstName3 property.
-	- If someone has three firstnames and a first and second firstname that does not contain a whitespace,
+	- If someone has three firstnames and a first and second firstname that does not contain a space,
 	  the first is saved in the firstName1 property and the second in firstName2 property.
 	- Applet not found handler added.
 	- Applet exception handler added.
@@ -81,7 +81,7 @@ if (!be.belgium) be.belgium = new Object();
  * SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
  * More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  * 
- * @version 1.3 11/08/2009
+ * @version 1.3 16/08/2009
  * @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
  */
 
@@ -1445,7 +1445,7 @@ be.belgium.eid.EIDCardBuilder35.prototype.setFirstName = function(firstName) {
 			if (firstnamesArray[length - 1].length == 1) { // eID contains only first letter of 3rd name
 				this.card.setFirstName3(firstnamesArray[length - 1]);
 				firstnamesArray.pop(); // remove 3rd name
-				if (firstnamesArray.length == 2) { // the first and second firstname does not contain a whitespace
+				if (firstnamesArray.length == 2) { // the first and second firstname does not contain a space
 					this.card.setFirstName2(firstnamesArray[1]);
 					firstnames = firstnamesArray[0];
 				} else {
