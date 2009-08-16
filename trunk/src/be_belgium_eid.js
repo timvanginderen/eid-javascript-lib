@@ -1441,7 +1441,7 @@ be.belgium.eid.EIDCardBuilder35.prototype.setFirstName = function(firstName) {
 		var firstnames = be.belgium.eid.JavaObjectConvertor.toString(firstName);
 		var firstnamesArray = firstnames.split(" ");
 		var length = firstnamesArray.length;
-		if (length > 0) {
+		if (length >= 3) {
 			if (firstnamesArray[length - 1].length == 1) { // eID contains only first letter of 3rd name
 				this.card.setFirstName3(firstnamesArray[length - 1]);
 				firstnamesArray.pop(); // remove 3rd name
