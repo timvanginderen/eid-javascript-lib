@@ -1792,7 +1792,7 @@ be.belgium.eid.CardReader.prototype.getDefaultReaderName = function() {
 	} catch (e){} // catch Javascript and Java exceptions
 
 	return defaultReaderName;
-}
+};
 
 /** 
  * @private
@@ -1810,7 +1810,7 @@ be.belgium.eid.CardReader.validChipNumber = function(chipNumber) {
 	} catch (e) {
 		return false;
 	}
-}
+};
 
 /**
  * Read eID card or SIS card
