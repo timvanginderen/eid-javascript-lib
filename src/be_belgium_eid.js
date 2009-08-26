@@ -1,4 +1,4 @@
-// eid-javascript-lib version 1.3
+// eid-javascript-lib version 1.4
 
 // Copyright (c) 2009 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
@@ -21,6 +21,10 @@
 // THE SOFTWARE.
 
 /*
+	1.4 26/08/2009
+	- Conversion of Java String objects returned by Java applets into Javascript Number objects fails in Safari.
+	  Therefore Java String objects are first converted to Javascript String objects and then converted to Javascript Number objects.
+	- DateFormatter is used to format dates in toString methods of Card-, EIDCard- or SISCard objects.
 	1.3 16/08/2009
 	- Added DateFormatter.
 	- If the third first name is detected while parsing the first names, it is saved in the firstName3 property.
@@ -81,7 +85,7 @@ if (!be.belgium) be.belgium = new Object();
  * SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
  * More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  * 
- * @version 1.3 16/08/2009
+ * @version 1.4 26/08/2009
  * @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
  */
 
@@ -592,16 +596,12 @@ be.belgium.eid.Card.prototype.getValidityEndDate = function() {
  * @type primitive string
  */
 be.belgium.eid.Card.prototype.toString = function() {
+	var dateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DDMMYYYY);
 	var newline = "\r\n";
 	var str = "";
 	str += "cardNumber: " + this.cardNumber.toString() + newline;
-	if (this.validityBeginDate.toLocaleDateString) {
-		str += "validityBeginDate: " + this.validityBeginDate.toLocaleDateString() + newline; // IE 5.5+
-		str += "validityEndDate: " + this.validityEndDate.toLocaleDateString(); // IE 5.5+
-	} else {
-		str += "validityBeginDate: " + this.validityBeginDate.toString() + newline;
-		str += "validityEndDate: " + this.validityEndDate.toString();
-	}
+	str += "validityBeginDate: " + dateFormatter.format(this.validityBeginDate) + newline;
+	str += "validityEndDate: " + dateFormatter.format(this.validityEndDate);
 	return str;
 };
 
@@ -662,6 +662,7 @@ be.belgium.eid.EIDCard.prototype = new be.belgium.eid.Card; // extends Card
  * @type primitive string
  */
 be.belgium.eid.EIDCard.prototype.toString = function() {
+	var dateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DDMMYYYY);
 	var newline = "\r\n";
 	var str = "eID card" + newline;
 	str += be.belgium.eid.Card.prototype.toString.call(this) + newline;
@@ -674,11 +675,7 @@ be.belgium.eid.EIDCard.prototype.toString = function() {
 	str += "firstName3: " + this.firstName3 + newline;
 	str += "nationality: " + this.nationality + newline;
 	str += "birthLocation: " + this.birthLocation + newline;
-	if (this.birthDate.toLocaleDateString) {
-		str += "birthDate: " + this.birthDate.toLocaleDateString() + newline;
-	} else {
-		str += "birthDate: " + this.birthDate.toString() + newline;
-	}
+	str += "birthDate: " + dateFormatter.format(this.birthDate) + newline;
 	str += "sex: " + this.sex + newline;
 	str += "nobleCondition: " + this.nobleCondition + newline;
 	str += "documentType: " + this.documentType + newline;
@@ -1186,6 +1183,7 @@ be.belgium.eid.SISCard.prototype = new be.belgium.eid.Card; // extends Card
  * @type primitive string
  */
 be.belgium.eid.SISCard.prototype.toString = function() {
+	var dateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DDMMYYYY);
 	var newline = "\r\n";
 	var str = "SIS card" + newline;
 	str += be.belgium.eid.Card.prototype.toString.call(this) + newline;
@@ -1194,11 +1192,7 @@ be.belgium.eid.SISCard.prototype.toString = function() {
 	str += "initials: " + this.initials + newline;
 	str += "name: " + this.name + newline;
 	str += "sex: " + this.sex + newline;
-	if (this.birthDate.toLocaleDateString) {
-		str += "birthDate: " + this.birthDate.toLocaleDateString() + newline;
-	} else {
-		str += "birthDate: " + this.birthDate.toString() + newline;
-	}
+	str += "birthDate: " + dateFormatter.format(this.birthDate);
 	return str;
 };
 
@@ -1358,8 +1352,10 @@ be.belgium.eid.CardBuilder.prototype.getCard = function() {
 
 be.belgium.eid.CardBuilder.prototype.setCardNumber = function(cardNumber) {
 	try {
-		if (this.card)
-			this.card.setCardNumber(be.belgium.eid.JavaObjectConvertor.toNumber(cardNumber));
+		if (this.card) {
+			var cardNumberString = be.belgium.eid.JavaObjectConvertor.toString(cardNumber);
+			this.card.setCardNumber(be.belgium.eid.JavaObjectConvertor.toNumber(cardNumberString.valueOf()));
+		}
 	} catch (e){}
 };
 
@@ -1424,7 +1420,8 @@ be.belgium.eid.EIDCardBuilder35.prototype.setIssMunicipality = function(issMunic
 
 be.belgium.eid.EIDCardBuilder35.prototype.setNationalNumber = function(nationalNumber) {
 	try {
-		this.card.setNationalNumber(be.belgium.eid.JavaObjectConvertor.toNumber(nationalNumber));
+		var nationalNumberString = be.belgium.eid.JavaObjectConvertor.toString(nationalNumber);
+		this.card.setNationalNumber(be.belgium.eid.JavaObjectConvertor.toNumber(nationalNumberString.valueOf()));
 	} catch (e){}
 };
 
@@ -1483,7 +1480,8 @@ be.belgium.eid.EIDCardBuilder35.prototype.setNobleCondition = function(nobleCond
 
 be.belgium.eid.EIDCardBuilder35.prototype.setSpecialStatus = function(specialStatus) {
 	try {
-		specialStatus = be.belgium.eid.JavaObjectConvertor.toNumber(specialStatus);
+		var specialStatusString = be.belgium.eid.JavaObjectConvertor.toString(specialStatus);
+		specialStatus = be.belgium.eid.JavaObjectConvertor.toNumber(specialStatusString.valueOf());
 		this.card.setSpecialStatus(specialStatus.valueOf());
 	} catch (e){}
 };
@@ -1508,7 +1506,8 @@ be.belgium.eid.EIDCardBuilder35.prototype.setBoxNumber = function(boxNumber) {
 
 be.belgium.eid.EIDCardBuilder35.prototype.setZip = function(zip) {
 	try {
-		this.card.setZipCode(be.belgium.eid.JavaObjectConvertor.toNumber(zip));
+		var zipString = be.belgium.eid.JavaObjectConvertor.toString(zip);
+		this.card.setZipCode(be.belgium.eid.JavaObjectConvertor.toNumber(zipString.valueOf()));
 	} catch (e){}
 };
 
