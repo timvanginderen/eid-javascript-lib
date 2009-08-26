@@ -596,7 +596,7 @@ be.belgium.eid.Card.prototype.getValidityEndDate = function() {
  * @type primitive string
  */
 be.belgium.eid.Card.prototype.toString = function() {
-	var dateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DDMMYYYY);
+	var dateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DD_MM_YYYY);
 	var newline = "\r\n";
 	var str = "";
 	str += "cardNumber: " + this.cardNumber.toString() + newline;
@@ -662,7 +662,7 @@ be.belgium.eid.EIDCard.prototype = new be.belgium.eid.Card; // extends Card
  * @type primitive string
  */
 be.belgium.eid.EIDCard.prototype.toString = function() {
-	var dateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DDMMYYYY);
+	var dateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DD_MM_YYYY);
 	var newline = "\r\n";
 	var str = "eID card" + newline;
 	str += be.belgium.eid.Card.prototype.toString.call(this) + newline;
@@ -1183,7 +1183,7 @@ be.belgium.eid.SISCard.prototype = new be.belgium.eid.Card; // extends Card
  * @type primitive string
  */
 be.belgium.eid.SISCard.prototype.toString = function() {
-	var dateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DDMMYYYY);
+	var dateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DD_MM_YYYY);
 	var newline = "\r\n";
 	var str = "SIS card" + newline;
 	str += be.belgium.eid.Card.prototype.toString.call(this) + newline;
