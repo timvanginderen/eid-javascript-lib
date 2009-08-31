@@ -21,7 +21,8 @@
 // THE SOFTWARE.
 
 /*
-	1.4 26/08/2009
+	1.4 31/08/2009
+	- Fix JRE 6 Update 15: check if applet is loaded as sub applet (using applet-launcher) or as main applet (using Next-Generation Java Plug-in).
 	- Conversion of Java String objects returned by Java applets into Javascript Number objects fails in Safari.
 	  Therefore Java String objects are first converted to Javascript String objects and then converted to Javascript Number objects.
 	- DateFormatter is used to format dates in toString methods of Card-, EIDCard- or SISCard objects.
@@ -85,7 +86,7 @@ if (!be.belgium) be.belgium = new Object();
  * SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
  * More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  * 
- * @version 1.4 26/08/2009
+ * @version 1.4 31/08/2009
  * @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
  */
 
@@ -1639,7 +1640,11 @@ be.belgium.eid.CardReader = function(readerName) {
 be.belgium.eid.CardReader.prototype.getBEIDApplet = function() {
 	if (!this.BEIDApplet) {
 		if (document.getElementById(this.appletLauncherId)) {
-			this.BEIDApplet = document.getElementById(this.appletLauncherId).getSubApplet();
+			// check if applet is loaded as sub applet or as main applet
+			if (document.getElementById(this.appletLauncherId).getSubApplet)
+				this.BEIDApplet = document.getElementById(this.appletLauncherId).getSubApplet();
+			else
+				this.BEIDApplet = document.getElementById(this.appletLauncherId);
 		}
 		if (!this.BEIDApplet)
 			throw new be.belgium.eid.NullPointerException();
