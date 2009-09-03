@@ -3,6 +3,7 @@
     <information>
         <title>Java Binding to Belgium eID Middleware 3.5</title>
         <vendor>Fedict</vendor>
+        <homepage href="http://www.fedict.belgium.be"></homepage>
         <offline-allowed/>
     </information>
     <security>
