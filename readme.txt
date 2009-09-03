@@ -17,7 +17,7 @@ Other browsers and other platforms were not tested.
 SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
 More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  
-@version 1.3 16/08/2009
+@version 1.4 03/09/2009
 @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
 
@@ -48,10 +48,9 @@ How to run the examples
          - beid35JavaWrapper-mac.jar
          - beid35JavaWrapper-win.jar
          - beid35libJava.jar
-         - beid.jnlp
          - BEID_Applet.jar
 
-4) Open the copied beid.jnlp in notepad (or any other text editor)
+4) Go to the examples subdirectory and open beid.jnlp in notepad or any other text editor.
    The codebase directory should be changed to the examples subdirectory of the eid-javascript-lib:
    
    If your examples subdirectory is C:\eid-javascript-lib\examples\
@@ -63,7 +62,17 @@ How to run the examples
 
    This is also explained in readme.txt and copy_binaries.bat in the Samples\misc\Applet\Basic\java subdirectory of the eID SDK.
 
-5) Open the examples in a browser.
+5) Open beid_java_plugin.jnlp in notepad or any other text editor.
+   The codebase directory should be changed to the examples subdirectory of the eid-javascript-lib:
+   
+   If your examples subdirectory is C:\eid-javascript-lib\examples\
+
+   change 
+	<jnlp codebase="http://127.0.0.1/" href="beid_java_plugin.jnlp"> 
+   into 
+	<jnlp codebase="file:///C:/eid-javascript-lib/examples/" href="beid_java_plugin.jnlp">
+
+6) Open the examples in a browser.
 
 
 Remark
