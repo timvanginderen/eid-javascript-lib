@@ -55,6 +55,7 @@ function readCard() {
 	clearInputFields();
 	document.getElementById("content").value = "Please wait ...";
 
+	var dateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DD_MM_YYYY);
 	var card = cardReader.read();
 	if (card != null) {
 		if (card instanceof be.belgium.eid.EIDCard) {
@@ -62,9 +63,10 @@ function readCard() {
 			document.getElementById("eid_cardNumber").value = card.getCardNumber();
 			document.getElementById("eid_nationalNumber").value = card.getNationalNumber();
 			document.getElementById("eid_chipNumber").value = card.getChipNumber();
-			document.getElementById("eid_validityBeginDate").value = card.getValidityBeginDate().toString();
-			document.getElementById("eid_validityEndDate").value = card.getValidityEndDate().toString();
+			document.getElementById("eid_validityBeginDate").value = dateFormatter.format(card.getValidityBeginDate());
+			document.getElementById("eid_validityEndDate").value = dateFormatter.format(card.getValidityEndDate());
 			document.getElementById("eid_surname").value = card.getSurname();
+			document.getElementById("eid_birthdate").value = dateFormatter.format(card.getBirthDate());
 			if (card.getSex() == be.belgium.eid.sex.FEMALE)
 				document.getElementById("eid_sex_F").checked = true;
 			else
@@ -76,9 +78,10 @@ function readCard() {
 			document.getElementById("sis_card").checked = true;
 			document.getElementById("sis_cardNumber").value = card.getCardNumber();
 			document.getElementById("sis_socialSecurityNumber").value = card.getSocialSecurityNumber();
-			document.getElementById("sis_validityBeginDate").value = card.getValidityBeginDate().toString();
-			document.getElementById("sis_validityEndDate").value = card.getValidityEndDate().toString();
+			document.getElementById("sis_validityBeginDate").value = dateFormatter.format(card.getValidityBeginDate());
+			document.getElementById("sis_validityEndDate").value = dateFormatter.format(card.getValidityEndDate());
 			document.getElementById("sis_surname").value = card.getSurname();
+			document.getElementById("sis_birthdate").value = dateFormatter.format(card.getBirthDate());
 			document.getElementById("sis_sex_F").checked = card.getFemale();
 			document.getElementById("sis_sex_M").checked = card.getMale();
 		}
@@ -130,6 +133,7 @@ var url = locarray.join("/");
 	document.writeln('<param name="Reader" value=""/>');
 	document.writeln('<param name="OCSP" value="-1"/>');
 	document.writeln('<param name="CRL" value="-1"/>');
+	document.writeln('<param name="jnlp_href" value="' + url + jnlpPath + '/beid_java_plugin.jnlp" />');
 	document.writeln('</applet>');
 
 </script>
@@ -146,6 +150,7 @@ var url = locarray.join("/");
 <tr><td>Validity begin date</td><td><input type=text id=eid_validityBeginDate></td><td>Validity begin date</td><td><input type=text id=sis_validityBeginDate></td></tr>
 <tr><td>Validity end date</td><td><input type=text id=eid_validityEndDate></td><td>Validity end date</td><td><input type=text id=sis_validityEndDate></td></tr>
 <tr><td>Surname</td><td><input type=text id=eid_surname></td><td>Surname</td><td><input type=text id=sis_surname></td></tr>
+<tr><td>Birth date</td><td><input type=text id=eid_birthdate></td><td>Birth date</td><td><input type=text id=sis_birthdate></td></tr>
 <tr><td>Sex</td><td><input type=radio name=eid_sex id=eid_sex_F value="F">F<input type=radio name=eid_sex id=eid_sex_M value="M">M</td>
 <td>Sex</td><td><input type=radio name=sis_sex id=sis_sex_F value="F">F<input type=radio name=sis_sex id=sis_sex_M value="M">M</td></tr>
 <tr><td>Special status</td><td>	<input type=checkbox id=eid_white_cane>White cane<br>
