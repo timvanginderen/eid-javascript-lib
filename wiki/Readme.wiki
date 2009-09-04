@@ -64,6 +64,7 @@ More information about SIS card plugins in the eID V3 middleware can be found at
 	<jnlp codebase="http://127.0.0.1/" href="beid_java_plugin.jnlp"> 
    into 
 	<jnlp codebase="file:///C:/eid-javascript-lib/examples/" href="beid_java_plugin.jnlp">
+}}}
   # Open the examples in a browser.
 
 <B>Remark</B>
