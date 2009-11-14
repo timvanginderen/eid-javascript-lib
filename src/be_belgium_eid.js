@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 
 /*
+	1.5 14/11/2009
+	- Added isCardPresent method.
 	1.4 03/09/2009
 	- Fix JRE 6 Update 15: check if applet is loaded as sub applet (using applet-launcher) or as main applet (using Next-Generation Java Plug-in).
 	- Conversion of Java String objects returned by Java applets into Javascript Number objects fails in Safari.
@@ -86,7 +88,7 @@ if (!be.belgium) be.belgium = new Object();
  * SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
  * More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  * 
- * @version 1.4 03/09/2009
+ * @version 1.5 14/11/2009
  * @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
  */
 
@@ -1799,6 +1801,49 @@ be.belgium.eid.CardReader.prototype.getDefaultReaderName = function() {
 	return defaultReaderName;
 };
 
+/**
+ * determine reader name (default reader name or reader name defined as applet parameter)
+ * @private
+ * @method determineReaderName
+ */
+be.belgium.eid.CardReader.prototype.determineReaderName = function() {
+	// No reader name provided, use default reader name or reader name defined as applet parameter
+	if (this.readerName === null || this.readerName === "") {
+		var parameterReaderName = "" + this.getBEIDApplet().getParameter("Reader");
+		if (parameterReaderName === null || parameterReaderName === "") {
+			// Reader name is not defined as applet parameter
+			this.readerName = this.getDefaultReaderName();
+		} else {
+			this.readerName = parameterReaderName;
+		}
+	}
+};
+
+/**
+ * Check if card is present.
+ * @public
+ * @method isCardPresent
+ * @return true if card is present, false if no card is present or if failed to detect.
+ * @type primitive boolean
+ */
+be.belgium.eid.CardReader.prototype.isCardPresent = function() {
+	var cardPresent = false;
+
+	this.determineReaderName();
+
+	if (this.readerName !== "") { // reader name is determined
+		try {
+			//this.getBEIDApplet().InitLib(null);
+			cardPresent = this.BEIDApplet.isCardPresent(this.readerName);
+		} catch (e){} // catch Javascript and Java exceptions
+
+		//try {
+		//	this.getBEIDApplet().exitLib();
+		//} catch (e){} // catch Javascript and Java exceptions
+	}
+	return cardPresent;
+};
+
 /** 
  * @private
  * @method validChipNumber
@@ -1832,16 +1877,7 @@ be.belgium.eid.CardReader.prototype.read = function() {
 		// Reset all objects and previous read card values
 		this.getBEIDApplet().InitLib(null);
 
-		// No reader name provided, use default reader name or reader name defined as applet parameter
-		if (this.readerName === "") {
-			var parameterReaderName = "" + this.getBEIDApplet().getParameter("Reader");
-			if (parameterReaderName === null || parameterReaderName === "") {
-				// Reader name is not defined as applet parameter
-				this.readerName = this.getDefaultReaderName();
-			} else {
-				this.readerName = parameterReaderName;
-			}
-		}
+		this.determineReaderName();
 
 		// Still no reader name ...
 		if (this.readerName === "") {
