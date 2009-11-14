@@ -12,7 +12,7 @@ var cardDetectionIntervalId = -1;
 function waitUntilAppletIsActive() {
 	var applet = document.getElementById("BEIDAppletLauncher");
 	var isActive = false;
-	
+
 	if (applet) {
 		try {
 			isActive = applet.isActive();
@@ -41,9 +41,9 @@ function stopCardDetection() {
 
 function detectCardPresent() {
 	if (cardReader.isCardPresent()) {
+		stopCardDetection();
 		window.status = "Card is inserted.";
 		document.getElementById("content").value = "Card is inserted.";
-		stopCardDetection();
 		readCard();
 		cardDetectionIntervalId = window.setInterval(detectCardAbsent, cardDetectionTimeout);
 	}
@@ -51,9 +51,9 @@ function detectCardPresent() {
 
 function detectCardAbsent() {
 	if (cardReader.isCardPresent() == false) {
+		stopCardDetection();
 		window.status = "Card is removed.";
 		document.getElementById("content").value = "Card is removed.";
-		stopCardDetection();
 		cardDetectionIntervalId = window.setInterval(detectCardPresent, cardDetectionTimeout);
 	}
 }
