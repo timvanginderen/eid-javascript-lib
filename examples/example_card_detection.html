@@ -14,22 +14,33 @@ function waitUntilAppletIsActive() {
 	var isActive = false;
 
 	if (applet) {
-		try {
-			isActive = applet.isActive();
-		} catch (e) {
-			isActive = true;
+		if (typeof(applet.isActive) != "undefined") {
+			try {
+				isActive = applet.isActive();
+			} catch (e) {
+				isActive = false;
+				try {
+					isActive = applet.isActive;
+				} catch (e) {
+					isActive = false;
+				}
+			}
 		}
 	}
 
 	if (isActive) {
-		startCardDetection();
+		startCardPresentDetection();
 	} else {
 		window.setTimeout(waitUntilAppletIsActive, 2500);
 	}
 }
 
-function startCardDetection() {
+function startCardPresentDetection() {
 	cardDetectionIntervalId = window.setInterval(detectCardPresent, cardDetectionTimeout);
+}
+
+function startCardAbsentDetection() {
+	cardDetectionIntervalId = window.setInterval(detectCardAbsent, cardDetectionTimeout);
 }
 
 function stopCardDetection() {
@@ -45,7 +56,7 @@ function detectCardPresent() {
 		window.status = "Card is inserted.";
 		document.getElementById("content").value = "Card is inserted.";
 		readCard();
-		cardDetectionIntervalId = window.setInterval(detectCardAbsent, cardDetectionTimeout);
+		startCardAbsentDetection();
 	}
 }
 
@@ -54,7 +65,7 @@ function detectCardAbsent() {
 		stopCardDetection();
 		window.status = "Card is removed.";
 		document.getElementById("content").value = "Card is removed.";
-		cardDetectionIntervalId = window.setInterval(detectCardPresent, cardDetectionTimeout);
+		startCardPresentDetection();
 	}
 }
 
@@ -77,6 +88,16 @@ function appletExceptionHandler(e) {
 	window.alert("Error reading card!\r\nException: " + e + "\r\nPlease try again.");
 }
 cardReader.setAppletExceptionHandler(appletExceptionHandler);
+
+function buttonOnClickHandler() {
+	stopCardDetection();
+	readCard();
+	if (cardReader.isCardPresent()) {
+		startCardAbsentDetection();
+	} else {
+		startCardPresentDetection();
+	}
+}
 
 function readCard() {
 	document.getElementById("content").value = "Please wait ...";
@@ -136,7 +157,7 @@ var url = locarray.join("/");
 </script>
 <br>
 <br>
-<input type="button" onclick="javascript:readCard()" value="Read Card" title="Read Card"/>
+<input type="button" onclick="javascript:buttonOnClickHandler()" value="Read Card" title="Read Card"/>
 <br>
 <br>
 Card content:<br>
