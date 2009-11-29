@@ -17,7 +17,7 @@ Other browsers and other platforms were not tested.
 SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
 More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  
-@version 1.4 03/09/2009
+@version 1.5 14/11/2009
 @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
 
@@ -77,5 +77,19 @@ How to run the examples
 
 Remark
 ------
-The Base64 encoding only works in Internet Explorer, if JRE 6 Update 10 (Java Runtime Environment 1.6.0_10) or higher is installed
-and if the Next-Generation Java Plug-in is enabled (this is the default setting) in the Java Control Panel.
+1) The Base64 encoding only works in Internet Explorer, if JRE 6 Update 10 (Java Runtime Environment 1.6.0_10) or higher is installed
+   and if the Next-Generation Java Plug-in is enabled (this is the default setting) in the Java Control Panel.
+
+2) If you are using Internet Explorer 7 or 8 on Vista, it could be that the examples doesn't work.
+   Normally if you open the examples in Internet Explorer, a warning "To help protect your security, Internet Explorer has restricted
+   this webpage from running scripts or ActiveX controlsthat could access to your computer. Click here for options ..." should be displayed.
+   If this warning is not displayed, Java applets in that webpage are blocked.
+
+   The problem is caused by Protected Mode for IE7 and IE8 in Windows Vista.
+   More info at: http://blogs.msdn.com/ie/archive/2007/04/04/protected-mode-for-ie7-in-windows-vista-is-it-on-or-off.aspx
+   
+   You can solve this problem using the following solution: 
+     - Open the html-file.
+     - Add a whitespace.
+     - Delete the whitespace.
+     - Save the html-file using a different filename.
