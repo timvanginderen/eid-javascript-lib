@@ -1,4 +1,4 @@
-eid-javascript-lib version 1.4
+eid-javascript-lib version 1.5
 
 Copyright (c) 2009 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
