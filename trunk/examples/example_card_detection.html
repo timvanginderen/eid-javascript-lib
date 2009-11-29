@@ -6,8 +6,9 @@
 
 var cardReader = new be.belgium.eid.CardReader();
 
-var cardDetectionTimeout = 2500; // 2500 ms or 2,5 seconds
+var cardDetectionTimeout = 2000; // 2000 ms or 2 seconds
 var cardDetectionIntervalId = -1;
+var previousCardPresence = false;
 
 function waitUntilAppletIsActive() {
 	var applet = document.getElementById("BEIDAppletLauncher");
@@ -29,18 +30,15 @@ function waitUntilAppletIsActive() {
 	}
 
 	if (isActive) {
-		startCardPresentDetection();
+		startCardDetection();
 	} else {
-		window.setTimeout(waitUntilAppletIsActive, 2500);
+		window.setTimeout(waitUntilAppletIsActive, 2000); // 2000 ms or 2 seconds
 	}
 }
 
-function startCardPresentDetection() {
-	cardDetectionIntervalId = window.setInterval(detectCardPresent, cardDetectionTimeout);
-}
-
-function startCardAbsentDetection() {
-	cardDetectionIntervalId = window.setInterval(detectCardAbsent, cardDetectionTimeout);
+function startCardDetection() {
+	previousCardPresence = cardReader.isCardPresent();
+	cardDetectionIntervalId = window.setInterval(detectCardPresence, cardDetectionTimeout);
 }
 
 function stopCardDetection() {
@@ -50,22 +48,20 @@ function stopCardDetection() {
 	}
 }
 
-function detectCardPresent() {
-	if (cardReader.isCardPresent()) {
+function detectCardPresence() {
+	var currentCardPresence = cardReader.isCardPresent();
+	if (previousCardPresence != currentCardPresence) {
 		stopCardDetection();
-		window.status = "Card is inserted.";
-		document.getElementById("content").value = "Card is inserted.";
-		readCard();
-		startCardAbsentDetection();
-	}
-}
-
-function detectCardAbsent() {
-	if (cardReader.isCardPresent() == false) {
-		stopCardDetection();
-		window.status = "Card is removed.";
-		document.getElementById("content").value = "Card is removed.";
-		startCardPresentDetection();
+		previousCardPresence = currentCardPresence;
+		if (currentCardPresence) {
+			window.status = "Card is inserted.";
+			document.getElementById("content").value = "Card is inserted.";
+			readCard();
+		} else {
+			window.status = "Card is removed.";
+			document.getElementById("content").value = "Card is removed.";
+		}
+		startCardDetection();
 	}
 }
 
@@ -92,11 +88,7 @@ cardReader.setAppletExceptionHandler(appletExceptionHandler);
 function buttonOnClickHandler() {
 	stopCardDetection();
 	readCard();
-	if (cardReader.isCardPresent()) {
-		startCardAbsentDetection();
-	} else {
-		startCardPresentDetection();
-	}
+	startCardDetection();
 }
 
 function readCard() {
