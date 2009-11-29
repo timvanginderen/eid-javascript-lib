@@ -87,7 +87,7 @@ Remark
 
    The problem is caused by Protected Mode for IE7 and IE8 in Windows Vista.
    More info at: http://blogs.msdn.com/ie/archive/2007/04/04/protected-mode-for-ie7-in-windows-vista-is-it-on-or-off.aspx
-   
+
    You can solve this problem using the following solution: 
      - Open the html-file.
      - Add a whitespace.
