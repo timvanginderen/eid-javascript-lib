@@ -6,3 +6,4 @@
 
   * [http://code.google.com/p/eidlib/ Native Java e-ID library]
   * [http://code.google.com/p/eid-applet/ eID Applet by Frank Cornelis]
+  * [http://code.google.com/p/jsdoc-toolkit/ jsdoc-toolkit: a documentation generator for JavaScript]
