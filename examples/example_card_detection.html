@@ -6,6 +6,7 @@
 
 var cardReader = new be.belgium.eid.CardReader();
 
+var appletDetectionTimeout = 2000; // 2000 ms or 2 seconds
 var cardDetectionTimeout = 2000; // 2000 ms or 2 seconds
 var cardDetectionIntervalId = -1;
 var previousCardPresence = false;
@@ -32,7 +33,7 @@ function waitUntilAppletIsActive() {
 	if (isActive) {
 		startCardDetection();
 	} else {
-		window.setTimeout(waitUntilAppletIsActive, 2000); // 2000 ms or 2 seconds
+		window.setTimeout(waitUntilAppletIsActive, appletDetectionTimeout);
 	}
 }
 
