@@ -695,8 +695,8 @@ be.belgium.eid.EIDCard.prototype.toString = function() {
 	if (this.picture !== null) {
 		str += "A picture is available.";
 	} else {
-		str += "No picture available."
-	}	
+		str += "No picture available.";
+	}
 	return str;
 };
 
