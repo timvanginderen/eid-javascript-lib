@@ -1,6 +1,6 @@
-// eid-javascript-lib version 1.5
+// eid-javascript-lib version 1.6
 
-// Copyright (c) 2009 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
+// Copyright (c) 2009-2010 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 
 /*
+	1.6 03/09/2010
+	- Added reset method.
 	1.5 14/11/2009
 	- Added isCardPresent method.
 	1.4 03/09/2009
@@ -88,7 +90,7 @@ if (!be.belgium) be.belgium = new Object();
  * SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
  * More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  * 
- * @version 1.5 14/11/2009
+ * @version 1.6 03/09/2010
  * @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
  */
 
@@ -1833,13 +1835,8 @@ be.belgium.eid.CardReader.prototype.isCardPresent = function() {
 
 	if (this.readerName !== "") { // reader name is determined
 		try {
-			//this.getBEIDApplet().InitLib(null);
 			cardPresent = this.BEIDApplet.isCardPresent(this.readerName);
 		} catch (e){} // catch Javascript and Java exceptions
-
-		//try {
-		//	this.getBEIDApplet().exitLib();
-		//} catch (e){} // catch Javascript and Java exceptions
 	}
 	return cardPresent;
 };
@@ -1961,4 +1958,18 @@ be.belgium.eid.CardReader.prototype.read = function() {
 	} catch (e){}
 
 	return card;
+};
+
+/**
+ * Reset applet. The picture shown in the applet will be cleared.
+ * @public
+ * @method reset
+ */
+be.belgium.eid.CardReader.prototype.reset = function() {
+	try {
+		this.getBEIDApplet().InitLib(null);
+	} catch (e){} // catch Javascript and Java exceptions
+	try {
+		this.getBEIDApplet().exitLib();
+	} catch (e){} // catch Javascript and Java exceptions
 };
