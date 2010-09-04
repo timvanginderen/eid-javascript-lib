@@ -38,7 +38,6 @@ function waitUntilAppletIsActive() {
 }
 
 function startCardDetection() {
-	previousCardPresence = cardReader.isCardPresent();
 	cardDetectionIntervalId = window.setInterval(detectCardPresence, cardDetectionTimeout);
 }
 
@@ -61,6 +60,7 @@ function detectCardPresence() {
 		} else {
 			window.status = "Card is removed.";
 			document.getElementById("content").value = "Card is removed.";
+			cardReader.reset();
 		}
 		startCardDetection();
 	}
