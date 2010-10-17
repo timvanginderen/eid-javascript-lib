@@ -1,4 +1,4 @@
-// eid-javascript-lib version 1.6
+// eid-javascript-lib version 1.7
 
 // Copyright (c) 2009-2010 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 
 /*
+	1.7 17/10/2010
+	- Foreigner eID has a card number starting with B.
 	1.6 03/09/2010
 	- Added reset method.
 	1.5 14/11/2009
@@ -90,7 +92,7 @@ if (!be.belgium) be.belgium = new Object();
  * SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
  * More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  * 
- * @version 1.6 03/09/2010
+ * @version 1.7 17/10/2010
  * @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
  */
 
@@ -478,7 +480,7 @@ be.belgium.eid.JavaObjectConvertor = new Object();
 be.belgium.eid.JavaObjectConvertor.toString = function(javaObject) {
 	if (javaObject === null || typeof(javaObject) == "undefined")
 		throw new be.belgium.eid.NullPointerException();
-	return new String(javaObject); //new String("" + javaObject);
+	return new String(javaObject);
 };
 
 /**
@@ -536,7 +538,7 @@ be.belgium.eid.GenderParser.parse = function(str) {
  * @abstract
  */ 
 be.belgium.eid.Card = function() {
-	this.cardNumber = new Number(0);
+	this.cardNumber = new String("");
 	this.validityBeginDate = new Date(0);
 	this.validityEndDate = new Date(0);
 };
@@ -546,21 +548,21 @@ be.belgium.eid.Card = function() {
  */
  
 be.belgium.eid.Card.prototype.setCardNumber = function(cardNumber) {
-	if (cardNumber instanceof Number)
+	if (cardNumber instanceof String)
 		this.cardNumber = cardNumber;
 	else
-		this.cardNumber = new Number(cardNumber);
+		this.cardNumber = new String(cardNumber);
 };
 
 /**
  * Return card number.
  * @public
  * @method getCardNumber
- * @return a primitive number containing card number.
- * @type primitive number
+ * @return a String object containing card number.
+ * @type String
  */
 be.belgium.eid.Card.prototype.getCardNumber = function() {
-	return this.cardNumber.valueOf(); 
+	return this.cardNumber; 
 };
 
 be.belgium.eid.Card.prototype.setValidityBeginDate = function(beginDate) {
@@ -604,7 +606,7 @@ be.belgium.eid.Card.prototype.toString = function() {
 	var dateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DD_MM_YYYY);
 	var newline = "\r\n";
 	var str = "";
-	str += "cardNumber: " + this.cardNumber.toString() + newline;
+	str += "cardNumber: " + this.cardNumber + newline;
 	str += "validityBeginDate: " + dateFormatter.format(this.validityBeginDate) + newline;
 	str += "validityEndDate: " + dateFormatter.format(this.validityEndDate);
 	return str;
@@ -1159,6 +1161,28 @@ be.belgium.eid.EIDCard.prototype.getPicture = function() {
 };
 
 /**
+ * ForeignerEIDCard contains the public readable identity data of a foreigner eID card.
+ * @description
+ * A foreigner eID card contains the same data as an eID card for Belgian citizens.
+ * @extends be.belgium.eid.EIDCard
+ * @constructor
+*/
+be.belgium.eid.ForeignerEIDCard = function() {};
+be.belgium.eid.ForeignerEIDCard.prototype = new be.belgium.eid.EIDCard; // extends EIDCard
+
+/**
+ * Returns a string representation of public readable identity data of a foreigner eID card.
+ * @public
+ * @method toString
+ * @return a string representation of public readable identity data of a foreigner eID card.
+ * @type primitive string
+ */
+be.belgium.eid.ForeignerEIDCard.prototype.toString = function() {
+	var str = "foreigner " + be.belgium.eid.EIDCard.prototype.toString.call(this);
+	return str;
+};
+
+/**
  * SISCard contains the public readable identity data of a SIS card.
  * @description
  * Almost all the properties of this object are of type String, Number, Date or Boolean.
@@ -1359,7 +1383,7 @@ be.belgium.eid.CardBuilder.prototype.setCardNumber = function(cardNumber) {
 	try {
 		if (this.card) {
 			var cardNumberString = be.belgium.eid.JavaObjectConvertor.toString(cardNumber);
-			this.card.setCardNumber(be.belgium.eid.JavaObjectConvertor.toNumber(cardNumberString.valueOf()));
+			this.card.setCardNumber(cardNumberString);
 		}
 	} catch (e){}
 };
@@ -1399,8 +1423,17 @@ be.belgium.eid.CardBuilder.prototype.setBirthDate = function(birthDate) {
  * @constructor
  * @extends be.belgium.eid.CardBuilder
  */
-be.belgium.eid.EIDCardBuilder35 = function() {
-	this.card = new be.belgium.eid.EIDCard();
+be.belgium.eid.EIDCardBuilder35 = function(cardNumber) {
+	var cardNumberString = new String("");
+	try {
+		cardNumberString = be.belgium.eid.JavaObjectConvertor.toString(cardNumber);
+	} catch (e){}
+	if (cardNumberString.indexOf("B") == 0) {
+		this.card = new be.belgium.eid.ForeignerEIDCard();
+	} else {
+		this.card = new be.belgium.eid.EIDCard();
+	}
+	this.card.setCardNumber(cardNumberString);
 	this.birthDateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.EID_BIRTH_DATE);
 	this.validityDateFormatter = new be.belgium.eid.DateFormatter(be.belgium.eid.dateFormat.DD_MM_YYYY);
 };
@@ -1410,7 +1443,7 @@ be.belgium.eid.EIDCardBuilder35.prototype = new be.belgium.eid.CardBuilder; // e
  * Setters 
  * @public All these methods are public
  */
- 
+
 be.belgium.eid.EIDCardBuilder35.prototype.setChipNumber = function(chipNumber) {
 	try {
 		this.card.setChipNumber(be.belgium.eid.JavaObjectConvertor.toString(chipNumber));
@@ -1850,10 +1883,11 @@ be.belgium.eid.CardReader.prototype.isCardPresent = function() {
 be.belgium.eid.CardReader.validChipNumber = function(chipNumber) {
 	try {
 		chipNumber = be.belgium.eid.JavaObjectConvertor.toString(chipNumber);
-		if (chipNumber.length == 0)
+		if (chipNumber.length == 0) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	} catch (e) {
 		return false;
 	}
@@ -1892,8 +1926,7 @@ be.belgium.eid.CardReader.prototype.read = function() {
 
 		if (this.BEIDApplet.isCardPresent(this.readerName)) {
 			if (be.belgium.eid.CardReader.validChipNumber(this.BEIDApplet.getChipNumber())) {
-				cardBuilder = new be.belgium.eid.EIDCardBuilder35();
-				cardBuilder.setCardNumber(this.BEIDApplet.getCardNumber());
+				cardBuilder = new be.belgium.eid.EIDCardBuilder35(this.BEIDApplet.getCardNumber());
 				cardBuilder.setChipNumber(this.BEIDApplet.getChipNumber());
 				cardBuilder.setValidityDateBegin(this.BEIDApplet.getValidityDateBegin());
 				cardBuilder.setValidityDateEnd(this.BEIDApplet.getValidityDateEnd());
