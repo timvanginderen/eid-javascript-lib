@@ -21,8 +21,9 @@
 // THE SOFTWARE.
 
 /*
-	1.7 17/10/2010
+	1.7 21/10/2010
 	- Foreigner eID has a card number starting with B.
+	- Kids-ID has a card number starting with 610.
 	1.6 03/09/2010
 	- Added reset method.
 	1.5 14/11/2009
@@ -92,7 +93,7 @@ if (!be.belgium) be.belgium = new Object();
  * SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
  * More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  * 
- * @version 1.7 17/10/2010
+ * @version 1.7 21/10/2010
  * @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
  */
 
@@ -123,7 +124,15 @@ be.belgium.eid.specialStatus = {
  * EU_CITIZEN : 2,<br>
  * NON_EU_CITIZEN : 3,<br>
  * BOOTSTRAP_CARD : 7,<br>
- * HABILITATION_CARD : 8 
+ * HABILITATION_CARD : 8,<br>
+ * FOREIGNER_EID_A : 11,<br>
+ * FOREIGNER_EID_B : 12,<br>
+ * FOREIGNER_EID_C : 13,<br>
+ * FOREIGNER_EID_D : 14,<br>
+ * FOREIGNER_EID_E : 15,<br>
+ * FOREIGNER_EID_E_PLUS : 16,<br>
+ * FOREIGNER_EID_F : 17,<br>
+ * FOREIGNER_EID_F_PLUS : 18 
  * @memberOf be.belgium.eid
  */
 
@@ -132,8 +141,17 @@ be.belgium.eid.documentType = {
 	BELGIAN_CITIZEN : 1,
 	EU_CITIZEN : 2,
 	NON_EU_CITIZEN : 3,
+	KIDS_EID : 6,
 	BOOTSTRAP_CARD : 7,
-	HABILITATION_CARD : 8
+	HABILITATION_CARD : 8,
+	FOREIGNER_EID_A : 11,
+	FOREIGNER_EID_B : 12,
+	FOREIGNER_EID_C : 13,
+	FOREIGNER_EID_D : 14,
+	FOREIGNER_EID_E : 15,
+	FOREIGNER_EID_E_PLUS : 16,
+	FOREIGNER_EID_F : 17,
+	FOREIGNER_EID_F_PLUS : 18
 };
 
 /**
@@ -1183,6 +1201,30 @@ be.belgium.eid.ForeignerEIDCard.prototype.toString = function() {
 };
 
 /**
+ * KidsEIDCard contains the public readable identity data of a kids eID card.
+ * @description
+ * A kids eID card contains the same data as an eID card for Belgian citizens.
+ * @extends be.belgium.eid.EIDCard
+ * @constructor
+*/
+be.belgium.eid.KidsEIDCard = function() {
+	this.documentType = be.belgium.eid.documentType.KIDS_EID;
+};
+be.belgium.eid.KidsEIDCard.prototype = new be.belgium.eid.EIDCard; // extends EIDCard
+
+/**
+ * Returns a string representation of public readable identity data of a kids eID card.
+ * @public
+ * @method toString
+ * @return a string representation of public readable identity data of a kids eID card.
+ * @type primitive string
+ */
+be.belgium.eid.KidsEIDCard.prototype.toString = function() {
+	var str = "kids " + be.belgium.eid.EIDCard.prototype.toString.call(this);
+	return str;
+};
+
+/**
  * SISCard contains the public readable identity data of a SIS card.
  * @description
  * Almost all the properties of this object are of type String, Number, Date or Boolean.
@@ -1430,6 +1472,8 @@ be.belgium.eid.EIDCardBuilder35 = function(cardNumber) {
 	} catch (e){}
 	if (cardNumberString.indexOf("B") == 0) {
 		this.card = new be.belgium.eid.ForeignerEIDCard();
+	} else if (cardNumberString.indexOf("610") == 0) {
+		this.card = new be.belgium.eid.KidsEIDCard();
 	} else {
 		this.card = new be.belgium.eid.EIDCard();
 	}
