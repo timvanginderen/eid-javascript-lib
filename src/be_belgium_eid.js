@@ -123,6 +123,7 @@ be.belgium.eid.specialStatus = {
  * BELGIAN_CITIZEN : 1,<br>
  * EU_CITIZEN : 2,<br>
  * NON_EU_CITIZEN : 3,<br>
+ * KIDS_EID : 6,<br>
  * BOOTSTRAP_CARD : 7,<br>
  * HABILITATION_CARD : 8,<br>
  * FOREIGNER_EID_A : 11,<br>
