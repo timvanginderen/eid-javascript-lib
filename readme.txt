@@ -1,4 +1,4 @@
-Library of Javascript objects designed to retrieve data out of eID- and SIS cards using the applet from the eID middleware.
+Library of JavaScript objects designed to retrieve data out of eID- and SIS cards using the applet from the eID middleware.
 
 The interface and implementation (identity data) of EIDCard and SISCard are designed to be eID middleware independent.
 The interface and implementation of EIDCardBuilder35 and SISCardBuilder35 are designed for eID middleware 3.5. 
@@ -25,16 +25,16 @@ How to run the examples
 -----------------------
 
 1) Download the archive eidjavascriptlib.zip from http://code.google.com/p/eid-javascript-lib/   
-    - The archive contains the following subdirectories: examples, jsdoc and src.
-    - Unzip the archive in a directory, for example c:\eid-javascript-lib
+   The archive contains the following subdirectories: examples, jsdoc and src.
+   Unzip the archive in a directory, for example c:\eid-javascript-lib
 
 2) Install eID software with the eID Quick install. Instructions can be found at
-    http://eid.belgium.be/nl/Hoe_installeer_je_de_eID/Quick_Install/
-    http://eid.belgium.be/fr/Comment_installer_l_eID/Quick_Install/
+   http://eid.belgium.be/nl/Hoe_installeer_je_de_eID/Quick_Install/
+   http://eid.belgium.be/fr/Comment_installer_l_eID/Quick_Install/
 
 3) Download Belgium Identity Card Developer's Kit (eID SDK 3.5) from 
-    http://eid.belgium.be/nl/Achtergrondinfo/De_eID_technisch/index.jsp
-    http://eid.belgium.be/fr/Informations_legales_et_techniques/L_eID_d_un_point_de_vue_technique/index.jsp
+   http://eid.belgium.be/nl/Achtergrondinfo/De_eID_technisch/index.jsp
+   http://eid.belgium.be/fr/Informations_legales_et_techniques/L_eID_d_un_point_de_vue_technique/index.jsp
 
     - Unzip the archive
     - Run the installer from the archive
@@ -51,26 +51,26 @@ How to run the examples
         - BEID_Applet.jar
 
 4) Go to the examples subdirectory and open beid.jnlp in notepad or any other text editor.
-    The codebase directory should be changed to the examples subdirectory of the eid-javascript-lib:
+   The codebase directory should be changed to the examples subdirectory of the eid-javascript-lib:
 
-    If your examples subdirectory is C:\eid-javascript-lib\examples\
+   If your examples subdirectory is C:\eid-javascript-lib\examples\
 
-    change 
-    <jnlp codebase="http://127.0.0.1/" href="beid.jnlp"> 
-    into 
-    <jnlp codebase="file:///C:/eid-javascript-lib/examples/" href="beid.jnlp">
+   change 
+   <jnlp codebase="http://127.0.0.1/" href="beid.jnlp"> 
+   into 
+   <jnlp codebase="file:///C:/eid-javascript-lib/examples/" href="beid.jnlp">
 
-    This is also explained in readme.txt and copy_binaries.bat in the Samples\misc\Applet\Basic\java subdirectory of the eID SDK.
+   This is also explained in readme.txt and copy_binaries.bat in the Samples\misc\Applet\Basic\java subdirectory of the eID SDK.
 
 5) Open beid_java_plugin.jnlp in notepad or any other text editor.
-    The codebase directory should be changed to the examples subdirectory of the eid-javascript-lib:
+   The codebase directory should be changed to the examples subdirectory of the eid-javascript-lib:
 
-    If your examples subdirectory is C:\eid-javascript-lib\examples\
+   If your examples subdirectory is C:\eid-javascript-lib\examples\
 
-    change 
-    <jnlp codebase="http://127.0.0.1/" href="beid_java_plugin.jnlp"> 
-    into 
-    <jnlp codebase="file:///C:/eid-javascript-lib/examples/" href="beid_java_plugin.jnlp">
+   change 
+   <jnlp codebase="http://127.0.0.1/" href="beid_java_plugin.jnlp"> 
+   into 
+   <jnlp codebase="file:///C:/eid-javascript-lib/examples/" href="beid_java_plugin.jnlp">
 
 6) Open the examples in a browser.
 
@@ -78,18 +78,23 @@ How to run the examples
 Remark
 ------
 1) The Base64 encoding only works in Internet Explorer, if JRE 6 Update 10 (Java Runtime Environment 1.6.0_10) or higher is installed
-    and if the Next-Generation Java Plug-in is enabled (this is the default setting) in the Java Control Panel.
+   and if the Next-Generation Java Plug-in is enabled (this is the default setting) in the Java Control Panel.
+   The code for base64.js can be downloaded at http://hellerim.net/base64_src.php
+   More details about base64 encoding are explained in the examples example_picture.html and example_upload_picture.html
 
 2) If you are using Internet Explorer 7 or 8 on Vista, it could be that the examples doesn't work.
-    Normally if you open the examples in Internet Explorer, a warning "To help protect your security, Internet Explorer has restricted
-    this webpage from running scripts or ActiveX controlsthat could access to your computer. Click here for options ..." should be displayed.
-    If this warning is not displayed, Java applets in that webpage are blocked.
+   Normally if you open the examples in Internet Explorer, a warning "To help protect your security, Internet Explorer has restricted
+   this webpage from running scripts or ActiveX controls that could access to your computer. Click here for options ..." should be displayed.
+   If this warning is not displayed, Java applets in that webpage are blocked.
 
-    The problem is caused by Protected Mode for IE7 and IE8 in Windows Vista.
-    More info at: http://blogs.msdn.com/ie/archive/2007/04/04/protected-mode-for-ie7-in-windows-vista-is-it-on-or-off.aspx
+   The problem is caused by Protected Mode for IE7 and IE8 in Windows Vista.
+   More info at: http://blogs.msdn.com/ie/archive/2007/04/04/protected-mode-for-ie7-in-windows-vista-is-it-on-or-off.aspx
 
-    You can solve this problem using the following solution: 
+   You can solve this problem using the following solution: 
         - Open the html-file.
         - Add a whitespace.
         - Delete the whitespace.
         - Save the html-file using a different filename.
+
+3) A foreigner eID card and a kids eID contains the same data as an eID card for Belgian citizens.
+   The only difference is the card number. A foreign eID card number starts with B. And a kids eID card number starts with 610.
