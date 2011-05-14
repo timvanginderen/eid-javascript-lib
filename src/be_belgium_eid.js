@@ -1,6 +1,6 @@
-// eid-javascript-lib version 1.7
+// eid-javascript-lib version 1.8
 
-// Copyright (c) 2009-2010 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
+// Copyright (c) 2009-2011 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 
 /*
+	1.8 14/05/2011
+	- Fix Firefox 4: method GetPicture of applet returns a value of type "function". The value is converted into an array.
 	1.7 21/10/2010
 	- Foreigner eID has a card number starting with B.
 	- Kids-ID has a card number starting with 610.
@@ -93,7 +95,7 @@ if (!be.belgium) be.belgium = new Object();
  * SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
  * More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  * 
- * @version 1.7 21/10/2010
+ * @version 1.8 14/05/2011
  * @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
  */
 
@@ -1991,7 +1993,18 @@ be.belgium.eid.CardReader.prototype.read = function() {
 				cardBuilder.setZip(this.BEIDApplet.getZip());
 				cardBuilder.setMunicipality(this.BEIDApplet.getMunicipality());
 				cardBuilder.setCountry(this.BEIDApplet.getCountry());
-				cardBuilder.setPicture(this.BEIDApplet.GetPicture());
+				var pictureArray = this.BEIDApplet.GetPicture();
+				if (typeof(pictureArray) == "function") {
+					var fixPictureArray = new Array(pictureArray.length);
+					for (var i = 0; i < fixPictureArray.length; i++) {
+						fixPictureArray[i] = pictureArray[i];
+					}
+					cardBuilder.setPicture(fixPictureArray);
+					fixPictureArray = null;
+				} else {
+					cardBuilder.setPicture(pictureArray);
+				}
+				pictureArray = null;
 			} else { 
 				// The applet does not return a chip number for SIS cards.
 				cardBuilder = new be.belgium.eid.SISCardBuilder35();
