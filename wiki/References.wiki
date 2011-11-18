@@ -7,3 +7,4 @@
   * [http://code.google.com/p/eidlib/ Native Java e-ID library]
   * [http://code.google.com/p/eid-applet/ eID Applet by Frank Cornelis]
   * [http://code.google.com/p/jsdoc-toolkit/ jsdoc-toolkit: a documentation generator for JavaScript]
+  * [http://sandrinodimattia.net/blog/post/Belgian-eID-and-NET-Part-3-Using-the-eID-in-Dynamics-CRM-2011.aspx Belgian eID and .NET - Part 3: Using the eID in Dynamics CRM 2011]
