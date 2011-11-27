@@ -129,7 +129,7 @@ More information about SIS card plugins in the eID V3 middleware can be found at
    If a "404 Not Found" is shown, something is wrong. Check your configuration of your webserver. http://nirlevy.blogspot.com/2010/01/iis-jnlp-404-problem.html
   # Open http://hostname.domainname.be/examples/example.html in a browser.
 
-<B>Remark</B>
+<B>Remarks</B>
 
   # The Base64 encoding only works in Internet Explorer, if JRE 6 Update 10 (Java Runtime Environment 1.6.0_10) or higher is installed<br>and if the Next-Generation Java Plug-in is enabled (this is the default setting) in the Java Control Panel.<br>The code for base64.js can be downloaded at http://hellerim.net/base64_src.php<br>More details about base64 encoding are explained in the examples example_picture.html and example_upload_picture.html<br><br>
   # If you are using Internet Explorer 7 or 8 on Vista to view the local examples files, it could be that the examples doesn't work.<br>Normally if you open the examples, saved in a directory on your hard disk, in Internet Explorer, there should be a warning:<br> *"To help protect your security, Internet Explorer has restricted this webpage from running scripts or ActiveX controls that could access to your computer. Click here for options ..."*.<br>If this warning is not displayed, Java applets in that webpage are blocked.<br><br>The problem is caused by Protected Mode for IE7 and IE8 in Windows Vista.<br>More info about Protected Mode for Internet Explorer at: http://blogs.msdn.com/ie/archive/2007/04/04/protected-mode-for-ie7-in-windows-vista-is-it-on-or-off.aspx<br><br>You can solve this problem using the following solution:<br>
