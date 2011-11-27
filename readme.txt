@@ -17,12 +17,12 @@ Other browsers and other platforms were not tested.
 SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
 More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
 
-@version 1.7 21/10/2010
+@version 1.8 14/05/2011
 @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
 
-How to run the examples
------------------------
+How to run the examples on your computer
+----------------------------------------
 
 1) Download the archive eidjavascriptlib.zip from http://code.google.com/p/eid-javascript-lib/   
    The archive contains the following subdirectories: examples, jsdoc and src.
@@ -74,6 +74,73 @@ How to run the examples
 
 6) Open the examples in a browser.
 
+How to deploy the examples on a webserver
+-----------------------------------------
+1) I presume you have a webserver located at http://hostname.domainname.be
+
+2) Create a directory (or webcontext) named examples on your webserver.
+   Make sure the directory is accessible at http://hostname.domainname.be/examples (surf with a browser to this url)
+
+3) Copy the following files to the examples directory
+    - Applet-Launcher License.rtf (from eID SDK)
+    - applet-launcher.jar (from eID SDK)
+    - beid35JavaWrapper-linux.jar (from eID SDK)
+    - beid35JavaWrapper-mac.jar (from eID SDK)
+    - beid35JavaWrapper-win.jar (from eID SDK)
+    - beid35libJava.jar (from eID SDK)
+    - BEID_Applet.jar (from eID SDK)
+    - beid.jnlp (from eid-javascript-lib)
+    - beid_java_plugin.jnlp (from eid-javascript-lib)
+    - example.html (from eid-javascript-lib)
+    - if needed, other examples files from eid-javascript-lib
+
+4) Create a subdirectory named src in directory examples.
+    - Copy be_belgium_eid.js (from eid-javascript-lib) to the examples\src directory
+    - If needed, copy base64.js (from http://hellerim.net/base64_src.php) to the examples\src directory
+    - Make sure the directory is accessible at http://hostname.domainname.be/examples/src (surf with a browser to this url)
+    - If you want to put be_belgium_eid.js and base64.js in the examples directory, you need to change the following in example.html
+        change
+        <script type="text/javascript" src="..\src\be_belgium_eid.js"></script>
+        into
+        <script type="text/javascript" src="be_belgium_eid.js"></script>
+
+5) Go to the examples directory and open beid.jnlp in notepad or any other text editor.
+   The codebase parameter should be changed to http://hostname.domainname.be/examples/
+   More info about the codebase parameter: http://download.oracle.com/javase/6/docs/technotes/guides/jweb/applet/codebase_determination.html
+
+   change 
+   <jnlp codebase="http://127.0.0.1/" href="beid.jnlp"> 
+   into 
+   <jnlp codebase="http://hostname.domainname.be/examples/" href="beid.jnlp">
+
+   Open beid_java_plugin.jnlp in notepad or any other text editor.
+   The codebase parameter should also be changed to http://hostname.domainname.be/examples/
+
+   change 
+   <jnlp codebase="http://127.0.0.1/" href="beid_java_plugin.jnlp"> 
+   into 
+   <jnlp codebase="http://hostname.domainname.be/examples/" href="beid_java_plugin.jnlp">
+
+6) Add jnlp to the configuration of your webserver
+   Make sure that the webserver, for example Internet Information Services (IIS), does NOT block files with extension jnlp (or files with MIME type application/x-java-jnlp-file).
+   The default configuration of some webservers does not allow files with extension jnlp. Therefore you need to add the extension jnlp to the default configuration.
+
+   How to change configuration of Internet Information Services (IIS)
+   - http://technet.microsoft.com/en-us/library/cc725608(WS.10).aspx
+   - http://nirlevy.blogspot.com/2010/01/iis-jnlp-404-problem.html
+
+   How can I add JNLP MIME-types to my ISP's Apache Web Server? http://lopica.sourceforge.net/faq.html#apachemime
+
+   Web Start returns a Bad MIME Type error. What's wrong? http://lopica.sourceforge.net/faq.html#badmimetype
+
+   Unofficial Java Web Start/JNLP FAQ http://lopica.sourceforge.net/faq.html
+
+7) Test your configuration
+   Enter http://hostname.domainname.be/examples/beid_java_plugin.jnlp or http://hostname.domainname.be/examples/beid.jnlp in the address bar (url bar) of a browser.
+   Normally, a Java Web Start icon or Java Web Start popup is shown, or a popup with a question if you want to download this file is shown.
+   If a "404 Not Found" is shown, something is wrong. Check your configuration of your webserver. http://nirlevy.blogspot.com/2010/01/iis-jnlp-404-problem.html
+
+8) Open http://hostname.domainname.be/examples/example.html in a browser.
 
 Remark
 ------
