@@ -1,6 +1,6 @@
-eid-javascript-lib version 1.7
+eid-javascript-lib version 1.8
 
-Copyright (c) 2009-2010 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
+Copyright (c) 2009-2011 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
