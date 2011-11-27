@@ -88,10 +88,12 @@ More information about SIS card plugins in the eID V3 middleware can be found at
     * If needed, copy base64.js (from http://hellerim.net/base64_src.php) to the examples\src directory
     * Make sure the directory is accessible at http://hostname.domainname.be/examples/src (surf with a browser to this url)
     * If you want to put be_belgium_eid.js and base64.js in the examples directory, you need to change the following in example.html
+{{{
         change
         <script type="text/javascript" src="..\src\be_belgium_eid.js"></script>
         into
         <script type="text/javascript" src="be_belgium_eid.js"></script>
+}}}
   # Go to the examples directory and open beid.jnlp in notepad or any other text editor.
    The codebase parameter should be changed to http://hostname.domainname.be/examples/
    More info about the codebase parameter: http://download.oracle.com/javase/6/docs/technotes/guides/jweb/applet/codebase_determination.html
@@ -122,6 +124,7 @@ More information about SIS card plugins in the eID V3 middleware can be found at
    Web Start returns a Bad MIME Type error. What's wrong? http://lopica.sourceforge.net/faq.html#badmimetype
 
    Unofficial Java Web Start/JNLP FAQ http://lopica.sourceforge.net/faq.html
+
   # Test your configuration
    Enter http://hostname.domainname.be/examples/beid_java_plugin.jnlp or http://hostname.domainname.be/examples/beid.jnlp in the address bar (url bar) of a browser.
    Normally, a Java Web Start icon or Java Web Start popup is shown, or a popup with a question if you want to download this file is shown.
