@@ -142,8 +142,8 @@ How to deploy the examples on a webserver
 
 8) Open http://hostname.domainname.be/examples/example.html in a browser.
 
-Remark
-------
+Remarks
+-------
 1) The Base64 encoding only works in Internet Explorer, if JRE 6 Update 10 (Java Runtime Environment 1.6.0_10) or higher is installed
    and if the Next-Generation Java Plug-in is enabled (this is the default setting) in the Java Control Panel.
    The code for base64.js can be downloaded at http://hellerim.net/base64_src.php
