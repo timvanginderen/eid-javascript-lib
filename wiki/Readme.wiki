@@ -1,15 +1,15 @@
-Library of Javascript objects designed to retrieve data out of eID- and SIS cards using the applet from the eID middleware.
+Library of Javascript objects designed to retrieve data out of eID- and SIS cards using the applet from the eID Middleware SDK version 3.5.
 
-The interface and implementation (identity data) of EIDCard and SISCard are designed to be eID middleware independent.<br>
-The interface and implementation of EIDCardBuilder35 and SISCardBuilder35 are designed for eID middleware 3.5.<br> 
-The interface of CardReader is designed to be middleware independent.<br>
-The implementation of CardReader uses EIDCardBuilder35- and SISCardBuilder35 objects and so it is designed for eID middleware 3.5.<br>
+The interface and implementation (identity data) of EIDCard and SISCard are designed to be eID Middleware independent.<br>
+The interface and implementation of EIDCardBuilder35 and SISCardBuilder35 are designed for eID Middleware 3.5.<br> 
+The interface of CardReader is designed to be Middleware independent.<br>
+The implementation of CardReader uses EIDCardBuilder35- and SISCardBuilder35 objects and so it is designed for eID Middleware 3.5.<br>
 
-If a new EID middleware is released, only new EIDCardBuilder- and SISCardBuilder objects should be created and <br>
+If a new EID Middleware is released, only new EIDCardBuilder- and SISCardBuilder objects should be created and <br>
 only small changes will need to be applied to the implementation of the CardReader.
 
 The interface of CardReader, EIDCard and SISCard will not change.<br>
-Therefore code that uses the CardReader-, EIDCard- and SISCard-objects will not have to be changed if a new eID middleware is released.<br>
+Therefore code that uses the CardReader-, EIDCard- and SISCard-objects will not have to be changed if a new eID Middleware is released.<br>
  
 The library is supposed to work on Windows in Internet Explorer 5.5 and higher, in Mozilla Firefox 2 and higher, and in Opera 9 and higher.<br>
 Other browsers and other platforms were not tested.<br>
