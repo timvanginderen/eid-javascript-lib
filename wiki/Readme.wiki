@@ -29,22 +29,17 @@ More information about SIS card plugins in the eID V3 middleware can be found at
   # Install eID software with the eID Quick install. Instructions can be found at
     * http://eid.belgium.be/nl/Hoe_installeer_je_de_eID/Quick_Install/ or
     * http://eid.belgium.be/fr/Comment_installer_l_eID/Quick_Install/<br><br>
-  # Download Belgium Identity Card Developer's Kit (eID SDK 3.5) from 
-    * http://eid.belgium.be/nl/Achtergrondinfo/De_eID_technisch/index.jsp or
-    * http://eid.belgium.be/fr/Informations_legales_et_techniques/L_eID_d_un_point_de_vue_technique/index.jsp
-      * Unzip the eID SDK 3.5 archive
-      * Run the installer from the archive
-      * Select the Common and JAVA feature to be installed.
-      * Go to the installation directory of the eID SDK (C:\Documents and Settings\`<user>`\My Documents\Belgium Identity Card SDK)
-      * Go to the subdirectory \beidlib\Java\bin of the installation directory.
-      * Copy the following files to the examples subdirectory of the eid-javascript-lib:
-        * Applet-Launcher License.rtf
-        * applet-launcher.jar
-        * beid35JavaWrapper-linux.jar
-        * beid35JavaWrapper-mac.jar
-        * beid35JavaWrapper-win.jar
-        * beid35libJava.jar
-        * BEID_Applet.jar<br><br>
+  # Download the "eID MW SDK 3.5.3 JARs Signed 2011-2016"
+    * Download the "eID MW SDK 3.5.3 JARs Signed 2011-2016" from http://code.google.com/p/eid-mw/downloads/detail?name=signed-2011-2016.zip&can=1&q=
+    * Unzip signed-2011-2016.zip
+    * Copy the following files to the examples subdirectory of the eid-javascript-lib:
+      * applet-launcher.jar
+      * beid35JavaWrapper-linux.jar
+      * beid35JavaWrapper-mac.jar
+      * beid35JavaWrapper-win.jar
+      * beid35libjava.jar
+      * BEID_Applet.jar
+    * Rename beid35libjava.jar to beid35libJava.jar (the J in Java should be a capital J)<br><br>
   # Go to the examples subdirectory and open beid.jnlp in notepad or any other text editor.<br>The codebase directory should be changed to the examples subdirectory of the eid-javascript-lib:
 {{{
    If your examples subdirectory is C:\eid-javascript-lib\examples\
@@ -72,16 +67,16 @@ More information about SIS card plugins in the eID V3 middleware can be found at
   # I presume you have a webserver located at http://hostname.domainname.be<br><br>
   # Create a directory (or webcontext) named examples on your webserver.<br>Make sure the directory is accessible at http://hostname.domainname.be/examples (surf with a browser to this url)<br><br>
   # Copy the following files to the examples directory
-    * Applet-Launcher License.rtf (from eID SDK)
-    * applet-launcher.jar (from eID SDK)
-    * beid35JavaWrapper-linux.jar (from eID SDK)
-    * beid35JavaWrapper-mac.jar (from eID SDK)
-    * beid35JavaWrapper-win.jar (from eID SDK)
-    * beid35libJava.jar (from eID SDK)
-    * BEID_Applet.jar (from eID SDK)
+    * applet-launcher.jar (from signed-2011-2016.zip)
+    * beid35JavaWrapper-linux.jar (from signed-2011-2016.zip)
+    * beid35JavaWrapper-mac.jar (from signed-2011-2016.zip)
+    * beid35JavaWrapper-win.jar (from signed-2011-2016.zip)
+    * beid35libjava.jar (from signed-2011-2016.zip)
+    * BEID_Applet.jar (from signed-2011-2016.zip)
     * beid.jnlp (from eid-javascript-lib)
     * beid_java_plugin.jnlp (from eid-javascript-lib)
     * example.html (from eid-javascript-lib)
+    * Rename beid35libjava.jar to beid35libJava.jar (the J in Java should be a capital J)
     * if needed, other examples files from eid-javascript-lib<br><br>
   # Create a subdirectory named src in directory examples.
     * Copy be_belgium_eid.js (from eid-javascript-lib) to the examples\src directory
