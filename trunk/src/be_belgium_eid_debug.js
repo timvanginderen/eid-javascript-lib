@@ -1,4 +1,4 @@
-// eid-javascript-lib version 1.8
+// eid-javascript-lib version 1.8 debug
 
 // Copyright (c) 2009-2011 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 
 /*
+	1.8 debug 18/11/2012
+	- Debug version.
 	1.8 14/05/2011
 	- Fix Firefox 4: method GetPicture of applet returns a value of type "function". The value is converted into an array.
 	1.7 21/10/2010
@@ -1711,6 +1713,7 @@ be.belgium.eid.CardReader = function(readerName) {
 	this.appletNotFoundHandler = null;
 	this.appletExceptionHandler = null;
 	this.BEIDApplet = null;
+	this.logging = "";
 };
 
 /**
@@ -1723,16 +1726,45 @@ be.belgium.eid.CardReader = function(readerName) {
  */
 be.belgium.eid.CardReader.prototype.getBEIDApplet = function() {
 	if (!this.BEIDApplet) {
-		if (document.getElementById(this.appletLauncherId)) {
-			// check if applet is loaded as sub applet (using applet-launcher) or as main applet (using Next-Generation Java Plug-in).
-			if (document.getElementById(this.appletLauncherId).getSubApplet) {
-				this.BEIDApplet = document.getElementById(this.appletLauncherId).getSubApplet();
-			} else {
-				this.BEIDApplet = document.getElementById(this.appletLauncherId);
+		this.debug("Start finding BEIDApplet");
+		var appletElement = document.getElementById(this.appletLauncherId);
+		this.debug("typeof(appletElement): " + typeof(appletElement));
+		if (appletElement) {
+			this.debug("Found applet element");
+			this.BEIDApplet = appletElement;
+			this.debug("appletElement: " + appletElement);
+			this.debug("typeof(appletElement.toString): " + typeof(appletElement.toString));
+			if (appletElement.toString) {
+				this.debug("appletElement.toString(): " + appletElement.toString());
 			}
+			this.debug("typeof(appletElement.InitLib): " + typeof(appletElement.InitLib));
+			if (appletElement.InitLib) {
+				this.debug("appletElement.InitLib: " + appletElement.InitLib);
+			}
+			// check if applet is loaded as sub applet (using applet-launcher) or as main applet (using Next-Generation Java Plug-in).
+			this.debug("typeof(appletElement.getSubApplet): " + typeof(appletElement.getSubApplet));
+			if (appletElement.getSubApplet) {
+				this.debug("Found sub applet");
+				this.BEIDApplet = appletElement.getSubApplet();
+//				this.debug("appletElement.getSubApplet: " + appletElement.getSubApplet);
+				this.debug("sub applet: " + this.BEIDApplet);
+				this.debug("typeof(this.BEIDApplet.toString): " + typeof(this.BEIDApplet.toString));
+				if (this.BEIDApplet.toString) {
+					this.debug("this.BEIDApplet.toString(): " + this.BEIDApplet.toString());
+				}
+				this.debug("typeof(this.BEIDApplet.InitLib): " + typeof(this.BEIDApplet.InitLib));
+				if (this.BEIDApplet.InitLib) {
+					this.debug("this.BEIDApplet.InitLib: " + this.BEIDApplet.InitLib);
+				}
+			} else {
+				this.debug("No sub applet found. The applet element is BEIDApplet");
+			}
+		} else {
+			this.debug("Undefined applet element");
 		}
 		if (!this.BEIDApplet)
 			throw new be.belgium.eid.NullPointerException();
+		this.debug("End finding BEIDApplet");
 	}
 	return this.BEIDApplet;
 };
@@ -1950,13 +1982,14 @@ be.belgium.eid.CardReader.validChipNumber = function(chipNumber) {
 be.belgium.eid.CardReader.prototype.read = function() {
 	var card = null;
 	var cardBuilder = null;
-
+	this.clearLogging();
+	this.debug("Start reading, call InitLib");
 	try {
 		// Reset all objects and previous read card values
 		this.getBEIDApplet().InitLib(null);
-
+		this.debug("Call determineReaderName");
 		this.determineReaderName();
-
+		this.debug("readerName: " + this.readerName);
 		// Still no reader name ...
 		if (this.readerName === "") {
 			if (this.noReaderDetectedHandler)
@@ -1968,9 +2001,9 @@ be.belgium.eid.CardReader.prototype.read = function() {
 
 			return null;
 		}
-
+		this.debug("Call InitLib with readerName");
 		this.getBEIDApplet().InitLib(this.readerName);
-
+		this.debug("Call isCardPresent");
 		if (this.BEIDApplet.isCardPresent(this.readerName)) {
 			if (be.belgium.eid.CardReader.validChipNumber(this.BEIDApplet.getChipNumber())) {
 				cardBuilder = new be.belgium.eid.EIDCardBuilder35(this.BEIDApplet.getCardNumber());
@@ -2043,11 +2076,12 @@ be.belgium.eid.CardReader.prototype.read = function() {
 			}
 		}
 	}
-
+	this.debug("Call exitLib");
 	try {
 		this.getBEIDApplet().exitLib();
 	} catch (e){}
-
+	this.debug("End reading");
+	this.showLogging();
 	return card;
 };
 
@@ -2064,3 +2098,20 @@ be.belgium.eid.CardReader.prototype.reset = function() {
 		this.getBEIDApplet().exitLib();
 	} catch (e){} // catch Javascript and Java exceptions
 };
+
+be.belgium.eid.CardReader.prototype.debug = function(message) {
+	if (message === null || message === "") {
+		return;
+	}
+	this.logging += message + ".\r\n";
+	window.alert("debug: " + message + ".");
+};
+
+be.belgium.eid.CardReader.prototype.showLogging = function() {
+	window.alert(this.logging);
+};
+
+be.belgium.eid.CardReader.prototype.clearLogging = function() {
+	this.logging = "";
+};
+
