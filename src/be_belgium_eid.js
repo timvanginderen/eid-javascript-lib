@@ -1,6 +1,6 @@
-// eid-javascript-lib version 1.8
+// eid-javascript-lib version 1.9
 
-// Copyright (c) 2009-2011 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
+// Copyright (c) 2009-2012 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,8 @@
 // THE SOFTWARE.
 
 /*
+	1.9 30/11/2012
+	- Added optional argument readPicture to read method.
 	1.8 14/05/2011
 	- Fix Firefox 4: method GetPicture of applet returns a value of type "function". The value is converted into an array.
 	1.7 21/10/2010
@@ -270,7 +272,7 @@ be.belgium.eid.DateFormatter = function(format) {
 	this.eIDBirthDateAbbreviations = new Array(12);
 	this.eIDBirthDateAbbreviations[0] = new Array("JAN");
 	this.eIDBirthDateAbbreviations[1] = new Array("FEB", "FEV");
-	this.eIDBirthDateAbbreviations[2] = new Array("MAAR", "MARS", "MÄR", "MAR");
+	this.eIDBirthDateAbbreviations[2] = new Array("MAAR", "MARS", "Mï¿½R", "MAR");
 	this.eIDBirthDateAbbreviations[3] = new Array("APR", "AVR");
 	this.eIDBirthDateAbbreviations[4] = new Array("MEI", "MAI", "MAI");
 	this.eIDBirthDateAbbreviations[5] = new Array("JUN", "JUIN");
@@ -1944,10 +1946,14 @@ be.belgium.eid.CardReader.validChipNumber = function(chipNumber) {
  * Read eID card or SIS card
  * @public
  * @method read
- * @return a EIDCard or SISCard object or null if no card is present or there was a failure to read the card.
+ * @param {primitive boolean} [readPicture=true] true: read picture from eID, false: do not read picture from eID. 
+ * @return an EIDCard object, a SISCard object or null. Null is returned, if no card is present or if a failure occurred when reading the card.
  * @type EIDCard,SISCard,null
  */
-be.belgium.eid.CardReader.prototype.read = function() {
+be.belgium.eid.CardReader.prototype.read = function(readPicture) {
+	if (readPicture === null || typeof(readPicture) == "undefined") {
+		readPicture = true;
+	}
 	var card = null;
 	var cardBuilder = null;
 
@@ -1993,18 +1999,20 @@ be.belgium.eid.CardReader.prototype.read = function() {
 				cardBuilder.setZip(this.BEIDApplet.getZip());
 				cardBuilder.setMunicipality(this.BEIDApplet.getMunicipality());
 				cardBuilder.setCountry(this.BEIDApplet.getCountry());
-				var pictureArray = this.BEIDApplet.GetPicture();
-				if (typeof(pictureArray) == "function") {
-					var fixPictureArray = new Array(pictureArray.length);
-					for (var i = 0; i < fixPictureArray.length; i++) {
-						fixPictureArray[i] = pictureArray[i];
+				if (readPicture) {
+					var pictureArray = this.BEIDApplet.GetPicture();
+					if (typeof(pictureArray) == "function") {
+						var fixPictureArray = new Array(pictureArray.length);
+						for (var i = 0; i < fixPictureArray.length; i++) {
+							fixPictureArray[i] = pictureArray[i];
+						}
+						cardBuilder.setPicture(fixPictureArray);
+						fixPictureArray = null;
+					} else {
+						cardBuilder.setPicture(pictureArray);
 					}
-					cardBuilder.setPicture(fixPictureArray);
-					fixPictureArray = null;
-				} else {
-					cardBuilder.setPicture(pictureArray);
+					pictureArray = null;
 				}
-				pictureArray = null;
 			} else { 
 				// The applet does not return a chip number for SIS cards.
 				cardBuilder = new be.belgium.eid.SISCardBuilder35();
