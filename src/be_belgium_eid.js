@@ -1,6 +1,6 @@
-// eid-javascript-lib version 1.9
+// eid-javascript-lib version 1.10
 
-// Copyright (c) 2009-2012 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
+// Copyright (c) 2009-2013 Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,9 @@
 // THE SOFTWARE.
 
 /*
+    1.10 10/08/2013
+    - Fixed issue 5: getPicture() does not work in Chrome 23.
+      Convert return value of method GetPicture of applet to an Javascript array.
 	1.9 30/11/2012
 	- Added optional argument readPicture to read method.
 	1.8 14/05/2011
@@ -97,7 +100,7 @@ if (!be.belgium) be.belgium = new Object();
  * SIS cards can only be read when using a SIS card plugin. A SIS card plugin for the ACS ACR38U reader is available in the eID Quick Install.
  * More information about SIS card plugins in the eID V3 middleware can be found at: http://eid.belgium.be/nl/binaries/eid3_siscardplugins_tcm147-22479.pdf
  * 
- * @version 1.8 14/05/2011
+ * @version 1.10 10/08/2013
  * @author Johan De Schutter (eidjavascriptlib AT gmail DOT com), http://code.google.com/p/eid-javascript-lib/
  */
 
@@ -1741,6 +1744,7 @@ be.belgium.eid.CardReader.prototype.getBEIDApplet = function() {
 
 /**
  * Set name of reader which is used to read eID- or SIS-cards.
+
  * @public
  * @method setReaderName
  * @param {primitive string|String} readerName
@@ -2001,16 +2005,18 @@ be.belgium.eid.CardReader.prototype.read = function(readPicture) {
 				cardBuilder.setCountry(this.BEIDApplet.getCountry());
 				if (readPicture) {
 					var pictureArray = this.BEIDApplet.GetPicture();
-					if (typeof(pictureArray) == "function") {
-						var fixPictureArray = new Array(pictureArray.length);
-						for (var i = 0; i < fixPictureArray.length; i++) {
-							fixPictureArray[i] = pictureArray[i];
-						}
-						cardBuilder.setPicture(fixPictureArray);
-						fixPictureArray = null;
-					} else {
-						cardBuilder.setPicture(pictureArray);
-					}
+                    if (pictureArray !== null) {
+					    if (pictureArray instanceof Array) {
+						    cardBuilder.setPicture(pictureArray);
+					    } else {
+						    var fixPictureArray = new Array(pictureArray.length);
+						    for (var i = 0; i < fixPictureArray.length; i++) {
+							    fixPictureArray[i] = pictureArray[i];
+						    }
+						    cardBuilder.setPicture(fixPictureArray);
+						    fixPictureArray = null;
+					    }
+                    }
 					pictureArray = null;
 				}
 			} else { 
