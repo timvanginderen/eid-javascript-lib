@@ -2004,18 +2004,18 @@ be.belgium.eid.CardReader.prototype.read = function(readPicture) {
 				cardBuilder.setCountry(this.BEIDApplet.getCountry());
 				if (readPicture) {
 					var pictureArray = this.BEIDApplet.GetPicture();
-                    if (pictureArray !== null) {
-					    if (pictureArray instanceof Array) {
-						    cardBuilder.setPicture(pictureArray);
-					    } else {
-						    var fixPictureArray = new Array(pictureArray.length);
-						    for (var i = 0; i < fixPictureArray.length; i++) {
-							    fixPictureArray[i] = pictureArray[i];
-						    }
-						    cardBuilder.setPicture(fixPictureArray);
-						    fixPictureArray = null;
-					    }
-                    }
+					if (pictureArray !== null) {
+						if (pictureArray instanceof Array) {
+							cardBuilder.setPicture(pictureArray);
+						} else {
+							var fixPictureArray = new Array(pictureArray.length);
+							for (var i = 0; i < fixPictureArray.length; i++) {
+								fixPictureArray[i] = pictureArray[i];
+							}
+							cardBuilder.setPicture(fixPictureArray);
+							fixPictureArray = null;
+						}
+					}
 					pictureArray = null;
 				}
 			} else { 
