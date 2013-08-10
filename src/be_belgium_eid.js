@@ -1744,7 +1744,6 @@ be.belgium.eid.CardReader.prototype.getBEIDApplet = function() {
 
 /**
  * Set name of reader which is used to read eID- or SIS-cards.
-
  * @public
  * @method setReaderName
  * @param {primitive string|String} readerName
