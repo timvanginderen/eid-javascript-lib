@@ -21,9 +21,9 @@
 // THE SOFTWARE.
 
 /*
-    1.10 10/08/2013
-    - Fixed issue 5: getPicture() does not work in Chrome 23.
-      Convert return value of method GetPicture of applet to an Javascript array.
+	1.10 10/08/2013
+	- Fixed issue 5: getPicture() does not work in Chrome 23.
+	  Convert return value of method GetPicture of applet to an Javascript array.
 	1.9 30/11/2012
 	- Added optional argument readPicture to read method.
 	1.8 14/05/2011
